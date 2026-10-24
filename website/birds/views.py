@@ -109,14 +109,6 @@ def gallery(request):
 
             local_name_kashmiri__icontains=query
 
-        ) | Bird.objects.filter(
-
-            local_name_dogri__icontains=query
-
-        ) | Bird.objects.filter(
-
-            local_name_ladakhi__icontains=query
-
         )
 
     # ======================================
