@@ -1,0 +1,297 @@
+{% extends 'birds/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- HERO HEADER -->
+
+<div class="birds-header">
+
+    <div class="birds-overlay">
+
+        <h1>
+
+            Birds Database
+
+        </h1>
+
+        <p>
+
+            Explore the avian diversity
+            of Jammu, Kashmir & Ladakh
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- FILTER SECTION -->
+
+<div class="filter-section">
+
+    <form
+        method="GET"
+        class="modern-filter"
+    >
+
+        <!-- CATEGORY -->
+
+        <select name="category">
+
+            <option value="">
+
+                All Categories
+
+            </option>
+
+            {% for cat in categories %}
+
+                <option
+                    value="{{ cat }}"
+                >
+
+                    {{ cat }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <!-- REGION -->
+
+        <select name="region">
+
+            <option value="">
+
+                All Regions
+
+            </option>
+
+            <option value="Jammu">
+
+                Jammu
+
+            </option>
+
+            <option value="Kashmir Valley">
+
+                Kashmir Valley
+
+            </option>
+
+            <option value="Ladakh">
+
+                Ladakh
+
+            </option>
+
+        </select>
+
+        <!-- STATUS -->
+
+        <select name="migratory_status">
+
+            <option value="">
+
+                All Status
+
+            </option>
+
+            <option value="Resident">
+
+                Resident
+
+            </option>
+
+            <option value="Winter Migratory">
+
+                Winter Migratory
+
+            </option>
+
+            <option value="Summer Migratory">
+
+                Summer Migratory
+
+            </option>
+
+            <option value="Rare Visitor">
+
+                Rare Visitor
+
+            </option>
+
+        </select>
+
+        <!-- SEARCH -->
+
+        <input
+            type="text"
+            name="q"
+            placeholder="Search birds..."
+            value="{{ query|default:'' }}"
+        >
+
+        <!-- BUTTON -->
+
+        <button type="submit">
+
+            Search
+
+        </button>
+
+    </form>
+
+</div>
+
+<!-- BIRDS GRID -->
+
+<div class="container">
+
+    <div class="grid">
+
+        {% for bird in page_obj %}
+
+            <div class="card">
+
+                {% if bird.image %}
+
+                    <img
+                        src="{{ bird.image.url }}"
+                    >
+
+                {% endif %}
+
+                <div class="card-content">
+
+                    <h2>
+
+                        <a
+                            href="/bird/{{ bird.id }}/"
+                        >
+
+                            {{ bird.common_name }}
+
+                        </a>
+
+                    </h2>
+
+                    <p class="scientific-name">
+
+                        {{ bird.scientific_name }}
+
+                    </p>
+
+                    <!-- BADGES -->
+
+                    <div class="badge-container">
+
+                        <span
+                            class="badge category-badge"
+                        >
+
+                            {{ bird.category }}
+
+                        </span>
+
+                        <span
+                            class="badge region-badge"
+                        >
+
+                            {{ bird.display_region }}
+
+                        </span>
+
+                        <span
+                            class="badge migratory-badge"
+                        >
+
+                            {{ bird.migratory_status }}
+
+                        </span>
+
+                    </div>
+
+                    <p class="bird-description">
+
+                        {{ bird.description|truncatewords:20 }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+<!-- PAGINATION -->
+
+<!-- PAGINATION -->
+
+<div class="pagination-container">
+
+    <div class="pagination">
+
+        {% if page_obj.has_previous %}
+
+            <a
+                href="?page=1&q={{ query }}&region={{ region }}&migratory_status={{ migratory_status }}&category={{ selected_category }}"
+                class="page-btn"
+            >
+
+                First
+
+            </a>
+
+            <a
+                href="?page={{ page_obj.previous_page_number }}&q={{ query }}&region={{ region }}&migratory_status={{ migratory_status }}&category={{ selected_category }}"
+                class="page-btn"
+            >
+
+                Previous
+
+            </a>
+
+        {% endif %}
+
+        <span class="page-current">
+
+            Page {{ page_obj.number }}
+            of
+            {{ page_obj.paginator.num_pages }}
+
+        </span>
+
+        {% if page_obj.has_next %}
+
+            <a
+                href="?page={{ page_obj.next_page_number }}&q={{ query }}&region={{ region }}&migratory_status={{ migratory_status }}&category={{ selected_category }}"
+                class="page-btn"
+            >
+
+                Next
+
+            </a>
+
+            <a
+                href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&region={{ region }}&migratory_status={{ migratory_status }}&category={{ selected_category }}"
+                class="page-btn"
+            >
+
+                Last
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</div>
+{% endblock %}

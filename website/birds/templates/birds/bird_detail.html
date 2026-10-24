@@ -1,0 +1,226 @@
+{% extends 'birds/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- DETAIL CONTAINER -->
+
+<div class="bird-detail-container">
+
+    <!-- BACK -->
+
+    <a
+        href="/birds/"
+        class="back-btn"
+    >
+
+        ← Back to Birds
+
+    </a>
+
+    <!-- TOP SECTION -->
+
+    <div class="bird-top">
+
+        <!-- IMAGE -->
+
+        <div class="bird-image-box">
+
+            {% if bird.image %}
+
+                <img
+                    src="{{ bird.image.url }}"
+                    class="bird-detail-image"
+                >
+
+            {% endif %}
+
+        </div>
+
+        <!-- INFO -->
+
+        <div class="bird-info-box">
+
+            <h1>
+
+                {{ bird.common_name }}
+
+            </h1>
+
+            <h2>
+
+                {{ bird.scientific_name }}
+
+            </h2>
+
+            <!-- BADGES -->
+
+            <div class="detail-badges">
+
+                <span class="detail-badge">
+
+                    {{ bird.region }}
+
+                </span>
+
+                <span class="detail-badge">
+
+                    {{ bird.category }}
+
+                </span>
+
+                <span class="detail-badge">
+
+                    {{ bird.migratory_status }}
+
+                </span>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+
+            <p class="bird-description">
+
+                {{ bird.description }}
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- METADATA -->
+
+    <div class="metadata-section">
+
+        <h2>
+
+            Ecological Metadata
+
+        </h2>
+
+        <div class="metadata-grid">
+            <div class="metadata-card">
+
+    <h3>
+
+        Weight
+
+    </h3>
+
+    <p>
+
+        {{ bird.weight }}
+
+    </p>
+
+</div>
+
+            <div class="metadata-card">
+
+                <h3>
+
+                    Family
+
+                </h3>
+
+                <p>
+
+                    {{ bird.family }}
+
+                </p>
+
+            </div>
+
+            <div class="metadata-card">
+
+                <h3>
+
+                    Genus
+
+                </h3>
+
+                <p>
+
+                    {{ bird.genus }}
+
+                </p>
+
+            </div>
+
+            <div class="metadata-card">
+
+                <h3>
+
+                    Region
+
+                </h3>
+
+                <p>
+
+                    {% if selected_region %}
+
+                        {{ selected_region }}
+
+                    {% else %}
+
+                    {{ bird.region }}
+
+                    {% endif %}
+
+                </p>
+
+            </div>
+
+            
+            <div class="metadata-card">
+
+                <h3>
+
+                    Length
+
+                </h3>
+
+                <p>
+
+                    {{ bird.length }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+<!-- IMAGE GALLERY -->
+
+<div class="bird-gallery-section">
+
+    <h2>
+
+        Bird Gallery
+
+    </h2>
+
+    <div class="bird-gallery-grid">
+
+        {% for img in bird.extra_images %}
+
+            <div class="gallery-image-card">
+
+                <img
+                     src="/media/{{ img }}"
+                    >
+
+            </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+{% endblock %}

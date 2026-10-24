@@ -1,0 +1,624 @@
+ Black-necked Crane  
+ Bar-headed Goose  
+ Greylag Goose  
+ Ruddy Shelduck  
+ Mallard  
+ Northern Pintail  
+ Common Teal  
+ Garganey  
+ Northern Shoveler  
+ Gadwall  
+ Eurasian Wigeon  
+ Tufted Duck  
+ Common Pochard  
+ Ferruginous Duck  
+ Red-crested Pochard  
+ Goosander  
+ Smew  
+ Common Goldeneye  
+ Little Grebe  
+ Great Crested Grebe  
+ Black-necked Grebe  
+ Indian Spot-billed Duck  
+ Common Moorhen  
+ Purple Swamphen  
+ Eurasian Coot  
+ White-breasted Waterhen  
+ Brown Crake  
+ Baillon's Crake  
+ Water Rail  
+ Sarus Crane  
+ Common Crane  
+ Demoiselle Crane  
+ Black-winged Stilt  
+ Red-wattled Lapwing  
+ River Lapwing  
+ Little Ringed Plover  
+ Kentish Plover  
+ Grey-headed Lapwing  
+ Northern Lapwing  
+ Pacific Golden Plover  
+ Grey Plover  
+ Common Snipe  
+ Pintail Snipe  
+ Black-tailed Godwit  
+ Ruff  
+ Wood Sandpiper  
+ Green Sandpiper  
+ Marsh Sandpiper  
+ Common Greenshank  
+ Common Sandpiper  
+ Temminck's Stint  
+ Little Stint  
+ Curlew Sandpiper  
+ Dunlin  
+ Eurasian Curlew  
+ Whimbrel  
+ Greater Painted-snipe  
+ Pheasant-tailed Jacana  
+ Bronze-winged Jacana  
+ Brown-headed Gull  
+ Black-headed Gull  
+ Pallas's Gull  
+ Heuglin's Gull  
+ Yellow-legged Gull  
+ River Tern  
+ Whiskered Tern  
+ Gull-billed Tern  
+ Caspian Tern  
+ White-winged Tern  
+ Little Tern  
+ Black-bellied Tern  
+ Great Cormorant  
+ Little Cormorant  
+ Indian Cormorant  
+ Oriental Darter  
+ Grey Heron  
+ Purple Heron  
+ Indian Pond Heron  
+ Cattle Egret  
+ Little Egret  
+ Great Egret  
+ Intermediate Egret  
+ Black-crowned Night Heron  
+ Striated Heron  
+ Western Reef Heron  
+ Eurasian Spoonbill  
+ Glossy Ibis  
+ Black-headed Ibis  
+ Asian Openbill  
+ Black Stork  
+ White Stork  
+ Woolly-necked Stork  
+ Painted Stork  
+ Black-necked Stork  
+ Spot-billed Pelican  
+ Dalmatian Pelican  
+ Great White Pelican  
+ Black Kite  
+ Brahminy Kite  
+ Black-winged Kite  
+ Osprey  
+ Shikra  
+ Eurasian Sparrowhawk  
+ Northern Goshawk  
+ Crested Goshawk  
+ Besra  
+ White-eyed Buzzard  
+ Long-legged Buzzard  
+ Himalayan Buzzard  
+ Upland Buzzard  
+ Oriental Honey Buzzard  
+ Crested Serpent Eagle  
+ Short-toed Snake Eagle  
+ Mountain Hawk Eagle  
+ Changeable Hawk Eagle  
+ Golden Eagle  
+ Bonelli's Eagle  
+ Booted Eagle  
+ Steppe Eagle  
+ Tawny Eagle  
+ Eastern Imperial Eagle  
+ Greater Spotted Eagle  
+ Grey-headed Fish Eagle  
+ Himalayan Vulture  
+ Griffon Vulture  
+ Cinereous Vulture  
+ Egyptian Vulture  
+ Red-headed Vulture  
+ White-rumped Vulture  
+ Slender-billed Vulture  
+ Western Marsh Harrier  
+ Pallid Harrier  
+ Montagu's Harrier  
+ Northern Harrier  
+ Eurasian Marsh Harrier  
+ Common Kestrel  
+ Peregrine Falcon  
+ Laggar Falcon  
+ Saker Falcon  
+ Amur Falcon  
+ Merlin  
+ Eurasian Hobby  
+ Red-necked Falcon  
+ Collared Falconet  
+ Barn Owl  
+ Spotted Owlet  
+ Asian Barred Owlet  
+ Collared Owlet  
+ Brown Fish Owl  
+ Indian Eagle Owl  
+ Mountain Scops Owl  
+ Oriental Scops Owl  
+ Brown Wood Owl  
+ Mottled Wood Owl  
+ Jungle Owlet  
+ Little Owl  
+ Short-eared Owl  
+ Long-eared Owl  
+ Tawny Owl  
+ Himalayan Owl  
+ Brown Hawk Owl  
+ Nightjar  
+ Indian Nightjar  
+ Jungle Nightjar  
+
+ Grey Nightjar  
+ Large-tailed Nightjar  
+ Great Eared Nightjar  
+ House Swift  
+ Alpine Swift  
+ Himalayan Swiftlet  
+ Fork-tailed Swift  
+ White-throated Needletail  
+ Brown-backed Needletail  
+ Asian Palm Swift  
+ Common Kingfisher  
+ White-throated Kingfisher  
+ Pied Kingfisher  
+ Stork-billed Kingfisher  
+ Green Bee-eater  
+ Blue-tailed Bee-eater  
+ Chestnut-headed Bee-eater  
+ Blue-bearded Bee-eater  
+ Indian Roller  
+ Dollarbird  
+ Eurasian Hoopoe  
+ Coppersmith Barbet  
+ Brown-headed Barbet  
+ Lineated Barbet  
+ Himalayan Flameback  
+ Black-rumped Flameback  
+ Grey-headed Woodpecker  
+ Brown-fronted Woodpecker  
+ Himalayan Woodpecker  
+ Fulvous-breasted Woodpecker  
+ Rufous-bellied Woodpecker  
+ White-naped Woodpecker  
+ Greater Yellownape  
+ Lesser Yellownape  
+ Speckled Piculet  
+ Indian Grey Hornbill  
+ Great Hornbill  
+ Oriental Pied Hornbill  
+ House Sparrow  
+ Russet Sparrow  
+ Rock Sparrow  
+ Yellow-throated Sparrow  
+ Chestnut-shouldered Petronia  
+ Baya Weaver  
+ Black-breasted Weaver  
+ Scaly-breasted Munia  
+ White-rumped Munia  
+ Red Avadavat 
+ Indian Silverbill  
+ Plain Mountain Finch  
+ Brandt's Mountain Finch  
+ Tibetan Snowfinch  
+ Black-winged Snowfinch  
+ White-rumped Snowfinch  
+ Common Rosefinch  
+ Pink-browed Rosefinch  
+ Dark-breasted Rosefinch  
+ Red-fronted Rosefinch  
+ Spot-winged Rosefinch  
+ Scarlet Finch  
+ Streaked Rosefinch  
+ Brown Bullfinch  
+ Collared Grosbeak  
+ White-winged Grosbeak  
+ Hawfinch  
+ European Goldfinch  
+ Black-headed Siskin  
+ Yellow-breasted Greenfinch  
+ Red-headed Bunting  
+ Black-headed Bunting  
+ Grey-necked Bunting  
+ Rock Bunting  
+ Crested Bunting  
+ White-capped Bunting  
+ House Bunting  
+ Corn Bunting  
+ Yellowhammer  
+ White Wagtail  
+ Citrine Wagtail  
+ Grey Wagtail  
+ Yellow Wagtail  
+ White-browed Wagtail  
+ Forest Wagtail  
+ Paddyfield Pipit  
+ Tree Pipit  
+ Olive-backed Pipit  
+ Rosy Pipit  
+ Richard's Pipit  
+ Tawny Pipit  
+ Water Pipit  
+ Buff-bellied Pipit  
+ Long-billed Pipit  
+ Brown Accentor  
+ Black-throated Accentor  
+ Robin Accentor  
+ Rufous-breasted Accentor  
+ Alpine Accentor  
+ Dunnock  
+ Maroon-backed Accentor  
+ Altai Accentor  
+ Cinereous Tit  
+ Great Tit  
+ Green-backed Tit  
+ Black-lored Tit  
+ Sultan Tit  
+ Coal Tit  
+ Yellow-browed Tit  
+ Grey-crested Tit  
+ Rufous-naped Tit  
+ Black-throated Tit  
+ Fire-capped Tit  
+ White-browed Tit-Warbler  
+ Barn Swallow  
+ Red-rumped Swallow  
+ Wire-tailed Swallow  
+ Asian House Martin  
+ Grey-throated Martin  
+ Himalayan Bulbul  
+ Red-vented Bulbul  
+ White-cheeked Bulbul  
+ Black Bulbul  
+ Mountain Bulbul  
+ White-throated Bulbul  
+ Black-crested Bulbul  
+ Ashy Bulbul  
+ Stripe-throated Bulbul  
+ Brown Dipper  
+ White-throated Dipper  
+ Wallcreeper  
+ Eurasian Treecreeper  
+ Bar-tailed Treecreeper  
+ Rusty-flanked Treecreeper  
+ White-tailed Nuthatch  
+ Velvet-fronted Nuthatch  
+ Chestnut-bellied Nuthatch  
+ Kashmir Nuthatch  
+ Yellow-billed Nuthatch  
+ Common Tailorbird  
+ Mountain Tailorbird  
+ Plain Prinia  
+ Ashy Prinia  
+ Grey-breasted Prinia  
+ Jungle Prinia  
+ Zitting Cisticola  
+ Common Chiffchaff  
+ Mountain Chiffchaff  
+ Siberian Chiffchaff  
+ Greenish Warbler  
+ Hume's Warbler  
+ Tickell's Leaf Warbler  
+ Whistler's Warbler  
+ Grey-hooded Warbler  
+ Yellow-browed Warbler  
+ Chestnut-crowned Warbler  
+ Buff-barred Warbler  
+ Lemon-rumped Warbler  
+ Sulphur-bellied Warbler  
+ Western Crowned Warbler  
+ Blyth's Leaf Warbler  
+ Dusky Warbler  
+ Radde's Warbler  
+ Brook's Leaf Warbler  
+ Booted Warbler  
+ Sykes's Warbler  
+ Pallas's Leaf Warbler  
+ Wood Warbler  
+ Willow Warbler  
+ Large-billed Leaf Warbler  
+ White-tailed Leaf Warbler  
+ Smoky Warbler  
+ Golden-spectacled Warbler  
+ Grey-crowned Warbler  
+ Rufous-faced Warbler  
+ Black-faced Warbler  
+ Clamorous Reed Warbler  
+ Blyth's Reed Warbler  
+ Oriental Reed Warbler  
+ Black-browed Reed Warbler  
+ Paddyfield Warbler  
+ Moustached Warbler  
+ Savi's Warbler  
+ Pallas's Grasshopper Warbler  
+ Lanceolated Warbler  
+ Common Grasshopper Warbler  
+ Brown-flanked Bush Warbler  
+ Chestnut-crowned Bush Warbler  
+ Russet Bush Warbler  
+ Grey-sided Bush Warbler  
+ Spotted Bush Warbler  
+ Long-billed Bush Warbler  
+ Chestnut-headed Tesia  
+ Slaty-bellied Tesia  
+ Rusty-cheeked Scimitar Babbler  
+ White-browed Scimitar Babbler  
+ Coral-billed Scimitar Babbler  
+ Jungle Babbler  
+ Black-chinned Babbler  
+ Golden Babbler  
+ Puff-throated Babbler  
+ Chestnut-capped Babbler  
+ Abbott's Babbler  
+ Rufous-capped Babbler  
+ Pin-striped Tit-Babbler  
+ White-throated Laughingthrush  
+ Striated Laughingthrush  
+ Variegated Laughingthrush  
+ Grey-sided Laughingthrush  
+ Streaked Laughingthrush  
+ Black-faced Laughingthrush  
+ White-crested Laughingthrush  
+ Blue-winged Laughingthrush  
+ Golden-winged Laughingthrush  
+ Rufous-necked Laughingthrush  
+ Chestnut-crowned Laughingthrush  
+ Blue-winged Minla  
+ Chestnut-tailed Minla  
+ Red-tailed Minla  
+ Silver-eared Mesia  
+ Red-billed Leiothrix  
+ White-browed Fulvetta  
+ Golden-breasted Fulvetta  
+ Rufous-winged Fulvetta  
+ Brown-cheeked Fulvetta  
+ Manipur Fulvetta  
+ Rufous Sibia  
+ Grey Sibia  
+ Beautiful Sibia  
+ Long-tailed Sibia  
+ Blue-winged Siva  
+ Hoary-throated Barwing  
+ White-bellied Yuhina  
+ Stripe-throated Yuhina  
+ Whiskered Yuhina  
+ Rufous-vented Yuhina  
+ Black-headed Shrike-Babbler  
+ Black-eared Shrike-Babbler  
+ White-browed Shrike-Babbler  
+ Yellow-browed Shrike-Babbler  
+ Fire-tailed Myzornis  
+ Grandala  
+ Common Starling  
+ Rosy Starling  
+ Brahminy Starling  
+ Chestnut-tailed Starling  
+ Spot-winged Starling  
+ Common Hill Myna  
+ House Crow  
+ Large-billed Crow  
+ Common Raven  
+ Rufous Treepie  
+ Grey Treepie  
+ Red-billed Blue Magpie  
+ Yellow-billed Blue Magpie  
+ Black-headed Jay  
+ Eurasian Jay  
+ Common Green Magpie 
+ House Sparrow  
+ Russet Sparrow  
+ Rock Sparrow  
+ Yellow-throated Sparrow  
+ Chestnut-shouldered Petronia  
+ Baya Weaver  
+ Black-breasted Weaver  
+ Scaly-breasted Munia  
+ White-rumped Munia  
+ Red Avadavat  
+ Indian Silverbill  
+ Plain Mountain Finch  
+ Brandt's Mountain Finch  
+ Tibetan Snowfinch  
+ Black-winged Snowfinch  
+ White-rumped Snowfinch  
+ Common Rosefinch  
+ Pink-browed Rosefinch  
+ Dark-breasted Rosefinch  
+ Red-fronted Rosefinch  
+ Spot-winged Rosefinch  
+ Scarlet Finch  
+ Streaked Rosefinch  
+ Brown Bullfinch  
+ Collared Grosbeak  
+ White-winged Grosbeak  
+ Hawfinch  
+ European Goldfinch  
+ Black-headed Siskin  
+ Yellow-breasted Greenfinch  
+ Red-headed Bunting  
+ Black-headed Bunting  
+ Grey-necked Bunting  
+ Rock Bunting  
+ Crested Bunting  
+ White-capped Bunting  
+ House Bunting  
+ Corn Bunting  
+ Yellowhammer  
+ Indian Robin  
+ Oriental Magpie Robin  
+ White-capped Redstart  
+ Black Redstart  
+ Daurian Redstart  
+ Blue-fronted Redstart  
+ Blue-capped Redstart  
+ Rufous-backed Redstart  
+ Plumbeous Water Redstart  
+ White-bellied Redstart  
+ White-winged Redstart  
+ Blue Whistling Thrush  
+ Blue Rock Thrush  
+ Chestnut-bellied Rock Thrush  
+ Blue-capped Rock Thrush  
+ Grey-winged Blackbird  
+ Common Blackbird  
+ Tickell's Thrush  
+ Orange-headed Thrush  
+ Scaly Thrush  
+ Long-tailed Thrush  
+ Chestnut Thrush  
+ Dusky Thrush  
+ Fieldfare  
+ Song Thrush  
+ Mistle Thrush  
+ Plain-backed Thrush  
+ Siberian Stonechat  
+ Common Stonechat  
+ Pied Bushchat  
+ Grey Bushchat  
+ Hodgson's Bushchat  
+ White-tailed Stonechat  
+ Variable Wheatear  
+ Isabelline Wheatear  
+ Desert Wheatear  
+ Pied Wheatear  
+ Northern Wheatear  
+ Brown Rock Chat  
+ Verditer Flycatcher  
+ Tickell's Blue Flycatcher  
+ Ultramarine Flycatcher  
+ Asian Brown Flycatcher  
+ Taiga Flycatcher  
+ Slaty-blue Flycatcher  
+ Grey-headed Canary Flycatcher  
+ Ferruginous Flycatcher  
+ White-gorgeted Flycatcher  
+ Snowy-browed Flycatcher  
+ Little Pied Flycatcher  
+ Mugimaki Flycatcher  
+ Rufous-gorgeted Flycatcher  
+ Kashmir Flycatcher  
+ Blue-and-white Flycatcher  
+ Dark-sided Flycatcher  
+ Rusty-tailed Flycatcher  
+ Black-and-orange Flycatcher  
+ Fantailed Flycatcher  
+ White-throated Fantail  
+ Spotted Forktail  
+ Little Forktail  
+ Slaty-backed Forktail  
+ White-crowned Forktail  
+ Black-backed Forktail  
+ Himalayan Rubythroat  
+ Siberian Rubythroat  
+ White-tailed Rubythroat  
+ Bluethroat  
+ Indian Blue Robin  
+ Blue-fronted Robin  
+ White-tailed Robin  
+ Golden Bush Robin  
+ White-browed Bush Robin  
+ Orange-flanked Bush Robin  
+ White-browed Shortwing  
+ Lesser Shortwing  
+ Purple Cochoa  
+ Green Cochoa  
+ Small Niltava  
+ Large Niltava  
+ Rufous-bellied Niltava  
+ White-bellied Blue Flycatcher  
+ Black Drongo  
+ Ashy Drongo  
+ Bronzed Drongo  
+ Greater Racket-tailed Drongo  
+ Fork-tailed Drongo  
+ Hair-crested Drongo  
+ Ashy Woodswallow  
+ Long-tailed Shrike  
+ Bay-backed Shrike  
+ Brown Shrike  
+ Grey-backed Shrike  
+ Southern Grey Shrike  
+ Isabelline Shrike  
+ Woodshrike  
+ Bar-winged Flycatcher-shrike  
+ Common Woodshrike  
+ Large Woodshrike  
+ Black-winged Cuckooshrike  
+ Black-headed Cuckooshrike  
+ Small Minivet  
+ Scarlet Minivet  
+ Long-tailed Minivet  
+ Short-billed Minivet  
+ Rosy Minivet  
+ Ashy Minivet  
+ White-bellied Minivet  
+ Common Iora  
+ Golden-fronted Leafbird  
+ Jerdon's Leafbird  
+ Orange-bellied Leafbird  
+ Blue-winged Leafbird  
+ Golden-fronted Chloropsis  
+ Black-naped Monarch  
+ Indian Paradise Flycatcher  
+ Asian Paradise Flycatcher  
+ Black-naped Oriole  
+ Maroon Oriole  
+ Black-hooded Oriole  
+ Indian Golden Oriole  
+ Eurasian Golden Oriole  
+ Purple Sunbird  
+ Crimson Sunbird  
+ Fire-tailed Sunbird  
+ Common Cuckoo  
+ Indian Cuckoo  
+ Plaintive Cuckoo  
+ Grey-bellied Cuckoo  
+ Drongo Cuckoo  
+ Asian Koel  
+ Jacobin Cuckoo  
+ Greater Coucal  
+ Lesser Coucal  
+ Mountain Hawk-Cuckoo  
+ Large Hawk-Cuckoo  
+ Hodgson's Hawk-Cuckoo  
+ Violet Cuckoo  
+ Chestnut-winged Cuckoo  
+ Rose-ringed Parakeet  
+ Alexandrine Parakeet  
+ Plum-headed Parakeet  
+ Slaty-headed Parakeet  
+ Blossom-headed Parakeet  
+ Grey-headed Parakeet  
+ Mountain Imperial Pigeon  
+ Speckled Wood Pigeon  
+ Oriental Turtle Dove  
+ European Turtle Dove  
+ Eurasian Collared Dove  
+ Spotted Dove  
+ Laughing Dove  
+ Red Collared Dove  
+ Emerald Dove  
+ Yellow-footed Green Pigeon  
+ Pin-tailed Green Pigeon  
+ Wedge-tailed Green Pigeon  
+ Pompadour Green Pigeon  
+ Thick-billed Green Pigeon  
+ Ashy-headed Green Pigeon  
+ Snow Pigeon  
+ Hill Pigeon  
+ Rock Pigeon  
+ Yellow-eyed Pigeon 

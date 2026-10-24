@@ -1,0 +1,162 @@
+{% extends 'birds/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- GALLERY HERO -->
+
+<div class="gallery-hero">
+
+    <div class="gallery-overlay">
+
+        <h1>
+
+            Bird Gallery
+
+        </h1>
+
+        <p>
+
+            Explore the beauty of
+            Himalayan bird diversity
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- GALLERY INTRO -->
+
+<div class="gallery-intro">
+
+    <h2>
+
+        Wildlife Photography Collection
+
+    </h2>
+
+    <p>
+
+        This gallery showcases
+        some of the most iconic,
+        migratory and rare bird
+        species found across
+        Jammu, Kashmir and Ladakh.
+
+    </p>
+
+</div>
+
+<!-- GALLERY GRID -->
+
+<div class="gallery-grid">
+
+    <!-- IMAGE 1 -->
+
+    <div class="gallery-card">
+
+        <img
+            src="{% static 'birds/images/monal.jpg' %}"
+        >
+
+        <div class="gallery-info">
+
+            <h3>
+
+                Himalayan Monal
+
+            </h3>
+
+            <p>
+
+                Colorful Himalayan pheasant
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- IMAGE 2 -->
+
+    <div class="gallery-card">
+
+        <img
+            src="{% static 'birds/images/crane.jpg' %}"
+        >
+
+        <div class="gallery-info">
+
+            <h3>
+
+                Black-necked Crane
+
+            </h3>
+
+            <p>
+
+                Rare migratory crane
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- IMAGE 3 -->
+
+    <div class="gallery-card">
+
+        <img
+            src="{% static 'birds/images/goose.jpg' %}"
+        >
+
+        <div class="gallery-info">
+
+            <h3>
+
+                Bar-headed Goose
+
+            </h3>
+
+            <p>
+
+                High-altitude migrant
+
+            </p>
+
+        </div>
+
+    </div>
+
+    <!-- IMAGE 4 -->
+
+    <div class="gallery-card">
+
+        <img
+            src="{% static 'birds/images/hero.jpg' %}"
+        >
+
+        <div class="gallery-info">
+
+            <h3>
+
+                Wetland Flock
+
+            </h3>
+
+            <p>
+
+                Migratory birds in Kashmir
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

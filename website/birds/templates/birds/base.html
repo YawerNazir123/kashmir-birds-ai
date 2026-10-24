@@ -1,0 +1,321 @@
+{% load static %}
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>
+
+        Birds of Paradise
+
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'birds/style.css' %}"
+    >
+
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    >
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <nav class="navbar">
+
+        <div class="nav-left">
+
+            <div class="logo">
+
+    <a href="/" class="logo-link">
+
+        <img
+            src="{% static 'birds/images/hero.jpg' %}"
+            class="logo-img"
+        >
+
+        <div class="logo-text">
+
+            <span class="logo-title">
+
+                Birds of Paradise
+
+            </span>
+
+            <span class="logo-subtitle">
+
+                Explore • Learn • Protect
+
+            </span>
+
+        </div>
+
+    </a>
+
+</div>
+
+            <div class="nav-links">
+
+                <a href="/">
+
+                    <i class="fa-solid fa-house"></i>
+
+                    Home
+
+                </a>
+
+                <a href="/birds/">
+
+                    <i class="fa-solid fa-dove"></i>
+
+                    Birds
+
+                </a>
+
+                <a href="/identify/">
+
+                    <i class="fa-solid fa-robot"></i>
+
+                    AI Identify
+
+                </a>
+
+                <a href="/about/">
+
+                    <i class="fa-solid fa-circle-info"></i>
+
+                    About
+
+                </a>
+
+                <a href="/gallery/">
+
+                    <i class="fa-solid fa-image"></i>
+
+                    Gallery
+
+                </a>
+
+                <a href="/contact/">
+
+                    <i class="fa-solid fa-envelope"></i>
+
+                    Contact
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+    <!-- PAGE CONTENT -->
+
+    {% block content %}
+
+    {% endblock %}
+
+    <!-- FOOTER -->
+
+    <footer class="footer">
+
+    <div class="footer-grid">
+
+        <!-- ABOUT -->
+
+        <div class="footer-column">
+
+            <h2>
+
+                Birds of Paradise
+
+            </h2>
+
+            <p>
+
+                AI-powered biodiversity
+                platform documenting the
+                avian diversity of
+                Jammu, Kashmir & Ladakh.
+
+            </p>
+
+            <p>
+
+                Protect Birds •
+                Protect Wetlands •
+                Protect Nature
+
+            </p>
+
+        </div>
+
+        <!-- RESOURCES -->
+
+        <div class="footer-column">
+
+            <h3>
+
+                Research Resources
+
+            </h3>
+
+            <ul>
+
+                <li>
+
+                    eBird Database
+
+                </li>
+
+                <li>
+
+                    iNaturalist API
+
+                </li>
+
+                <li>
+
+                    Wikimedia Commons
+
+                </li>
+
+                <li>
+
+                    Central Asian Flyway
+
+                </li>
+
+                <li>
+
+                    Wetland Conservation
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- FEATURES -->
+
+        <div class="footer-column">
+
+            <h3>
+
+                Platform Features
+
+            </h3>
+
+            <ul>
+
+                <li>
+
+                    Bird Species Database
+
+                </li>
+
+                <li>
+
+                    AI Identification
+
+                </li>
+
+                <li>
+
+                    Migration Tracking
+
+                </li>
+
+                <li>
+
+                    Ecological Metadata
+
+                </li>
+
+                <li>
+
+                    Wildlife Gallery
+
+                </li>
+
+            </ul>
+
+        </div>
+
+        <!-- CONTACT -->
+
+        <div class="footer-column">
+
+            <h3>
+
+                Developer
+
+            </h3>
+
+            <ul>
+
+                <li>
+
+                    Shah Yawar
+
+                </li>
+
+                <li>
+
+                    AI & Biodiversity
+
+                </li>
+
+                <li>
+
+                    IIT Ropar Intern
+
+                </li>
+
+                <li>
+
+                    Climate Reality Volunteer
+
+                </li>
+
+                <li>
+
+                    Jammu & Kashmir
+
+                </li>
+
+            </ul>
+
+        </div>
+
+    </div>
+
+    <!-- COPYRIGHT -->
+
+    <div class="footer-bottom">
+
+        © 2026 Birds of Paradise •
+        Biodiversity & Conservation Platform
+
+    </div>
+
+</footer>
+
+</body>
+
+</html>

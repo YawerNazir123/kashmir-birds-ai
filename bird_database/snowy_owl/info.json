@@ -1,0 +1,29 @@
+{
+    "common_name": "Snowy Owl",
+    "scientific_name": "Bubo scandiacus",
+    "local_name": "",
+    "migratory_status": "Resident",
+    "size": "",
+    "wingspan": "6 cm",
+    "habitat": "",
+    "iucn_status": "",
+    "description": "The Snowy Owl is a resident bird species commonly found across the wetlands, forests and river systems of Kashmir Valley inside forests and rocky landscapes. This species contributes to the rich avian biodiversity of Jammu, Kashmir and Ladakh.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Snowy_owl",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "region": "Kashmir Valley",
+    "family": "Strigidae",
+    "genus": "Bubo",
+    "conservation_status": "",
+    "category": "Owl",
+    "length": "64 cm",
+    "weight": "3 g",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

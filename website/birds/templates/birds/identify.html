@@ -1,0 +1,168 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+
+        AI Bird Identification
+
+    </title>
+
+    <link
+        rel="stylesheet"
+        href="{% static 'birds/style.css' %}"
+    >
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="nav-left">
+
+            <div class="logo">
+
+                Birds of Paradise
+
+            </div>
+
+            <div class="nav-links">
+
+                <a href="/">
+
+                    Home
+
+                </a>
+
+                <a href="/birds/">
+
+                    Birds
+
+                </a>
+
+                <a href="/identify/">
+
+                    AI Identify
+
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- IDENTIFICATION -->
+
+    <div class="detail-container">
+
+        <h1>
+
+            AI Bird Identification
+
+        </h1>
+
+        <p>
+
+            Upload a bird image and let
+            AI identify the species.
+
+        </p>
+
+        <form
+            method="POST"
+            enctype="multipart/form-data"
+        >
+
+            {% csrf_token %}
+
+            <input
+                type="file"
+                name="bird_image"
+                required
+            >
+
+            <br><br>
+
+            <button type="submit">
+
+                Identify Bird
+
+            </button>
+
+        </form>
+
+        {% if prediction %}
+
+            <hr>
+
+            <h2>
+
+                Prediction Result
+
+            </h2>
+
+            <h1>
+
+                {{ prediction.common_name }}
+
+            </h1>
+
+            <h3>
+
+                {{ prediction.scientific_name }}
+
+            </h3>
+
+            {% if prediction.image %}
+
+                <img
+                    src="{{ prediction.image.url }}"
+                    width="500"
+                >
+
+            {% endif %}
+
+            <p>
+
+                <b>Category:</b>
+
+                {{ prediction.category }}
+
+            </p>
+
+            <p>
+
+                <b>Migratory Status:</b>
+
+                {{ prediction.migratory_status }}
+
+            </p>
+
+            <p>
+
+                {{ prediction.description|truncatewords:40 }}
+
+            </p>
+
+            <a
+                href="/bird/{{ prediction.id }}/"
+            >
+
+                View Full Details
+
+            </a>
+
+        {% endif %}
+
+    </div>
+
+</body>
+
+</html>

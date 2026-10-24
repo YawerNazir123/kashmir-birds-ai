@@ -1,0 +1,295 @@
+{% extends 'birds/base.html' %}
+
+{% load static %}
+
+{% block content %}
+
+<!-- HERO SECTION -->
+
+<div class="hero">
+
+    <div class="hero-overlay">
+
+        <h1>
+
+            Birds of Paradise
+
+        </h1>
+
+        <p>
+
+            Explore the Avian Diversity
+            of Jammu, Kashmir & Ladakh
+
+        </p>
+
+        <div class="hero-buttons">
+
+            <a href="/birds/">
+
+                <button>
+
+                    Explore Birds
+
+                </button>
+
+            </a>
+
+            <a href="/identify/">
+
+                <button>
+
+                    AI Identification
+
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- STATS SECTION -->
+
+<div class="stats-container">
+
+    <div class="stat-card">
+
+        <h1>
+
+            650+
+
+        </h1>
+
+        <p>
+
+            Bird Species
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h1>
+
+            250+
+
+        </h1>
+
+        <p>
+
+            Migratory Birds
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h1>
+
+            3
+
+        </h1>
+
+        <p>
+
+            Regions Covered
+
+        </p>
+
+    </div>
+
+    <div class="stat-card">
+
+        <h1>
+
+            {{ categories }}
+
+        </h1>
+
+        <p>
+
+            Categories
+
+        </p>
+
+    </div>
+
+</div>
+
+
+<!-- ABOUT SECTION -->
+
+<div class="home-section">
+
+    <div class="section-content">
+
+        <h2>
+
+            About Birds of Paradise
+
+        </h2>
+
+        <p>
+
+            Birds of Paradise is an
+            AI-powered biodiversity
+            platform dedicated to the
+            birds of Jammu, Kashmir
+            and Ladakh.
+
+        </p>
+
+        <p>
+
+            The platform combines
+            ecological databases,
+            migratory bird tracking,
+            species galleries, and
+            artificial intelligence
+            to document and preserve
+            Himalayan avian diversity.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- MIGRATION SECTION -->
+
+<div class="home-section light-section">
+
+    <div class="section-content">
+
+        <h2>
+
+            Why Migratory Birds
+            Visit Kashmir
+
+        </h2>
+
+        <p>
+
+            Kashmir lies along the
+            Central Asian Flyway,
+            one of the world's major
+            migratory bird routes.
+
+        </p>
+
+        <p>
+
+            Every winter thousands
+            of birds migrate from
+            Siberia, Central Asia,
+            Europe and the Tibetan
+            Plateau to the wetlands
+            and lakes of Kashmir.
+
+        </p>
+
+        <p>
+
+            Wetlands such as
+            Hokersar, Wular Lake,
+            Hygam and Shallabugh
+            provide food, shelter
+            and breeding habitats
+            for ducks, geese,
+            cranes, gulls and many
+            other migratory species.
+
+        </p>
+
+    </div>
+
+</div>
+
+<!-- FEATURED BIRDS -->
+
+<div class="featured-section">
+
+    <h2>
+
+        Rare & Iconic Birds
+
+    </h2>
+
+    <div class="featured-grid">
+
+        <div class="featured-card">
+
+            <img
+                src="{% static 'birds/images/monal.jpg' %}"
+            >
+
+            <h3>
+
+                Himalayan Monal
+
+            </h3>
+
+            <p>
+
+                The colorful state bird
+                of Uttarakhand found in
+                Himalayan forests.
+
+            </p>
+
+        </div>
+
+        <div class="featured-card">
+
+            <img
+                src="{% static 'birds/images/crane.jpg' %}"
+            >
+
+            <h3>
+
+                Black-necked Crane
+
+            </h3>
+
+            <p>
+
+                A rare high-altitude
+                migratory crane seen
+                in Ladakh wetlands.
+
+            </p>
+
+        </div>
+
+        <div class="featured-card">
+
+            <img
+                src="{% static 'birds/images/goose.jpg' %}"
+            >
+
+            <h3>
+
+                Bar-headed Goose
+
+            </h3>
+
+            <p>
+
+                Famous for flying
+                across the Himalayas
+                during migration.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
