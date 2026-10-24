@@ -49,114 +49,323 @@
 
 </div>
 
+<!-- FILTER SECTION -->
+
+<div class="filter-section">
+
+    <form
+        method="GET"
+        class="modern-filter"
+    >
+
+        <!-- CATEGORY -->
+
+        <select name="category">
+
+            <option value="">
+
+                All Categories
+
+            </option>
+
+            {% for cat in categories %}
+
+                <option
+                    value="{{ cat }}"
+                    {% if selected_category == cat %}selected{% endif %}
+                >
+
+                    {{ cat }}
+
+                </option>
+
+            {% endfor %}
+
+        </select>
+
+        <!-- REGION -->
+
+        <select name="region">
+
+            <option value="">
+
+                All Regions
+
+            </option>
+
+            <option value="Jammu" {% if region == "Jammu" %}selected{% endif %}>
+
+                Jammu
+
+            </option>
+
+            <option value="Kashmir Valley" {% if region == "Kashmir Valley" %}selected{% endif %}>
+
+                Kashmir Valley
+
+            </option>
+
+            <option value="Ladakh" {% if region == "Ladakh" %}selected{% endif %}>
+
+                Ladakh
+
+            </option>
+
+        </select>
+
+        <!-- STATUS -->
+
+        <select name="migratory_status">
+
+            <option value="">
+
+                All Status
+
+            </option>
+
+            <option value="Resident" {% if migratory_status == "Resident" %}selected{% endif %}>
+
+                Resident
+
+            </option>
+
+            <option value="Winter Migratory" {% if migratory_status == "Winter Migratory" %}selected{% endif %}>
+
+                Winter Migratory
+
+            </option>
+
+            <option value="Summer Migratory" {% if migratory_status == "Summer Migratory" %}selected{% endif %}>
+
+                Summer Migratory
+
+            </option>
+
+            <option value="Rare Visitor" {% if migratory_status == "Rare Visitor" %}selected{% endif %}>
+
+                Rare Visitor
+
+            </option>
+
+        </select>
+
+        <!-- SEARCH -->
+
+        <input
+            type="text"
+            name="q"
+            placeholder="Search birds..."
+            value="{{ query|default:'' }}"
+        >
+
+        <!-- BUTTON -->
+
+        <button type="submit">
+
+            Search
+
+        </button>
+
+    </form>
+
+</div>
+
 <!-- GALLERY GRID -->
 
 <div class="gallery-grid">
 
-    <!-- IMAGE 1 -->
+    {% if page_obj %}
 
-    <div class="gallery-card">
+        {% for bird in page_obj %}
 
-        <img
-            src="{% static 'birds/images/monal.jpg' %}"
-        >
+            <div class="gallery-card">
 
-        <div class="gallery-info">
+                <a href="/bird/{{ bird.id }}/">
 
-            <h3>
+                    {% if bird.image %}
 
-                Himalayan Monal
+                        <img
+                            src="{{ bird.image.url }}"
+                            alt="{{ bird.common_name }}"
+                        >
 
-            </h3>
+                    {% endif %}
 
-            <p>
+                </a>
 
-                Colorful Himalayan pheasant
+                <div class="gallery-info">
 
-            </p>
+                    <h3>
 
-        </div>
+                        <a href="/bird/{{ bird.id }}/">
 
-    </div>
+                            {{ bird.common_name }}
 
-    <!-- IMAGE 2 -->
+                        </a>
 
-    <div class="gallery-card">
+                    </h3>
 
-        <img
-            src="{% static 'birds/images/crane.jpg' %}"
-        >
+                    <p class="scientific-name">
 
-        <div class="gallery-info">
+                        {{ bird.scientific_name }}
 
-            <h3>
+                    </p>
 
-                Black-necked Crane
+                    {% if bird.local_name_kashmiri %}
 
-            </h3>
+                        <p>
 
-            <p>
+                            Kashmiri: {{ bird.local_name_kashmiri }}
 
-                Rare migratory crane
+                        </p>
 
-            </p>
+                    {% endif %}
 
-        </div>
+                    {% if bird.local_name_dogri %}
 
-    </div>
+                        <p>
 
-    <!-- IMAGE 3 -->
+                            Dogri: {{ bird.local_name_dogri }}
 
-    <div class="gallery-card">
+                        </p>
 
-        <img
-            src="{% static 'birds/images/goose.jpg' %}"
-        >
+                    {% endif %}
 
-        <div class="gallery-info">
+                    {% if bird.local_name_ladakhi %}
 
-            <h3>
+                        <p>
 
-                Bar-headed Goose
+                            Ladakhi: {{ bird.local_name_ladakhi }}
 
-            </h3>
+                        </p>
 
-            <p>
+                    {% endif %}
 
-                High-altitude migrant
+                    <!-- BADGES -->
 
-            </p>
+                    <div class="badge-container">
 
-        </div>
+                        {% if bird.category %}
 
-    </div>
+                            <span
+                                class="badge category-badge"
+                            >
 
-    <!-- IMAGE 4 -->
+                                {{ bird.category }}
 
-    <div class="gallery-card">
+                            </span>
 
-        <img
-            src="{% static 'birds/images/hero.jpg' %}"
-        >
+                        {% endif %}
 
-        <div class="gallery-info">
+                        {% if bird.region %}
 
-            <h3>
+                            <span
+                                class="badge region-badge"
+                            >
 
-                Wetland Flock
+                                {{ bird.region }}
 
-            </h3>
+                            </span>
 
-            <p>
+                        {% endif %}
 
-                Migratory birds in Kashmir
+                        {% if bird.migratory_status %}
 
-            </p>
+                            <span
+                                class="badge migratory-badge"
+                            >
 
-        </div>
+                                {{ bird.migratory_status }}
+
+                            </span>
+
+                        {% endif %}
+
+                    </div>
+
+                    <p class="bird-description">
+
+                        {{ bird.description|truncatewords:20 }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>
+
+            No birds found. Try a different search.
+
+        </p>
+
+    {% endif %}
+
+</div>
+
+<!-- PAGINATION -->
+
+<div class="pagination-container">
+
+    <div class="pagination">
+
+        {% if page_obj.has_previous %}
+
+            <a
+                href="?page=1&q={{ query }}&region={{ region }}&migratory_status={{ migratory_status }}&category={{ selected_category }}"
+                class="page-btn"
+            >
+
+                First
+
+            </a>
+
+            <a
+                href="?page={{ page_obj.previous_page_number }}&q={{ query }}&region={{ region }}&migratory_status={{ migratory_status }}&category={{ selected_category }}"
+                class="page-btn"
+            >
+
+                Previous
+
+            </a>
+
+        {% endif %}
+
+        <span class="page-current">
+
+            Page {{ page_obj.number }}
+            of
+            {{ page_obj.paginator.num_pages }}
+
+        </span>
+
+        {% if page_obj.has_next %}
+
+            <a
+                href="?page={{ page_obj.next_page_number }}&q={{ query }}&region={{ region }}&migratory_status={{ migratory_status }}&category={{ selected_category }}"
+                class="page-btn"
+            >
+
+                Next
+
+            </a>
+
+            <a
+                href="?page={{ page_obj.paginator.num_pages }}&q={{ query }}&region={{ region }}&migratory_status={{ migratory_status }}&category={{ selected_category }}"
+                class="page-btn"
+            >
+
+                Last
+
+            </a>
+
+        {% endif %}
 
     </div>
 
 </div>
-
 {% endblock %}

@@ -13,7 +13,6 @@ from .models import Bird
 # ==========================================
 # LANDING PAGE
 # ==========================================
-
 def landing_page(request):
 
     total_birds = Bird.objects.count()
@@ -68,11 +67,137 @@ def landing_page(request):
     )
 def gallery(request):
 
+    query = request.GET.get(
+        'q'
+    )
+
+    region = request.GET.get(
+        'region'
+    )
+
+    migratory_status = request.GET.get(
+        'migratory_status'
+    )
+
+    category = request.GET.get(
+        'category'
+    )
+
+    birds = Bird.objects.all().order_by(
+        'common_name'
+    )
+
+    # ======================================
+    # SEARCH
+    # ======================================
+
+    if query:
+
+        birds = birds.filter(
+
+            common_name__icontains=query
+
+        ) | Bird.objects.filter(
+
+            scientific_name__icontains=query
+
+        ) | Bird.objects.filter(
+
+            family__icontains=query
+
+        ) | Bird.objects.filter(
+
+            local_name_kashmiri__icontains=query
+
+        ) | Bird.objects.filter(
+
+            local_name_dogri__icontains=query
+
+        ) | Bird.objects.filter(
+
+            local_name_ladakhi__icontains=query
+
+        )
+
+    # ======================================
+    # REGION FILTER
+    # ======================================
+
+    if region:
+
+        birds = birds.filter(
+            region__icontains=region
+        )
+
+    # ======================================
+    # MIGRATORY FILTER
+    # ======================================
+
+    if migratory_status:
+
+        birds = birds.filter(
+            migratory_status__icontains=
+            migratory_status
+        )
+
+    # ======================================
+    # CATEGORY FILTER
+    # ======================================
+
+    if category:
+
+        birds = birds.filter(
+            category__icontains=category
+        )
+
+    # ======================================
+    # PAGINATION
+    # ======================================
+
+    paginator = Paginator(
+        birds,
+        12
+    )
+
+    page_number = request.GET.get(
+        'page'
+    )
+
+    page_obj = paginator.get_page(
+        page_number
+    )
+
+    # ======================================
+    # UNIQUE CATEGORIES
+    # ======================================
+
+    categories = Bird.objects.values_list(
+        'category',
+        flat=True
+    ).distinct()
+
     return render(
 
         request,
 
-        'birds/gallery.html'
+        'birds/gallery.html',
+
+        {
+
+            'page_obj': page_obj,
+
+            'query': query,
+
+            'region': region,
+
+            'migratory_status':
+                migratory_status,
+
+            'categories': categories,
+
+            'selected_category':
+                category
+        }
     )
 def about(request):
 
@@ -93,7 +218,6 @@ def contact(request):
 # ==========================================
 # HOME PAGE
 # ==========================================
-
 def home(request):
 
     query = request.GET.get(
@@ -238,7 +362,6 @@ def home(request):
 # ==========================================
 # BIRD DETAIL
 # ==========================================
-
 def bird_detail(request, id):
 
     bird = get_object_or_404(
@@ -255,6 +378,7 @@ def bird_detail(request, id):
         'birds/bird_detail.html',
 
         {
+
             'bird': bird
         }
     )
@@ -263,7 +387,6 @@ def bird_detail(request, id):
 # ==========================================
 # AI IDENTIFICATION
 # ==========================================
-
 def identify_bird(request):
 
     prediction = None
@@ -281,6 +404,7 @@ def identify_bird(request):
         'birds/identify.html',
 
         {
+
             'prediction': prediction
         }
     )
