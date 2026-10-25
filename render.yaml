@@ -5,7 +5,7 @@ services:
     plan: free
     # The Django project lives in website/ (manage.py, requirements.txt).
     rootDir: website
-    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py sync_local_names"
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py import_birds && python manage.py sync_local_names"
     startCommand: "gunicorn website.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
     envVars:
       - key: SECRET_KEY
@@ -17,11 +17,17 @@ services:
       # matches the PYTHON_VERSION=3.12.0 already set in the dashboard.
       - key: PYTHON_VERSION
         value: "3.12.0"
-      # No DATABASE_URL: the site uses the committed SQLite snapshot.
+      # No DATABASE_URL: the site uses SQLite. The committed
+      # db.sqlite3 is only a starting snapshot -- it predates the
+      # metadata fixes, so the build runs `import_birds` to refresh
+      # every record in place from the corrected info.json files
+      # (698 updated, 46 created, 26 stale rows pruned in the
+      # 2026-10-25 dry run), then `sync_local_names` as a safety
+      # net for the local names. This runs on every deploy because
+      # Render's filesystem is ephemeral: the refreshed database
+      # only exists on the deployed instance, and the next deploy
+      # starts again from the committed snapshot. The import
+      # re-copies ~3,448 images into media/ each build, so builds
+      # take several minutes longer.
       # To switch to Postgres later, add a Render Postgres database and
       # set DATABASE_URL to it -- settings.py picks it up automatically.
-      # Do NOT run `python manage.py import_birds` in the build: it
-      # re-copies images into media/ on the ephemeral filesystem and
-      # would take a long time for ~700 birds. The committed
-      # db.sqlite3 + committed website/media/birds/ already contain
-      # the imported data and photos.
