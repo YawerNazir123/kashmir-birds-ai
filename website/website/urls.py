@@ -1,8 +1,8 @@
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from django.conf import settings
-from django.conf.urls.static import static
+from django.views.static import serve
 
 urlpatterns = [
 
@@ -18,13 +18,20 @@ urlpatterns = [
 ]
 
 # Media files are the bird photos in website/media/birds/ (committed to
-# the repo). Django only serves them automatically when DEBUG is on,
-# so serve them explicitly in production too. This uses Django's
-# static-file view, which is fine for a small free-tier field guide;
-# if traffic grows, move media to object storage (S3/Cloudinary)
-# and remove this block. Uploads made through the running site are
-# still lost on restart/redeploy -- Render's filesystem is ephemeral.
-urlpatterns += static(
-    settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
-)
+# the repo). The previous code used django.conf.urls.static.static(),
+# but static() returns an empty list when DEBUG is False, so in
+# production it added no route at all and every /media/ URL 404'd
+# even though the files exist in the checkout. Serve them explicitly
+# with django.views.static.serve instead. This is the documented
+# development-style file server; it is fine for a small free-tier
+# field guide. If traffic grows, move media to object storage
+# (S3/Cloudinary) and remove this block. Uploads made through the
+# running site are still lost on restart/redeploy -- Render's
+# filesystem is ephemeral.
+urlpatterns += [
+    re_path(
+        r'^media/(?P<path>.*)$',
+        serve,
+        {'document_root': settings.MEDIA_ROOT},
+    ),
+]
