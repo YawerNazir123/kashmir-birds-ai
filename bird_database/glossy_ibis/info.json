@@ -1,14 +1,14 @@
 {
     "common_name": "Glossy Ibis",
-    "scientific_name": "Plegadis chihi",
+    "scientific_name": "Plegadis falcinellus",
     "local_name": "",
     "migratory_status": "Resident",
     "size": "",
-    "wingspan": "90-93 cm",
+    "wingspan": "80–105 cm",
     "habitat": "",
     "iucn_status": "",
     "description": "The Glossy Ibis is a resident bird species commonly found across the wetlands, forests and river systems of Kashmir Valley across diverse ecological habitats. This species contributes to the rich avian biodiversity of Jammu, Kashmir and Ladakh.",
-    "wikipedia_url": "https://en.wikipedia.org/wiki/White-faced_ibis",
+    "wikipedia_url": "https://en.wikipedia.org/wiki/Glossy_ibis",
     "images": [
         "1.jpg",
         "2.jpg",
@@ -21,8 +21,8 @@
     "genus": "Plegadis",
     "conservation_status": "",
     "category": "Other",
-    "length": "46-56 cm",
-    "weight": "450-525 g",
+    "length": "48–66 cm",
+    "weight": "485–970 g",
     "local_name_kashmiri": "",
     "local_name_dogri": "",
     "local_name_ladakhi": ""
