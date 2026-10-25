@@ -381,22 +381,15 @@ def bird_detail(request, id):
 # ==========================================
 def identify_bird(request):
 
-    prediction = None
-
-    if request.method == 'POST':
-
-        # TEMPORARY DEMO
-
-        prediction = Bird.objects.first()
+    # Photo identification is not built yet. This page is a
+    # "Coming Soon" placeholder -- it must NOT pretend to
+    # identify a bird. The previous version always returned
+    # Bird.objects.first() regardless of the uploaded photo.
 
     return render(
 
         request,
 
-        'birds/identify.html',
+        'birds/identify.html'
 
-        {
-
-            'prediction': prediction
-        }
     )

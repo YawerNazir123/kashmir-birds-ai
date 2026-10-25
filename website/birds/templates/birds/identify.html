@@ -6,9 +6,7 @@
 <head>
 
     <title>
-
-        AI Bird Identification
-
+        AI Bird Identification - Coming Soon
     </title>
 
     <link
@@ -35,21 +33,15 @@
             <div class="nav-links">
 
                 <a href="/">
-
                     Home
-
                 </a>
 
                 <a href="/birds/">
-
                     Birds
-
                 </a>
 
                 <a href="/identify/">
-
                     AI Identify
-
                 </a>
 
             </div>
@@ -58,108 +50,34 @@
 
     </div>
 
-    <!-- IDENTIFICATION -->
+    <!-- COMING SOON -->
 
     <div class="detail-container">
 
         <h1>
-
             AI Bird Identification
-
         </h1>
 
-        <p>
-
-            Upload a bird image and let
-            AI identify the species.
-
+        <p class="coming-soon-badge">
+            Coming Soon
         </p>
 
-        <form
-            method="POST"
-            enctype="multipart/form-data"
-        >
+        <p>
+            Identifying a bird from your photo is coming soon.
+            We are building a real identification model for the
+            birds of Jammu, Kashmir and Ladakh.
+        </p>
 
-            {% csrf_token %}
+        <p>
+            Until then, you can browse the full bird database
+            and search by name, region or Kashmiri local name.
+        </p>
 
-            <input
-                type="file"
-                name="bird_image"
-                required
-            >
-
-            <br><br>
-
-            <button type="submit">
-
-                Identify Bird
-
-            </button>
-
-        </form>
-
-        {% if prediction %}
-
-            <hr>
-
-            <h2>
-
-                Prediction Result
-
-            </h2>
-
-            <h1>
-
-                {{ prediction.common_name }}
-
-            </h1>
-
-            <h3>
-
-                {{ prediction.scientific_name }}
-
-            </h3>
-
-            {% if prediction.image %}
-
-                <img
-                    src="{{ prediction.image.url }}"
-                    width="500"
-                >
-
-            {% endif %}
-
-            <p>
-
-                <b>Category:</b>
-
-                {{ prediction.category }}
-
-            </p>
-
-            <p>
-
-                <b>Migratory Status:</b>
-
-                {{ prediction.migratory_status }}
-
-            </p>
-
-            <p>
-
-                {{ prediction.description|truncatewords:40 }}
-
-            </p>
-
-            <a
-                href="/bird/{{ prediction.id }}/"
-            >
-
-                View Full Details
-
+        <p>
+            <a href="/birds/">
+                Browse the Bird Database
             </a>
-
-        {% endif %}
+        </p>
 
     </div>
 

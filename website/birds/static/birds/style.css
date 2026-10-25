@@ -2222,3 +2222,89 @@ a {
 
     transform: scale(1.08);
 }
+
+/* =========================
+   KASHMIRI LOCAL NAME
+   Highlighted so it stands out from the
+   common and scientific names.
+========================= */
+
+.local-name {
+
+    margin: 10px 0;
+
+}
+
+.local-name-label {
+
+    display: inline-block;
+
+    background: #b45309;
+
+    color: #ffffff;
+
+    font-size: 12px;
+
+    font-weight: bold;
+
+    letter-spacing: 1px;
+
+    text-transform: uppercase;
+
+    padding: 4px 12px;
+
+    border-radius: 20px;
+
+    margin-right: 8px;
+
+    vertical-align: middle;
+
+}
+
+.local-name-value {
+
+    font-size: 18px;
+
+    font-weight: bold;
+
+    color: #7c2d12;
+
+}
+
+.local-name-detail {
+
+    margin: 15px 0 5px;
+
+}
+
+.local-name-detail .local-name-value {
+
+    font-size: 26px;
+
+}
+
+/* =========================
+   COMING SOON BADGE
+========================= */
+
+.coming-soon-badge {
+
+    display: inline-block;
+
+    background: #0b3d2e;
+
+    color: #ffffff;
+
+    font-size: 16px;
+
+    font-weight: bold;
+
+    letter-spacing: 2px;
+
+    text-transform: uppercase;
+
+    padding: 8px 20px;
+
+    border-radius: 30px;
+
+}
