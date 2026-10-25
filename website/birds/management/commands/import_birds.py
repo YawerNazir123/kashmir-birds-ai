@@ -1,5 +1,6 @@
-import os
 import json
+import os
+from pathlib import Path
 
 from django.core.management.base import BaseCommand
 from django.core.files import File
@@ -7,7 +8,14 @@ from django.core.files.storage import default_storage
 
 from birds.models import Bird
 
-BASE_DIR = "../bird_database"
+# bird_database/ sits next to website/ in the repo checkout.
+# Resolve it from this file's location, not the working
+# directory, so the command works wherever manage.py is run
+# from (Render's build runs it from website/, a local run
+# may differ -- a relative "../bird_database" would break).
+BASE_DIR = str(
+    Path(__file__).resolve().parents[3].parent / "bird_database"
+)
 
 
 class Command(BaseCommand):
@@ -15,6 +23,10 @@ class Command(BaseCommand):
     help = "Import birds into database"
 
     def handle(self, *args, **kwargs):
+
+        imported_names = set()
+        created_count = 0
+        updated_count = 0
 
         for folder in os.listdir(BASE_DIR):
 
@@ -35,7 +47,6 @@ class Command(BaseCommand):
             if not os.path.exists(
                 json_path
             ):
-
                 continue
 
             with open(
@@ -45,10 +56,15 @@ class Command(BaseCommand):
                 "r",
 
                 encoding="utf-8"
-
             ) as f:
 
                 data = json.load(f)
+
+            common_name = data.get(
+                "common_name",
+                folder
+            )
+            imported_names.add(common_name)
 
             # ==================================
             # CREATE OR UPDATE BIRD
@@ -56,12 +72,7 @@ class Command(BaseCommand):
 
             bird, created = Bird.objects.update_or_create(
 
-                common_name=data.get(
-
-                    "common_name",
-
-                    folder
-                ),
+                common_name=common_name,
 
                 defaults={
 
@@ -85,6 +96,7 @@ class Command(BaseCommand):
                         "local_name",
                         ""
                     ),
+
                     "local_name_kashmiri":
 
                     data.get(
@@ -185,6 +197,11 @@ class Command(BaseCommand):
                 }
             )
 
+            if created:
+                created_count += 1
+            else:
+                updated_count += 1
+
             # ==================================
             # IMPORT IMAGES
             # ==================================
@@ -221,16 +238,12 @@ class Command(BaseCommand):
                             if index == 0:
 
                                 bird.image.save(
-
                                     image_name,
-
                                     File(img_file),
-
                                     save=True
                                 )
 
                                 gallery_paths.append(
-
                                     bird.image.name
                                 )
 
@@ -239,9 +252,7 @@ class Command(BaseCommand):
                             else:
 
                                 extra_path = default_storage.save(
-
                                     f"birds/gallery/{image_name}",
-
                                     File(img_file)
                                 )
 
@@ -269,6 +280,33 @@ class Command(BaseCommand):
             )
 
         # ==================================
+        # PRUNE STALE RECORDS
+        # ==================================
+        # The committed db.sqlite3 predates the metadata
+        # fixes, so it still holds birds that were deleted
+        # from bird_database/ (non-occurrences in J&K,
+        # duplicate merges) and rows under old names of
+        # birds that were renamed in info.json. import
+        # alone would leave those stale rows in the
+        # gallery alongside the corrected ones, so remove
+        # every DB record whose common_name has no
+        # info.json file. Records created in the DB with
+        # no folder are not affected -- every legitimate
+        # bird has an info.json file.
+        stale = Bird.objects.exclude(
+            common_name__in=imported_names
+        )
+        pruned_count = stale.count()
+        stale_names = list(
+            stale.values_list("common_name", flat=True)
+        )
+        stale.delete()
+        for name in stale_names:
+            self.stdout.write(
+                f"Pruned stale record: {name}"
+            )
+
+        # ==================================
         # FINISHED
         # ==================================
 
@@ -278,4 +316,9 @@ class Command(BaseCommand):
 
                 "\nALL BIRDS IMPORTED"
             )
+        )
+        self.stdout.write(
+            f"Created: {created_count}, "
+            f"updated: {updated_count}, "
+            f"pruned stale: {pruned_count}"
         )
