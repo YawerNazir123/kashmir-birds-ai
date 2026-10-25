@@ -1,14 +1,14 @@
 {
     "common_name": "Water Pipit",
-    "scientific_name": "Anthus rubescens",
+    "scientific_name": "Anthus spinoletta",
     "local_name": "",
     "migratory_status": "Winter Migratory",
     "size": "",
-    "wingspan": "24 cm",
+    "wingspan": "22.5–28 cm",
     "habitat": "",
     "iucn_status": "",
     "description": "The Water Pipit is a winter migratory bird frequently observed across the wetlands, forests and river systems of Kashmir Valley within forests, gardens and woodland habitats. This species contributes to the rich avian biodiversity of Jammu, Kashmir and Ladakh.",
-    "wikipedia_url": "http://en.wikipedia.org/wiki/Buff-bellied_pipit",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Water_pipit",
     "images": [
         "1.jpg",
         "2.jpg",
@@ -21,8 +21,8 @@
     "genus": "Anthus",
     "conservation_status": "",
     "category": "Songbird",
-    "length": "16 cm",
-    "weight": "22 g",
+    "length": "15–17 cm",
+    "weight": "18–23 g",
     "local_name_kashmiri": "",
     "local_name_dogri": "",
     "local_name_ladakhi": ""
