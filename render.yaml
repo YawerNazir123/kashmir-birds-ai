@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: kashmir-birds-ai
+    env: python
+    plan: free
+    # The Django project lives in website/ (manage.py, requirements.txt).
+    rootDir: website
+    buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput"
+    startCommand: "gunicorn website.wsgi:application --bind 0.0.0.0:$PORT --workers 2 --timeout 120"
+    envVars:
+      - key: SECRET_KEY
+        generateValue: true
+      - key: DEBUG
+        value: "False"
+      # No DATABASE_URL: the site uses the committed SQLite snapshot.
+      # To switch to Postgres later, add a Render Postgres database and
+      # set DATABASE_URL to it -- settings.py picks it up automatically.
+      # Do NOT run `python manage.py import_birds` in the build: it
+      # re-copies images into media/ on the ephemeral filesystem and
+      # would take a long time for ~700 birds. The committed
+      # db.sqlite3 + committed website/media/birds/ already contain
+      # the imported data and photos.

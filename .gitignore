@@ -5,3 +5,12 @@ __pycache__/
 *.pkl
 *.h5
 data/
+.env
+staticfiles/
+*.log
+# NOTE: db.sqlite3 and website/media/ are intentionally NOT ignored.
+# The Render deploy serves the committed DB snapshot
+# (website/db.sqlite3) and the committed bird photos
+# (website/media/birds/). Do not ignore them until the site moves to
+# Postgres + object storage for media -- ignoring them now would
+# deploy an empty site.

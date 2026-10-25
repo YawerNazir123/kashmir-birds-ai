@@ -1,0 +1,11 @@
+# Pinned to the Django version the project was generated with
+# (see website/website/settings.py header: Django 6.0.5).
+# Other pins are versions known to exist on PyPI at the time of writing.
+Django==6.0.5
+gunicorn==22.0.0
+whitenoise==6.6.0
+# Bird.image is an ImageField -- Pillow is required.
+Pillow==10.4.0
+# Only used if DATABASE_URL is set (Postgres upgrade path, see DEPLOY.md).
+dj-database-url==2.2.0
+psycopg[binary]==3.2.1
