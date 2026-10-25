@@ -12,6 +12,11 @@ services:
         generateValue: true
       - key: DEBUG
         value: "False"
+      # Pin Python 3.12: Render defaults to 3.14, which psycopg-binary
+      # 3.2.1 has no version for (first build failed on this). This
+      # matches the PYTHON_VERSION=3.12.0 already set in the dashboard.
+      - key: PYTHON_VERSION
+        value: "3.12.0"
       # No DATABASE_URL: the site uses the committed SQLite snapshot.
       # To switch to Postgres later, add a Render Postgres database and
       # set DATABASE_URL to it -- settings.py picks it up automatically.
