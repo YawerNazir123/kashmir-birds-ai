@@ -2224,62 +2224,21 @@ a {
 }
 
 /* =========================
-   KASHMIRI LOCAL NAME
-   Highlighted so it stands out from the
-   common and scientific names.
+   KASHMIRI LOCAL NAME BADGE
+   Same pill-badge style as the category / region /
+   migratory badges, in a distinct amber so the
+   Kashmiri name stands out.
 ========================= */
 
-.local-name {
-
-    margin: 10px 0;
-
-}
-
-.local-name-label {
-
-    display: inline-block;
+.kashmiri-badge {
 
     background: #b45309;
 
-    color: #ffffff;
-
-    font-size: 12px;
-
-    font-weight: bold;
-
-    letter-spacing: 1px;
-
-    text-transform: uppercase;
-
-    padding: 4px 12px;
-
-    border-radius: 20px;
-
-    margin-right: 8px;
-
-    vertical-align: middle;
-
 }
 
-.local-name-value {
+.detail-badge.kashmiri-badge {
 
-    font-size: 18px;
-
-    font-weight: bold;
-
-    color: #7c2d12;
-
-}
-
-.local-name-detail {
-
-    margin: 15px 0 5px;
-
-}
-
-.local-name-detail .local-name-value {
-
-    font-size: 26px;
+    background: #b45309;
 
 }
 

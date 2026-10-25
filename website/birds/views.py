@@ -9,6 +9,23 @@ from django.core.paginator import (
 
 from .models import Bird
 
+def _clean_param(request, name):
+
+    """GET filter param as a plain string, never None or 'None'.
+
+    The pagination links used to render ?q=None&region=None... when
+    a filter was unset, because request.GET.get() returns None and
+    the template printed it literally. The next request then
+    filtered by the string "None", returning no birds at all
+    ("Page 1 of 1") and showing "None" in the search box.
+    """
+
+    value = request.GET.get(name) or ''
+
+    return '' if value == 'None' else value
+
+
+
 
 # ==========================================
 # LANDING PAGE
@@ -67,21 +84,13 @@ def landing_page(request):
     )
 def gallery(request):
 
-    query = request.GET.get(
-        'q'
-    )
+    query = _clean_param(request, 'q')
 
-    region = request.GET.get(
-        'region'
-    )
+    region = _clean_param(request, 'region')
 
-    migratory_status = request.GET.get(
-        'migratory_status'
-    )
+    migratory_status = _clean_param(request, 'migratory_status')
 
-    category = request.GET.get(
-        'category'
-    )
+    category = _clean_param(request, 'category')
 
     birds = Bird.objects.all().order_by(
         'common_name'
@@ -212,21 +221,13 @@ def contact(request):
 # ==========================================
 def home(request):
 
-    query = request.GET.get(
-        'q'
-    )
+    query = _clean_param(request, 'q')
 
-    region = request.GET.get(
-        'region'
-    )
+    region = _clean_param(request, 'region')
 
-    migratory_status = request.GET.get(
-        'migratory_status'
-    )
+    migratory_status = _clean_param(request, 'migratory_status')
 
-    category = request.GET.get(
-        'category'
-    )
+    category = _clean_param(request, 'category')
 
     birds = Bird.objects.all()
 

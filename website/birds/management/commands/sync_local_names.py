@@ -1,13 +1,19 @@
 import json
 import os
+from pathlib import Path
 
 from django.core.management.base import BaseCommand
 
 from birds.models import Bird
 
-# Same source as import_birds: bird_database/ sits next to website/
-# in the repo checkout.
-BASE_DIR = "../bird_database"
+# bird_database/ sits next to website/ in the repo checkout.
+# Resolve it from this file's location, not the working
+# directory, so the command works wherever manage.py is run
+# from (Render's build runs it from website/, a local run
+# may differ -- a relative "../bird_database" would break).
+BASE_DIR = str(
+    Path(__file__).resolve().parents[3].parent / "bird_database"
+)
 
 
 class Command(BaseCommand):

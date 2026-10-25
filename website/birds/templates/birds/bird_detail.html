@@ -54,16 +54,13 @@
 
             </h2>
 
-            {% if bird.local_name_kashmiri %}
-            <p class="local-name local-name-detail">
-                <span class="local-name-label">Kashmiri name</span>
-                <span class="local-name-value">{{ bird.local_name_kashmiri }}</span>
-            </p>
-            {% endif %}
+            
 
             <!-- BADGES -->
 
             <div class="detail-badges">
+
+                {% if bird.local_name_kashmiri %}<span class="detail-badge kashmiri-badge">Kashmiri: {{ bird.local_name_kashmiri }}</span>{% endif %}
 
                 <span class="detail-badge">
 
@@ -204,6 +201,23 @@
                     {{ bird.wingspan }}
                 </p>
             </div>
+            {% if bird.local_name_kashmiri %}
+            <div class="metadata-card">
+
+                <h3>
+
+                    Kashmiri Name
+
+                </h3>
+
+                <p>
+
+                    {{ bird.local_name_kashmiri }}
+
+                </p>
+
+            </div>
+            {% endif %}
 
         </div>
 

@@ -185,16 +185,13 @@
 
                     </p>
 
-                    {% if bird.local_name_kashmiri %}
-                        <p class="local-name">
-                            <span class="local-name-label">Kashmiri</span>
-                            <span class="local-name-value">{{ bird.local_name_kashmiri }}</span>
-                        </p>
-                    {% endif %}
+                    
 
                     <!-- BADGES -->
 
                     <div class="badge-container">
+
+                        {% if bird.local_name_kashmiri %}<span class="badge kashmiri-badge">Kashmiri: {{ bird.local_name_kashmiri }}</span>{% endif %}
 
                         <span
                             class="badge category-badge"
