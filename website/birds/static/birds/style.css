@@ -2267,3 +2267,412 @@ a {
     border-radius: 30px;
 
 }
+
+/* =========================
+   RESPONSIVE — PHONES & SMALL TABLETS
+   The viewport meta tag is already in base.html.
+   These rules only adapt the existing dark-green
+   design to narrow screens; nothing is redesigned.
+   Breakpoints: 768px (tablets / large phones)
+   and 480px (small phones).
+========================= */
+
+html,
+body {
+    overflow-x: hidden;
+}
+
+img {
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+
+    /* ---- Navbar ---- */
+    .navbar {
+        padding: 14px 16px;
+        flex-wrap: wrap;
+    }
+
+    .nav-left {
+        gap: 16px;
+        flex-wrap: wrap;
+    }
+
+    .nav-links {
+        gap: 14px;
+        margin-left: 0;
+        flex-wrap: wrap;
+    }
+
+    .nav-links a {
+        font-size: 16px;
+    }
+
+    .logo-img {
+        width: 44px;
+        height: 44px;
+    }
+
+    .logo-title {
+        font-size: 24px;
+    }
+
+    .logo-subtitle {
+        font-size: 12px;
+    }
+
+    /* ---- Hero ---- */
+    .hero {
+        height: auto;
+        min-height: 60vh;
+        padding-bottom: 40px;
+    }
+
+    .hero-overlay {
+        padding: 30px 16px;
+    }
+
+    .hero-overlay h1 {
+        font-size: 40px;
+    }
+
+    .hero-overlay p {
+        font-size: 18px;
+        max-width: 100%;
+    }
+
+    .hero-buttons {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+
+    .hero-buttons button {
+        padding: 12px 20px;
+        font-size: 16px;
+    }
+
+    .hero-stats {
+        gap: 15px;
+    }
+
+    .hero-stats div {
+        min-width: 0;
+        flex: 1 1 40%;
+        padding: 14px;
+    }
+
+    .hero-stats h2 {
+        font-size: 28px;
+    }
+
+    /* ---- Stats ---- */
+    .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 16px;
+        padding: 20px;
+        margin-top: -40px;
+    }
+
+    .stat-card {
+        width: auto;
+        padding: 25px 15px;
+    }
+
+    .stat-card h1 {
+        font-size: 40px;
+    }
+
+    .stat-card p {
+        font-size: 18px;
+    }
+
+    /* ---- Sections ---- */
+    .home-section,
+    .featured-section,
+    .about-section,
+    .features-section,
+    .developer-section,
+    .achievement-section,
+    .collaboration-section {
+        padding: 40px 20px;
+    }
+
+    .section-content h2,
+    .featured-section h2,
+    .about-content h2,
+    .features-section h2,
+    .achievement-section h2,
+    .collaboration-section h2,
+    .developer-content h2 {
+        font-size: 32px;
+    }
+
+    .section-content p,
+    .about-content p,
+    .collaboration-section p,
+    .developer-content p {
+        font-size: 17px;
+    }
+
+    .featured-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .featured-card img {
+        height: 220px;
+    }
+
+    .featured-card h3 {
+        font-size: 24px;
+    }
+
+    .features-grid,
+    .achievement-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .developer-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .developer-content h3 {
+        font-size: 22px;
+    }
+
+    /* ---- Birds / gallery pages ---- */
+    .birds-header,
+    .gallery-hero,
+    .about-hero,
+    .contact-hero {
+        height: 240px;
+    }
+
+    .birds-overlay h1,
+    .gallery-overlay h1,
+    .about-overlay h1,
+    .contact-overlay h1 {
+        font-size: 40px;
+    }
+
+    .birds-overlay p,
+    .gallery-overlay p,
+    .about-overlay p,
+    .contact-overlay p {
+        font-size: 18px;
+    }
+
+    .filter-section {
+        width: 92%;
+        padding: 20px;
+    }
+
+    .modern-filter {
+        grid-template-columns: 1fr;
+    }
+
+    .modern-filter select,
+    .modern-filter input,
+    .modern-filter button {
+        width: 100%;
+    }
+
+    .gallery-intro {
+        padding: 40px 20px;
+    }
+
+    .gallery-intro h2 {
+        font-size: 32px;
+    }
+
+    .gallery-intro p {
+        font-size: 17px;
+    }
+
+    .gallery-grid {
+        grid-template-columns: 1fr;
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .gallery-card img {
+        height: 240px;
+    }
+
+    .gallery-info h3 {
+        font-size: 24px;
+    }
+
+    .grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card img {
+        height: 220px;
+    }
+
+    /* ---- Bird detail page ---- */
+    .bird-detail-container {
+        padding: 20px;
+    }
+
+    .bird-top {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        padding: 20px;
+    }
+
+    .bird-detail-image {
+        height: auto;
+        max-height: 400px;
+    }
+
+    .bird-info-box h1 {
+        font-size: 34px;
+    }
+
+    .bird-info-box h2 {
+        font-size: 20px;
+    }
+
+    .bird-description {
+        font-size: 17px;
+    }
+
+    .metadata-section h2,
+    .bird-gallery-section h2 {
+        font-size: 32px;
+    }
+
+    .metadata-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .bird-gallery-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .gallery-image-card img {
+        height: 220px;
+    }
+
+    .detail-container {
+        width: 92%;
+        padding: 20px;
+    }
+
+    /* ---- Contact / about ---- */
+    .contact-section {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 40px 20px;
+    }
+
+    .contact-form-box {
+        padding: 25px;
+    }
+
+    .contact-info h2 {
+        font-size: 32px;
+    }
+
+    /* ---- Footer ---- */
+    .footer {
+        padding-top: 40px;
+    }
+
+    .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 30px;
+        padding: 0 20px 40px;
+    }
+
+    .footer-column h2 {
+        font-size: 28px;
+    }
+
+    .footer-column h3 {
+        font-size: 22px;
+    }
+
+    /* ---- Pagination / misc ---- */
+    .pagination-container {
+        padding: 30px 0;
+    }
+
+    .pagination {
+        padding: 12px 16px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    .category-bar {
+        padding: 14px;
+    }
+
+    .category-btn {
+        padding: 8px 14px;
+        font-size: 14px;
+    }
+
+    .container {
+        width: 94%;
+    }
+}
+
+@media (max-width: 480px) {
+
+    .hero-overlay h1 {
+        font-size: 32px;
+    }
+
+    .hero-overlay p {
+        font-size: 16px;
+    }
+
+    .hero-stats div {
+        flex: 1 1 100%;
+    }
+
+    .stats-container,
+    .metadata-grid,
+    .bird-gallery-grid,
+    .features-grid,
+    .achievement-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .nav-links a {
+        font-size: 14px;
+    }
+
+    .logo-title {
+        font-size: 20px;
+    }
+
+    .bird-info-box h1 {
+        font-size: 28px;
+    }
+
+    .section-content h2,
+    .featured-section h2,
+    .metadata-section h2,
+    .bird-gallery-section h2 {
+        font-size: 28px;
+    }
+
+    .stat-card h1 {
+        font-size: 32px;
+    }
+
+    .gallery-card img,
+    .card img,
+    .gallery-image-card img {
+        height: 200px;
+    }
+
+    .modern-filter {
+        grid-template-columns: 1fr;
+    }
+}
