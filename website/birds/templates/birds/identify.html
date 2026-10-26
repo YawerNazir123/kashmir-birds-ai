@@ -14,10 +14,11 @@
             689 species of Jammu, Kashmir and Ladakh it is most likely to be.
         </p>
         <p class="identify-note">
-            The model was trained on photos of birds from this region. Its top
-            guess is right about half the time, and the right bird is in its
-            top 5 guesses about three times out of four &mdash; so treat the
-            list as strong suggestions, not a certain answer.
+            The model was trained on photos of birds from this region.
+            If it is more than 50% sure, we show the bird's full
+            field-guide card. If it is less sure than that, we do not
+            guess &mdash; the bird is flagged as a possible new
+            visitor instead.
         </p>
     </div>
 
@@ -136,54 +137,13 @@
 
     {% if results %}
 
-    <h2 class="identify-results-title">Most likely matches</h2>
+    {% comment %}
+    50% threshold rule: the top-5 list and all probabilities are
+    never shown. Above 50% the detail card below is shown;
+    at or below 50% only the New Migratory Bird banner is shown.
+    {% endcomment %}
 
-    <div class="identify-results">
-        {% for result in results %}
-        <article class="result-card{% if forloop.first %} result-top{% endif %}" style="--conf: {{ result.confidence_pct }}%; --delay: {{ forloop.counter0 }}00ms;">
-            <span class="result-rank" aria-label="Rank {{ forloop.counter }}">#{{ forloop.counter }}</span>
-            <div class="result-body">
-                <div class="result-head">
-                    <h3 class="result-name">
-                        {% if result.bird %}
-                        <a href="{% url 'bird_detail' result.bird.id %}">
-                            {{ result.bird.common_name }}
-                        </a>
-                        {% else %}
-                        {{ result.scientific_name }}
-                        {% endif %}
-                    </h3>
-                    {% if forloop.first %}
-                    <span class="result-top-tag">Top match</span>
-                    {% endif %}
-                </div>
-                <p class="result-sci"><em>{{ result.scientific_name }}</em></p>
-                {% if result.bird and result.bird.local_name_kashmiri %}
-                <span class="badge kashmiri-badge">Kashmiri: {{ result.bird.local_name_kashmiri }}</span>
-                {% endif %}
-                {% if not result.bird %}
-                <p class="result-note">(Not in the field guide yet.)</p>
-                {% endif %}
-                <div class="result-confidence">
-                    <div class="conf-bar" role="img" aria-label="{{ result.confidence_pct }}% sure">
-                        <span class="conf-fill"></span>
-                    </div>
-                    <span class="conf-pct">{{ result.confidence_pct }}% sure</span>
-                </div>
-            </div>
-        </article>
-        {% endfor %}
-    </div>
-
-    {% if low_confidence %}
-    <p class="identify-low-confidence">
-        <strong>Low confidence:</strong> the model is not sure about
-        this one — its top guess is under 30%. Please compare the
-        photo with the birds below before deciding.
-    </p>
-    {% endif %}
-
-    {% if top_bird %}
+    {% if top_confident and top_bird %}
     <section class="identify-detail-card">
         <p class="identify-detail-eyebrow">In the field guide</p>
         <div class="identify-detail-top">
@@ -226,16 +186,23 @@
     {% if is_new_bird %}
     <section class="new-bird-banner">
         <p class="new-bird-badge">New Migratory Bird</p>
+        {% if top_confident %}
         <h3>{{ top_result.scientific_name }}</h3>
         <p>
             This species is not in our database yet — it may be a
-            new visitor to Kashmir. The model is
-            {{ top_result.confidence_pct }}% sure of this
-            identification.
+            new visitor to Kashmir.
         </p>
+        {% else %}
+        <p>
+            The model is not sure enough to identify this bird,
+            so we are not guessing. It may be a bird that is new
+            to our database, a rare visitor, or a species the
+            model has not learned well.
+        </p>
+        {% endif %}
         <p>
             No field-guide details are shown for it, because we
-            do not have verified information on this bird yet.
+            do not have a confident identification yet.
             If you photographed it in Jammu, Kashmir or Ladakh,
             please <a href="/contact/">report the sighting</a>
             — it could be a first record for the region.
@@ -244,9 +211,9 @@
     {% endif %}
 
     <p class="identify-footnote">
-        The percentages are the model's confidence. If the top match
-        looks wrong, check the other guesses, and compare with the
-        photos on the bird's page before deciding.
+        The model only names a bird when it is more than 50% sure.
+        Otherwise the bird is flagged as a possible new visitor
+        instead of a guess.
     </p>
 
     {% endif %}
