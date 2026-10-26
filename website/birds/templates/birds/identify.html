@@ -4,70 +4,122 @@
 
 {% block content %}
 
-<div class="detail-container">
+<div class="detail-container identify-page">
 
-    <h1>
-        AI Bird Identification
-    </h1>
-
-    <p>
-        Upload a photo of a bird and the AI will tell you which of the
-        689 species of Jammu, Kashmir and Ladakh it is most likely to be.
-        The model was trained on photos of birds from this region.
-        Its top guess is right about half the time, and the right bird
-        is in its top 5 guesses about three times out of four, so treat
-        the list below as strong suggestions, not a certain answer.
-    </p>
+    <div class="identify-hero">
+        <p class="identify-eyebrow">AI Bird Identification</p>
+        <h1>Which bird is this?</h1>
+        <p class="identify-intro">
+            Upload a photo of a bird and the AI will tell you which of the
+            689 species of Jammu, Kashmir and Ladakh it is most likely to be.
+        </p>
+        <p class="identify-note">
+            The model was trained on photos of birds from this region. Its top
+            guess is right about half the time, and the right bird is in its
+            top 5 guesses about three times out of four &mdash; so treat the
+            list as strong suggestions, not a certain answer.
+        </p>
+    </div>
 
     {% if not model_available %}
 
     {% if download_status.status == 'downloading' %}
 
-    <p>
+    <div class="identify-alert">
         <strong>
             The identification model is downloading to the server for
             the first time (57 MB). Please refresh this page in a
             minute.
         </strong>
-    </p>
-
-    <p>
-        Downloaded {{ download_status.downloaded_mb }} MB
-        {% if download_status.total_mb %}
-        of {{ download_status.total_mb }} MB
-        {% endif %}
-    </p>
+        <span class="identify-progress">
+            Downloaded {{ download_status.downloaded_mb }} MB
+            {% if download_status.total_mb %}
+            of {{ download_status.total_mb }} MB
+            {% endif %}
+        </span>
+    </div>
 
     {% else %}
 
-    <p>
+    <div class="identify-alert">
         <strong>
             The identification model is not available on the server
             right now. Please try again later.
         </strong>
-    </p>
+    </div>
 
     {% endif %}
 
     {% else %}
 
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" class="identify-form">
         {% csrf_token %}
-        <p>
-            <input type="file" name="photo" accept="image/*" required>
-        </p>
-        <p>
-            <button type="submit" class="category-btn">
-                Identify this bird
-            </button>
-        </p>
+        <label for="identify-photo" class="identify-dropzone" id="identify-dropzone">
+            <span class="identify-dropzone-icon">&#128247;</span>
+            <span class="identify-dropzone-title">Choose a bird photo</span>
+            <span class="identify-dropzone-hint">Tap to browse, or drag &amp; drop a photo here &mdash; JPG or PNG, up to 10 MB</span>
+            <span class="identify-file-name" id="identify-file-name">No file chosen yet</span>
+        </label>
+        <input type="file" id="identify-photo" name="photo" accept="image/*" required>
+        <div class="identify-preview" id="identify-preview" hidden>
+            <img id="identify-preview-img" alt="Preview of the photo you chose">
+        </div>
+        <button type="submit" class="identify-submit">
+            Identify this bird
+        </button>
     </form>
+
+    <script>
+    (function () {
+        var input = document.getElementById('identify-photo');
+        var zone = document.getElementById('identify-dropzone');
+        var nameEl = document.getElementById('identify-file-name');
+        var preview = document.getElementById('identify-preview');
+        var previewImg = document.getElementById('identify-preview-img');
+        if (!input) return;
+        function showFile(file) {
+            if (!file) return;
+            nameEl.textContent = file.name;
+            zone.classList.add('has-file');
+            if (file.type && file.type.indexOf('image/') === 0) {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    previewImg.src = e.target.result;
+                    preview.hidden = false;
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+        input.addEventListener('change', function () {
+            showFile(input.files && input.files[0]);
+        });
+        ['dragover', 'dragenter'].forEach(function (ev) {
+            zone.addEventListener(ev, function (e) {
+                e.preventDefault();
+                zone.classList.add('drag-over');
+            });
+        });
+        ['dragleave', 'drop'].forEach(function (ev) {
+            zone.addEventListener(ev, function (e) {
+                e.preventDefault();
+                zone.classList.remove('drag-over');
+            });
+        });
+        zone.addEventListener('drop', function (e) {
+            var files = e.dataTransfer && e.dataTransfer.files;
+            if (files && files[0]) {
+                input.files = files;
+                showFile(files[0]);
+            }
+        });
+    })();
+    </script>
 
     {% endif %}
 
     {% if error %}
 
-    <p>
+    <p class="identify-error">
         <strong>{{ error }}</strong>
     </p>
 
@@ -75,45 +127,55 @@
 
     {% if photo_data_uri %}
 
-    <h2>Your photo</h2>
-
-    <p>
-        <img src="{{ photo_data_uri }}" alt="Uploaded bird photo" style="max-width: 100%; height: auto;">
-    </p>
+    <div class="identify-your-photo">
+        <h2>Your photo</h2>
+        <img src="{{ photo_data_uri }}" alt="Uploaded bird photo">
+    </div>
 
     {% endif %}
 
     {% if results %}
 
-    <h2>Most likely matches</h2>
+    <h2 class="identify-results-title">Most likely matches</h2>
 
-    <ol>
+    <div class="identify-results">
         {% for result in results %}
-        <li>
-            <p>
-                {% if result.bird %}
-                <a href="{% url 'bird_detail' result.bird.id %}">
-                    <strong>{{ result.bird.common_name }}</strong>
-                </a>
-                {% else %}
-                <strong>{{ result.scientific_name }}</strong>
-                {% endif %}
-                &mdash; {{ result.confidence_pct }}% sure
-                <br>
-                <em>{{ result.scientific_name }}</em>
+        <article class="result-card{% if forloop.first %} result-top{% endif %}" style="--conf: {{ result.confidence_pct }}%; --delay: {{ forloop.counter0 }}00ms;">
+            <span class="result-rank" aria-label="Rank {{ forloop.counter }}">#{{ forloop.counter }}</span>
+            <div class="result-body">
+                <div class="result-head">
+                    <h3 class="result-name">
+                        {% if result.bird %}
+                        <a href="{% url 'bird_detail' result.bird.id %}">
+                            {{ result.bird.common_name }}
+                        </a>
+                        {% else %}
+                        {{ result.scientific_name }}
+                        {% endif %}
+                    </h3>
+                    {% if forloop.first %}
+                    <span class="result-top-tag">Top match</span>
+                    {% endif %}
+                </div>
+                <p class="result-sci"><em>{{ result.scientific_name }}</em></p>
                 {% if result.bird and result.bird.local_name_kashmiri %}
                 <span class="badge kashmiri-badge">Kashmiri: {{ result.bird.local_name_kashmiri }}</span>
                 {% endif %}
                 {% if not result.bird %}
-                <br>
-                (Not in the field guide yet.)
+                <p class="result-note">(Not in the field guide yet.)</p>
                 {% endif %}
-            </p>
-        </li>
+                <div class="result-confidence">
+                    <div class="conf-bar" role="img" aria-label="{{ result.confidence_pct }}% sure">
+                        <span class="conf-fill"></span>
+                    </div>
+                    <span class="conf-pct">{{ result.confidence_pct }}% sure</span>
+                </div>
+            </div>
+        </article>
         {% endfor %}
-    </ol>
+    </div>
 
-    <p>
+    <p class="identify-footnote">
         The percentages are the model's confidence. If the top match
         looks wrong, check the other guesses, and compare with the
         photos on the bird's page before deciding.
@@ -121,7 +183,7 @@
 
     {% endif %}
 
-    <p>
+    <p class="identify-browse">
         <a href="/birds/">
             Browse the Bird Database
         </a>
