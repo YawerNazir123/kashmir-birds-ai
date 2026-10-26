@@ -6,13 +6,18 @@ services:
     # The Django project lives in website/ (manage.py, requirements.txt).
     rootDir: website
     buildCommand: "pip install -r requirements.txt && python manage.py collectstatic --noinput && python manage.py migrate --noinput && python manage.py import_birds && python manage.py sync_local_names && python manage.py download_model"
-    startCommand: "gunicorn website.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 120"
+    startCommand: "gunicorn website.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 300"
     # One worker, not two: the free tier has 512 MB RAM, and each
     # worker loads Django plus the 57 MB ONNX model in ONNX Runtime.
     # Two workers risked running out of memory. The model file itself
     # is downloaded by `download_model` in the build above, from the
     # public Kaggle dataset yawarnazir/kashmir-birds-model-onnx -- it
-    # is not committed to the repo (see birds/identifier.py).
+    # is not committed to the repo (see birds/identifier.py). That
+    # build-time download is best-effort and never fails the build:
+    # if it cannot fetch the model, the deploy still goes ahead and
+    # the site downloads it at runtime in a background thread with
+    # resume (identifier.py). Timeout is 300 s so a slow first
+    # inference on a cold worker is not killed mid-request.
     envVars:
       - key: SECRET_KEY
         generateValue: true

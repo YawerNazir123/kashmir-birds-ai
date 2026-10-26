@@ -10,6 +10,16 @@ file is already there.
 The Kaggle single-file download endpoint works without authentication
 for a public dataset (verified 2026-10-26). A zip URL also works: if
 MODEL_DOWNLOAD_URL points at a zip, model.onnx is extracted from it.
+
+Best-effort on purpose: this command NEVER fails the build. The
+first live deploy went out with no model file, and the fix commits
+that followed then never deployed either -- most likely because the
+build itself was failing at this download step (Kaggle's redirect to
+Google Cloud Storage may be slow or blocked from Render's network).
+If the download fails here, the command warns and exits 0, the
+deploy goes ahead, and the site fetches the model at runtime instead
+(see birds/identifier.py -- background download thread with resume).
+A missing model must never block a deploy again.
 """
 
 import os
@@ -36,6 +46,17 @@ class Command(BaseCommand):
     help = "Download model.onnx into website/birds/model/ if missing."
 
     def handle(self, *args, **options):
+        try:
+            self._download()
+        except Exception as exc:  # noqa: BLE001 - never fail the build
+            self.stdout.write(
+                "WARNING: model download failed during build "
+                f"({exc!r}). Deploy continues; the site will download "
+                "the model at runtime on first request "
+                "(see birds/identifier.py)."
+            )
+
+    def _download(self):
         if MODEL_PATH.exists() and MODEL_PATH.stat().st_size > MIN_BYTES:
             self.stdout.write(
                 f"model already present: {MODEL_PATH} "

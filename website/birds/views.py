@@ -396,6 +396,7 @@ def identify_bird(request):
 
     context = {
         'model_available': identifier.model_available(),
+        'download_status': identifier.download_status(),
         'results': None,
         'error': None,
         'photo_data_uri': None,
@@ -436,10 +437,18 @@ def identify_bird(request):
         image.thumbnail((1024, 1024))
 
     if not identifier.model_available():
-        context['error'] = (
-            'The identification model is not available on the server '
-            'right now. Please try again later.'
-        )
+        status = identifier.download_status()
+        if status['status'] == 'downloading':
+            context['error'] = (
+                'The identification model is still downloading to the '
+                'server (first time only, 57 MB). Please try again in '
+                'a minute.'
+            )
+        else:
+            context['error'] = (
+                'The identification model is not available on the server '
+                'right now. Please try again later.'
+            )
         return render(request, 'birds/identify.html', context)
 
     # Small preview of the uploaded photo, embedded in the page

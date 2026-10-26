@@ -21,12 +21,33 @@
 
     {% if not model_available %}
 
+    {% if download_status.status == 'downloading' %}
+
+    <p>
+        <strong>
+            The identification model is downloading to the server for
+            the first time (57 MB). Please refresh this page in a
+            minute.
+        </strong>
+    </p>
+
+    <p>
+        Downloaded {{ download_status.downloaded_mb }} MB
+        {% if download_status.total_mb %}
+        of {{ download_status.total_mb }} MB
+        {% endif %}
+    </p>
+
+    {% else %}
+
     <p>
         <strong>
             The identification model is not available on the server
             right now. Please try again later.
         </strong>
     </p>
+
+    {% endif %}
 
     {% else %}
 
