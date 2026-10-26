@@ -17,4 +17,3 @@ staticfiles/
 
 # Bird ID model: downloaded at build time by download_model;
 # never commit the 57 MB binary (see birds/identifier.py).
-website/birds/model/model.onnx
