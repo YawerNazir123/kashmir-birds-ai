@@ -590,19 +590,14 @@ def identify_bird(request):
         })
     context['results'] = results
 
-    # 50% threshold rule: the results page has two modes, decided
-    # by the top confidence.
-    #   > 50%  -> the bird is probably the one from the database:
-    #             show its full detail card, hide all probabilities.
-    #   <= 50% -> treat it as a new bird: show only the
-    #             "New Migratory Bird" banner, no guesses, no %.
-    # Exactly 50% counts as below, to be safe.
+    # The top prediction drives the detail card / new-bird banner.
     top = results[0]
-    top_confident = top['confidence'] > 0.50
     context['top_result'] = top
     context['top_bird'] = top['bird']
-    context['top_confident'] = top_confident
-    context['is_new_bird'] = (not top_confident) or top['bird'] is None
-    context['low_confidence'] = not top_confident
+    context['is_new_bird'] = top['bird'] is None
+    # A top guess under 30% is not a confident identification;
+    # the template says so plainly instead of presenting it
+    # as certain.
+    context['low_confidence'] = top['confidence'] < 0.30
 
     return render(request, 'birds/identify.html', context)
