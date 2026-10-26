@@ -175,6 +175,74 @@
         {% endfor %}
     </div>
 
+    {% if low_confidence %}
+    <p class="identify-low-confidence">
+        <strong>Low confidence:</strong> the model is not sure about
+        this one — its top guess is under 30%. Please compare the
+        photo with the birds below before deciding.
+    </p>
+    {% endif %}
+
+    {% if top_bird %}
+    <section class="identify-detail-card">
+        <p class="identify-detail-eyebrow">In the field guide</p>
+        <div class="identify-detail-top">
+            {% if top_bird.image %}
+            <img src="{{ top_bird.image.url }}" alt="{{ top_bird.common_name }}" class="identify-detail-photo">
+            {% endif %}
+            <div class="identify-detail-info">
+                <h3>
+                    <a href="{% url 'bird_detail' top_bird.id %}">
+                        {{ top_bird.common_name }}
+                    </a>
+                </h3>
+                <p class="result-sci"><em>{{ top_bird.scientific_name }}</em></p>
+                <div class="detail-badges">
+                    {% if top_bird.local_name_kashmiri %}<span class="detail-badge kashmiri-badge">Kashmiri: {{ top_bird.local_name_kashmiri }}</span>{% endif %}
+                    {% if top_bird.region %}<span class="detail-badge">{{ top_bird.region }}</span>{% endif %}
+                    {% if top_bird.category %}<span class="detail-badge">{{ top_bird.category }}</span>{% endif %}
+                    <span class="detail-badge">{{ top_bird.migratory_status }}</span>
+                </div>
+                {% if top_bird.description %}
+                <p class="bird-description">{{ top_bird.description }}</p>
+                {% endif %}
+            </div>
+        </div>
+        <div class="identify-detail-meta">
+            {% if top_bird.family %}<div><h4>Family</h4><p>{{ top_bird.family }}</p></div>{% endif %}
+            {% if top_bird.length %}<div><h4>Length</h4><p>{{ top_bird.length }}</p></div>{% endif %}
+            {% if top_bird.wingspan %}<div><h4>Wingspan</h4><p>{{ top_bird.wingspan }}</p></div>{% endif %}
+            {% if top_bird.weight %}<div><h4>Weight</h4><p>{{ top_bird.weight }}</p></div>{% endif %}
+            {% if top_bird.habitat %}<div><h4>Habitat</h4><p>{{ top_bird.habitat }}</p></div>{% endif %}
+        </div>
+        <p class="identify-detail-link">
+            <a href="{% url 'bird_detail' top_bird.id %}">
+                View full details &amp; photos &rarr;
+            </a>
+        </p>
+    </section>
+    {% endif %}
+
+    {% if is_new_bird %}
+    <section class="new-bird-banner">
+        <p class="new-bird-badge">New Migratory Bird</p>
+        <h3>{{ top_result.scientific_name }}</h3>
+        <p>
+            This species is not in our database yet — it may be a
+            new visitor to Kashmir. The model is
+            {{ top_result.confidence_pct }}% sure of this
+            identification.
+        </p>
+        <p>
+            No field-guide details are shown for it, because we
+            do not have verified information on this bird yet.
+            If you photographed it in Jammu, Kashmir or Ladakh,
+            please <a href="/contact/">report the sighting</a>
+            — it could be a first record for the region.
+        </p>
+    </section>
+    {% endif %}
+
     <p class="identify-footnote">
         The percentages are the model's confidence. If the top match
         looks wrong, check the other guesses, and compare with the

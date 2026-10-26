@@ -8,12 +8,66 @@ from django.core.paginator import (
 )
 
 import base64
+import csv
 import io
+
+from pathlib import Path
 
 from PIL import Image
 
 from . import identifier
 from .models import Bird
+
+# Model class -> IOC common name, from the cleaned 689-species
+# list (model-data/cleaned-species-list.csv). The model predicts
+# scientific names, but the database stores some species under
+# an older scientific name (e.g. Demoiselle Crane is
+# "Anthropoides virgo" in the DB, "Grus virgo" in the model).
+# Matching by common name as well means those birds are found
+# in the field guide instead of wrongly reported as new.
+_MODEL_COMMON_NAMES = None
+
+
+def _model_common_names():
+    global _MODEL_COMMON_NAMES
+    if _MODEL_COMMON_NAMES is None:
+        _MODEL_COMMON_NAMES = {}
+        csv_path = (
+            Path(__file__).resolve().parents[3]
+            / 'model-data' / 'cleaned-species-list.csv'
+        )
+        try:
+            with open(csv_path, encoding='utf-8') as handle:
+                for row in csv.DictReader(handle):
+                    scientific = (row.get('scientific_name') or '').strip()
+                    common = (row.get('common_name') or '').strip()
+                    if scientific and common:
+                        _MODEL_COMMON_NAMES[scientific] = common
+        except OSError:
+            # No mapping file: fall back to scientific-name
+            # matching only. Never break identification.
+            pass
+    return _MODEL_COMMON_NAMES
+
+
+def _find_bird(scientific_name):
+    """Find the Bird row for a model's scientific name.
+
+    Tries the scientific name as stored, then the common name
+    from the cleaned species list. Returns None when the
+    species is not in the field guide at all.
+    """
+    bird = Bird.objects.filter(
+        scientific_name=scientific_name
+    ).first()
+    if bird is not None:
+        return bird
+    common = _model_common_names().get(scientific_name)
+    if common:
+        bird = Bird.objects.filter(
+            common_name=common
+        ).first()
+    return bird
 
 def _clean_param(request, name):
 
@@ -53,13 +107,17 @@ def landing_page(request):
 
 ).count()
 
-    regions = Bird.objects.values_list(
-
-        'region',
-
-        flat=True
-
-    ).distinct().count()
+    # The region field stores combined values such as
+    # "Jammu, Kashmir Valley", so counting distinct raw values
+    # would give 6. The site covers 3 named regions; count
+    # those.
+    named_regions = set()
+    for value in Bird.objects.values_list('region', flat=True):
+        for part in (value or '').split(','):
+            part = part.strip()
+            if part:
+                named_regions.add(part)
+    regions = len(named_regions)
 
     categories = Bird.objects.values_list(
 
@@ -68,7 +126,47 @@ def landing_page(request):
         flat=True
 
     ).distinct().count()
-    
+
+    # Rare & Iconic Birds: six species whose info.json status is
+    # "Rare Visitor" in J&K, each with a photo in the database.
+    # Verified 2026-10-26 from bird_database/*/info.json.
+    featured_names = [
+        'Black-necked Crane',
+        'Relict Gull',
+        'Amur Falcon',
+        'Saker Falcon',
+        'Greater Spotted Eagle',
+        'Cinereous Vulture',
+    ]
+    featured_blurbs = {
+        'Black-necked Crane':
+            'A rare high-altitude crane — only a handful reach '
+            'the wetlands of Ladakh each year.',
+        'Relict Gull':
+            'A very rare visitor to the wetlands of the Kashmir '
+            'Valley, recorded only a few times.',
+        'Amur Falcon':
+            'A small falcon on a long migration — a rare passage '
+            'visitor through Kashmir.',
+        'Saker Falcon':
+            'A powerful falcon of open country, a rare winter '
+            'visitor to the region.',
+        'Greater Spotted Eagle':
+            'A scarce winter visitor to Kashmir’s wetlands and '
+            'lowlands.',
+        'Cinereous Vulture':
+            'One of the world’s largest vultures, a rare winter '
+            'visitor to the Himalayas.',
+    }
+    featured_birds = []
+    for name in featured_names:
+        bird = Bird.objects.filter(
+            common_name=name
+        ).first()
+        if bird is None or not bird.image:
+            continue
+        bird.featured_blurb = featured_blurbs.get(name, '')
+        featured_birds.append(bird)
 
     return render(
 
@@ -85,7 +183,9 @@ def landing_page(request):
 
             'regions': regions,
 
-            'categories': categories
+            'categories': categories,
+
+            'featured_birds': featured_birds,
         }
     )
 def gallery(request):
@@ -400,6 +500,10 @@ def identify_bird(request):
         'results': None,
         'error': None,
         'photo_data_uri': None,
+        'top_result': None,
+        'top_bird': None,
+        'is_new_bird': False,
+        'low_confidence': False,
     }
 
     if request.method != 'POST':
@@ -477,11 +581,7 @@ def identify_bird(request):
         # Model classes are "Passer_domesticus"; the database stores
         # "Passer domesticus".
         scientific = scientific_underscored.replace('_', ' ')
-        bird = Bird.objects.filter(
-            scientific_name=scientific
-        ).first() or Bird.objects.filter(
-            scientific_name=scientific_underscored
-        ).first()
+        bird = _find_bird(scientific)
         results.append({
             'scientific_name': scientific,
             'confidence': confidence,
@@ -489,5 +589,15 @@ def identify_bird(request):
             'bird': bird,
         })
     context['results'] = results
+
+    # The top prediction drives the detail card / new-bird banner.
+    top = results[0]
+    context['top_result'] = top
+    context['top_bird'] = top['bird']
+    context['is_new_bird'] = top['bird'] is None
+    # A top guess under 30% is not a confident identification;
+    # the template says so plainly instead of presenting it
+    # as certain.
+    context['low_confidence'] = top['confidence'] < 0.30
 
     return render(request, 'birds/identify.html', context)

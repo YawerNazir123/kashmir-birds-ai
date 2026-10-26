@@ -91,7 +91,7 @@
 
         <h1>
 
-            3
+            {{ regions }}
 
         </h1>
 
@@ -153,6 +153,13 @@
             artificial intelligence
             to document and preserve
             Himalayan avian diversity.
+
+        </p>
+
+        <p class="source-credit">
+
+            Kashmiri local names on this site are sourced from
+            “Birds of Jammu and Kashmir” by Parvaiz Yousuf.
 
         </p>
 
@@ -222,71 +229,53 @@
 
     <div class="featured-grid">
 
-        <div class="featured-card">
+        {% for bird in featured_birds %}
 
-            <img
-                src="{% static 'birds/images/monal.jpg' %}"
-            >
+        <a
+            href="{% url 'bird_detail' bird.id %}"
+            class="featured-card-link"
+        >
 
-            <h3>
+            <div class="featured-card">
 
-                Himalayan Monal
+                {% if bird.image %}
 
-            </h3>
+                <img
+                    src="{{ bird.image.url }}"
+                    alt="{{ bird.common_name }}"
+                >
 
-            <p>
+                {% endif %}
 
-                The colorful state bird
-                of Uttarakhand found in
-                Himalayan forests.
+                <span class="featured-badge">
 
-            </p>
+                    Rare Visitor
 
-        </div>
+                </span>
 
-        <div class="featured-card">
+                <h3>
 
-            <img
-                src="{% static 'birds/images/crane.jpg' %}"
-            >
+                    {{ bird.common_name }}
 
-            <h3>
+                </h3>
 
-                Black-necked Crane
+                <p class="featured-sci">
 
-            </h3>
+                    <em>{{ bird.scientific_name }}</em>
 
-            <p>
+                </p>
 
-                A rare high-altitude
-                migratory crane seen
-                in Ladakh wetlands.
+                <p>
 
-            </p>
+                    {{ bird.featured_blurb }}
 
-        </div>
+                </p>
 
-        <div class="featured-card">
+            </div>
 
-            <img
-                src="{% static 'birds/images/goose.jpg' %}"
-            >
+        </a>
 
-            <h3>
-
-                Bar-headed Goose
-
-            </h3>
-
-            <p>
-
-                Famous for flying
-                across the Himalayas
-                during migration.
-
-            </p>
-
-        </div>
+        {% endfor %}
 
     </div>
 

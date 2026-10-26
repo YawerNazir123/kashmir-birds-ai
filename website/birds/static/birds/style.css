@@ -2714,6 +2714,241 @@ a {
     }
 }
 
+/* =========================
+   RARE & ICONIC BIRDS — FEATURED CARDS
+   Six verified rare visitors, linked to their
+   detail pages. Same dark-green theme.
+========================= */
+
+.featured-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+}
+
+.featured-card-link .featured-card {
+    height: 100%;
+}
+
+.featured-badge {
+    display: inline-block;
+    margin: 18px 20px 0;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #d4a017 0%, #b45309 100%);
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.featured-sci {
+    margin: -10px 20px 0;
+    color: #777;
+    font-size: 16px;
+}
+
+/* =========================
+   SOURCE CREDIT — KASHMIRI LOCAL NAMES
+========================= */
+
+.source-credit {
+    font-style: italic;
+    color: #5b6b62;
+    border-left: 4px solid #b45309;
+    padding-left: 14px;
+    margin-top: 24px;
+}
+
+.footer-credit {
+    font-size: 15px;
+    font-style: italic;
+    color: #a8cdbb;
+}
+
+/* =========================
+   IDENTIFY — LOW CONFIDENCE NOTE
+========================= */
+
+.identify-low-confidence {
+    margin: 20px 0 0;
+    padding: 14px 18px;
+    border-radius: 12px;
+    background: #fff8e6;
+    border: 1px solid #f0d9a0;
+    color: #7a5a12;
+    font-size: 15px;
+    line-height: 1.6;
+    animation: identify-fade-in 0.5s ease-out both;
+}
+
+/* =========================
+   IDENTIFY — FIELD GUIDE DETAIL CARD
+   Shown for the top match when it is in the
+   database. Same card language as the result
+   cards: white card, green accents, soft shadow.
+========================= */
+
+.identify-detail-card {
+    margin-top: 22px;
+    padding: 24px;
+    border-radius: 16px;
+    background: white;
+    border: 2px solid #0b3d2e;
+    box-shadow: 0 6px 22px rgba(11, 61, 46, 0.14);
+    animation: identify-slide-in 0.5s ease-out both;
+    animation-delay: 500ms;
+}
+
+.identify-detail-eyebrow {
+    margin: 0 0 14px;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: #1f7a5c;
+}
+
+.identify-detail-top {
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 24px;
+    align-items: start;
+}
+
+.identify-detail-photo {
+    width: 100%;
+    height: 240px;
+    object-fit: cover;
+    border-radius: 12px;
+}
+
+.identify-detail-info h3 {
+    margin: 0 0 4px;
+    font-size: 26px;
+    line-height: 1.3;
+}
+
+.identify-detail-info h3 a {
+    text-decoration: none;
+    color: #0b3d2e;
+    transition: color 0.2s ease;
+}
+
+.identify-detail-info h3 a:hover {
+    color: #1f7a5c;
+    text-decoration: underline;
+}
+
+.identify-detail-info .detail-badges {
+    margin: 10px 0;
+}
+
+.identify-detail-info .bird-description {
+    margin: 10px 0 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #444;
+}
+
+.identify-detail-meta {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.identify-detail-meta div {
+    padding: 12px 14px;
+    border-radius: 10px;
+    background: #eef5f1;
+}
+
+.identify-detail-meta h4 {
+    margin: 0 0 4px;
+    font-size: 13px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: #1f7a5c;
+}
+
+.identify-detail-meta p {
+    margin: 0;
+    font-size: 15px;
+    color: #222;
+}
+
+.identify-detail-link {
+    margin: 20px 0 0;
+    text-align: right;
+}
+
+.identify-detail-link a {
+    display: inline-block;
+    padding: 10px 22px;
+    border-radius: 30px;
+    background: #0b3d2e;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    transition: background 0.25s ease, transform 0.25s ease;
+}
+
+.identify-detail-link a:hover {
+    background: #1f7a5c;
+    transform: translateY(-2px);
+}
+
+/* =========================
+   IDENTIFY — NEW MIGRATORY BIRD BANNER
+   Shown when the top match is not in the field
+   guide. Amber, like the Kashmiri badge — a
+   sighting worth reporting, not an error.
+========================= */
+
+.new-bird-banner {
+    margin-top: 22px;
+    padding: 24px;
+    border-radius: 16px;
+    background: linear-gradient(180deg, #fffdf4 0%, #ffffff 70%);
+    border: 2px solid #d4a017;
+    box-shadow: 0 6px 22px rgba(180, 83, 9, 0.16);
+    animation: identify-slide-in 0.5s ease-out both;
+    animation-delay: 500ms;
+}
+
+.new-bird-badge {
+    display: inline-block;
+    margin: 0 0 12px;
+    padding: 5px 14px;
+    border-radius: 20px;
+    background: linear-gradient(135deg, #d4a017 0%, #b45309 100%);
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.new-bird-banner h3 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    color: #0b3d2e;
+}
+
+.new-bird-banner p {
+    margin: 8px 0;
+    font-size: 16px;
+    line-height: 1.7;
+    color: #444;
+}
+
+.new-bird-banner a {
+    color: #b45309;
+    font-weight: bold;
+}
+
 @media (prefers-reduced-motion: reduce) {
     .identify-hero,
     .identify-form,
@@ -3069,6 +3304,29 @@ img {
         max-width: 100%;
     }
 
+    /* ---- Identify detail card / new-bird banner ---- */
+    .identify-detail-top {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+
+    .identify-detail-photo {
+        height: 220px;
+    }
+
+    .identify-detail-meta {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .identify-detail-link {
+        text-align: center;
+    }
+
+    .identify-detail-card,
+    .new-bird-banner {
+        padding: 18px;
+    }
+
     /* ---- Contact / about ---- */
     .contact-section {
         grid-template-columns: 1fr;
@@ -3228,5 +3486,18 @@ img {
 
     .conf-pct {
         font-size: 13px;
+    }
+
+    /* ---- Identify detail card / new-bird banner ---- */
+    .identify-detail-meta {
+        grid-template-columns: 1fr;
+    }
+
+    .identify-detail-info h3 {
+        font-size: 22px;
+    }
+
+    .new-bird-banner h3 {
+        font-size: 20px;
     }
 }
