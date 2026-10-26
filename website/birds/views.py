@@ -428,6 +428,13 @@ def identify_bird(request):
         context['error'] = 'Could not read that photo. Please try another one.'
         return render(request, 'birds/identify.html', context)
 
+    # Bound memory before anything else: a phone photo can be
+    # 12-48 megapixels (100+ MB decoded), which could exhaust the
+    # 512 MB worker. The model only needs 224 px and the preview
+    # 512 px, so shrink anything larger up front.
+    if max(image.size) > 1024:
+        image.thumbnail((1024, 1024))
+
     if not identifier.model_available():
         context['error'] = (
             'The identification model is not available on the server '
