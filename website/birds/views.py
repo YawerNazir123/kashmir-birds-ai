@@ -7,6 +7,12 @@ from django.core.paginator import (
     Paginator
 )
 
+import base64
+import io
+
+from PIL import Image
+
+from . import identifier
 from .models import Bird
 
 def _clean_param(request, name):
@@ -382,15 +388,90 @@ def bird_detail(request, id):
 # ==========================================
 def identify_bird(request):
 
-    # Photo identification is not built yet. This page is a
-    # "Coming Soon" placeholder -- it must NOT pretend to
-    # identify a bird. The previous version always returned
-    # Bird.objects.first() regardless of the uploaded photo.
+    # Real identification with the trained ConvNeXt-Tiny model
+    # (689 species, test top-1 50.93% / top-5 74.04%). The model runs
+    # locally in ONNX Runtime -- no external service. The model file
+    # is downloaded at build time (see download_model); if it is
+    # missing, the page says so instead of pretending to identify.
 
-    return render(
+    context = {
+        'model_available': identifier.model_available(),
+        'results': None,
+        'error': None,
+        'photo_data_uri': None,
+    }
 
-        request,
+    if request.method != 'POST':
+        return render(request, 'birds/identify.html', context)
 
-        'birds/identify.html'
+    upload = request.FILES.get('photo')
+    if upload is None:
+        context['error'] = 'Please choose a photo of a bird first.'
+        return render(request, 'birds/identify.html', context)
 
+    if upload.size > 10 * 1024 * 1024:
+        context['error'] = 'That photo is over 10 MB. Please use a smaller one.'
+        return render(request, 'birds/identify.html', context)
+
+    try:
+        image = Image.open(upload)
+        image.verify()
+    except Exception:
+        context['error'] = 'That file does not look like a photo. Please upload a JPG or PNG image.'
+        return render(request, 'birds/identify.html', context)
+
+    # verify() closes the file object; reopen for real use.
+    upload.seek(0)
+    try:
+        image = Image.open(upload).convert('RGB')
+    except Exception:
+        context['error'] = 'Could not read that photo. Please try another one.'
+        return render(request, 'birds/identify.html', context)
+
+    if not identifier.model_available():
+        context['error'] = (
+            'The identification model is not available on the server '
+            'right now. Please try again later.'
+        )
+        return render(request, 'birds/identify.html', context)
+
+    # Small preview of the uploaded photo, embedded in the page
+    # (no file is saved on the server).
+    preview = image.copy()
+    preview.thumbnail((512, 512))
+    buf = io.BytesIO()
+    preview.save(buf, format='JPEG', quality=80)
+    context['photo_data_uri'] = (
+        'data:image/jpeg;base64,'
+        + base64.b64encode(buf.getvalue()).decode()
     )
+
+    try:
+        predictions = identifier.predict(image, top_k=5)
+    except Exception as exc:  # noqa: BLE001 - show a friendly error
+        print(f"identify: inference failed: {exc!r}")
+        context['error'] = (
+            'Something went wrong while identifying the photo. '
+            'Please try again with a different photo.'
+        )
+        return render(request, 'birds/identify.html', context)
+
+    results = []
+    for scientific_underscored, confidence in predictions:
+        # Model classes are "Passer_domesticus"; the database stores
+        # "Passer domesticus".
+        scientific = scientific_underscored.replace('_', ' ')
+        bird = Bird.objects.filter(
+            scientific_name=scientific
+        ).first() or Bird.objects.filter(
+            scientific_name=scientific_underscored
+        ).first()
+        results.append({
+            'scientific_name': scientific,
+            'confidence': confidence,
+            'confidence_pct': round(confidence * 100, 1),
+            'bird': bird,
+        })
+    context['results'] = results
+
+    return render(request, 'birds/identify.html', context)

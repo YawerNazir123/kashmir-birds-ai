@@ -1,93 +1,111 @@
+{% extends 'birds/base.html' %}
+
 {% load static %}
 
-<!DOCTYPE html>
-<html>
+{% block content %}
 
-<head>
+<div class="detail-container">
 
-    <meta charset="UTF-8">
+    <h1>
+        AI Bird Identification
+    </h1>
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    <p>
+        Upload a photo of a bird and the AI will tell you which of the
+        689 species of Jammu, Kashmir and Ladakh it is most likely to be.
+        The model was trained on photos of birds from this region.
+        Its top guess is right about half the time, and the right bird
+        is in its top 5 guesses about three times out of four, so treat
+        the list below as strong suggestions, not a certain answer.
+    </p>
 
-    <title>
-        AI Bird Identification - Coming Soon
-    </title>
+    {% if not model_available %}
 
-    <link
-        rel="stylesheet"
-        href="{% static 'birds/style.css' %}"
-    >
+    <p>
+        <strong>
+            The identification model is not available on the server
+            right now. Please try again later.
+        </strong>
+    </p>
 
-</head>
+    {% else %}
 
-<body>
-
-    <!-- NAVBAR -->
-
-    <div class="navbar">
-
-        <div class="nav-left">
-
-            <div class="logo">
-
-                Birds of Paradise
-
-            </div>
-
-            <div class="nav-links">
-
-                <a href="/">
-                    Home
-                </a>
-
-                <a href="/birds/">
-                    Birds
-                </a>
-
-                <a href="/identify/">
-                    AI Identify
-                </a>
-
-            </div>
-
-        </div>
-
-    </div>
-
-    <!-- COMING SOON -->
-
-    <div class="detail-container">
-
-        <h1>
-            AI Bird Identification
-        </h1>
-
-        <p class="coming-soon-badge">
-            Coming Soon
-        </p>
-
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
         <p>
-            Identifying a bird from your photo is coming soon.
-            We are building a real identification model for the
-            birds of Jammu, Kashmir and Ladakh.
+            <input type="file" name="photo" accept="image/*" required>
         </p>
-
         <p>
-            Until then, you can browse the full bird database
-            and search by name, region or Kashmiri local name.
+            <button type="submit" class="category-btn">
+                Identify this bird
+            </button>
         </p>
+    </form>
 
-        <p>
-            <a href="/birds/">
-                Browse the Bird Database
-            </a>
-        </p>
+    {% endif %}
 
-    </div>
+    {% if error %}
 
-</body>
+    <p>
+        <strong>{{ error }}</strong>
+    </p>
 
-</html>
+    {% endif %}
+
+    {% if photo_data_uri %}
+
+    <h2>Your photo</h2>
+
+    <p>
+        <img src="{{ photo_data_uri }}" alt="Uploaded bird photo" style="max-width: 100%; height: auto;">
+    </p>
+
+    {% endif %}
+
+    {% if results %}
+
+    <h2>Most likely matches</h2>
+
+    <ol>
+        {% for result in results %}
+        <li>
+            <p>
+                {% if result.bird %}
+                <a href="{% url 'bird_detail' result.bird.id %}">
+                    <strong>{{ result.bird.common_name }}</strong>
+                </a>
+                {% else %}
+                <strong>{{ result.scientific_name }}</strong>
+                {% endif %}
+                &mdash; {{ result.confidence_pct }}% sure
+                <br>
+                <em>{{ result.scientific_name }}</em>
+                {% if result.bird and result.bird.local_name_kashmiri %}
+                <span class="badge kashmiri-badge">Kashmiri: {{ result.bird.local_name_kashmiri }}</span>
+                {% endif %}
+                {% if not result.bird %}
+                <br>
+                (Not in the field guide yet.)
+                {% endif %}
+            </p>
+        </li>
+        {% endfor %}
+    </ol>
+
+    <p>
+        The percentages are the model's confidence. If the top match
+        looks wrong, check the other guesses, and compare with the
+        photos on the bird's page before deciding.
+    </p>
+
+    {% endif %}
+
+    <p>
+        <a href="/birds/">
+            Browse the Bird Database
+        </a>
+    </p>
+
+</div>
+
+{% endblock %}

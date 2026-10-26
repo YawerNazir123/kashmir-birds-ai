@@ -6,6 +6,10 @@ gunicorn==22.0.0
 whitenoise==6.6.0
 # Bird.image is an ImageField -- Pillow is required.
 Pillow==10.4.0
+# Bird identification runs in ONNX Runtime (no torch needed on the
+# server). numpy comes in as an onnxruntime dependency and is used
+# by birds/identifier.py for image preprocessing.
+onnxruntime==1.22.1
 # Only used if DATABASE_URL is set (Postgres upgrade path, see DEPLOY.md).
 dj-database-url==2.2.0
 psycopg[binary]==3.2.1
