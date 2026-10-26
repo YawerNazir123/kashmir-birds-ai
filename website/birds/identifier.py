@@ -18,6 +18,10 @@ missing model file never breaks the rest of the site.
 """
 
 import json
+import os
+import threading
+import time
+import urllib.request
 from pathlib import Path
 
 import numpy as np
@@ -27,6 +31,14 @@ MODEL_DIR = Path(__file__).resolve().parent / "model"
 MODEL_PATH = MODEL_DIR / "model.onnx"
 CLASSES_PATH = MODEL_DIR / "classes.json"
 
+# Same public model file the build-time download_model command uses.
+MODEL_URL = os.environ.get(
+    "MODEL_DOWNLOAD_URL",
+    "https://www.kaggle.com/api/v1/datasets/download/"
+    "yawarnazir/kashmir-birds-model-onnx/model.onnx",
+)
+_MIN_MODEL_BYTES = 10_000_000
+
 # Must match the eval transform used in training (train_baseline.py).
 IMG_SIZE = 224
 _MEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)
@@ -34,11 +46,71 @@ _STD = np.array([0.229, 0.224, 0.225], dtype=np.float32)
 
 _session = None
 _classes = None
+_ensure_lock = threading.Lock()
+_last_download_attempt = 0.0
+
+
+def _ensure_model():
+    """Download model.onnx if it is missing (self-healing).
+
+    The build is supposed to install the model (see download_model),
+    but the first live deploy showed the page with no model file, so
+    the site no longer depends on the build step alone: the first
+    request that needs the model fetches it (57 MB, once per deploy --
+    the file then stays on the instance). Downloads go to a temp file
+    inside MODEL_DIR, so the final rename stays on one filesystem
+    (a temp file in /tmp broke the build-time download the same way).
+    Retries at most once a minute; concurrent requests wait on the
+    lock instead of downloading twice. Returns True when a usable
+    model file is present.
+    """
+    global _last_download_attempt
+    if MODEL_PATH.exists() and MODEL_PATH.stat().st_size > _MIN_MODEL_BYTES:
+        return True
+    with _ensure_lock:
+        if MODEL_PATH.exists() and MODEL_PATH.stat().st_size > _MIN_MODEL_BYTES:
+            return True
+        now = time.time()
+        if now - _last_download_attempt < 60:
+            return False
+        _last_download_attempt = now
+        try:
+            MODEL_DIR.mkdir(parents=True, exist_ok=True)
+            tmp_path = MODEL_DIR / "model.onnx.download"
+            req = urllib.request.Request(
+                MODEL_URL, headers={"User-Agent": "Mozilla/5.0"}
+            )
+            with urllib.request.urlopen(req, timeout=300) as resp, open(
+                tmp_path, "wb"
+            ) as f:
+                while True:
+                    chunk = resp.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    f.write(chunk)
+            if tmp_path.stat().st_size < _MIN_MODEL_BYTES:
+                tmp_path.unlink(missing_ok=True)
+                print(
+                    "identifier: downloaded model too small, refusing it"
+                )
+                return False
+            tmp_path.replace(MODEL_PATH)
+            print(
+                f"identifier: model downloaded ({MODEL_PATH.stat().st_size / 1e6:.1f} MB)"
+            )
+            return True
+        except Exception as exc:  # noqa: BLE001 - stay available
+            print(f"identifier: model download failed: {exc!r}")
+            return False
 
 
 def model_available():
     """True when the downloaded model file and class list are present."""
-    return MODEL_PATH.exists() and CLASSES_PATH.exists()
+    if MODEL_PATH.exists() and CLASSES_PATH.exists():
+        return True
+    if not CLASSES_PATH.exists():
+        return False
+    return _ensure_model()
 
 
 def _load():

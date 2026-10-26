@@ -45,7 +45,13 @@ class Command(BaseCommand):
         url = os.environ.get("MODEL_DOWNLOAD_URL", DEFAULT_URL)
         self.stdout.write(f"downloading model from {url}")
         MODEL_DIR.mkdir(parents=True, exist_ok=True)
-        with tempfile.TemporaryDirectory() as tmp:
+        with tempfile.TemporaryDirectory(dir=MODEL_DIR) as tmp:
+            # NOTE: the temp dir must live inside MODEL_DIR (same
+            # filesystem as the destination). The first version used
+            # the system /tmp, and os.replace() then failed with
+            # "Invalid cross-device link" wherever /tmp is a separate
+            # filesystem (seen in this sandbox; Render may differ,
+            # but this is correct everywhere).
             tmp_path = Path(tmp) / "model-download"
             req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0"})
             with urllib.request.urlopen(req, timeout=600) as resp, open(
