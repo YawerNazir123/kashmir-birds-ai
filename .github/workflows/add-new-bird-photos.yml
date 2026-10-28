@@ -5,6 +5,10 @@
 # this workflow only adds the 1.jpg-5.jpg photos.
 # NOTE: no `| head` and no pipefail anywhere — a previous workflow died
 # on SIGPIPE (exit 141) from `git status | head -20` under pipefail.
+# FIX v2: the first run hung for 25+ min on one stalled download (curl had
+# no timeout) and printed nothing while running. This version adds
+# --max-time 60 --connect-timeout 15 to every curl, downloads 8 at a time,
+# and prints unbuffered progress every 50 photos.
 name: Add photos for new book-only bird species
 
 on:
@@ -25,37 +29,59 @@ jobs:
       - name: Download photos from manifest, verify, commit, self-remove
         run: |
           set -eu
-          python3 - <<'PYEOF'
+          python3 -u - <<'PYEOF'
           import hashlib
           import json
           import os
           import subprocess
           import sys
+          import threading
+          from concurrent.futures import ThreadPoolExecutor
 
           manifest = json.load(open('photo-manifest.json'))
-          print('manifest entries:', len(manifest))
+          print('manifest entries:', len(manifest), flush=True)
           by_folder = {}
           for e in manifest:
               by_folder.setdefault(e['folder'], []).append(e)
 
           failed = []
-          for folder, entries in sorted(by_folder.items()):
-              for e in sorted(entries, key=lambda x: x['file']):
-                  dest = os.path.join('bird_database', folder, e['file'])
-                  os.makedirs(os.path.dirname(dest), exist_ok=True)
-                  r = subprocess.run(
-                      ['curl', '-fL', '--retry', '2', '--retry-delay', '5',
-                       '-A', 'KashmirBirdsAI/1.0',
-                       '-o', dest, e['url']],
-                      capture_output=True, text=True)
-                  if r.returncode != 0:
-                      failed.append((folder, e['file'], e['url'], r.stderr.strip()[-200:]))
-                      continue
-                  with open(dest, 'rb') as fh:
-                      head = fh.read(3)
-                  if head != b'\xff\xd8\xff':
-                      failed.append((folder, e['file'], e['url'], 'not a JPEG'))
-                      os.remove(dest)
+          failed_lock = threading.Lock()
+          done = 0
+          done_lock = threading.Lock()
+
+          def fetch(entry):
+              nonlocal done
+              folder = entry['folder']
+              dest = os.path.join('bird_database', folder, entry['file'])
+              os.makedirs(os.path.dirname(dest), exist_ok=True)
+              r = subprocess.run(
+                  ['curl', '-fL', '--retry', '2', '--retry-delay', '5',
+                   '--max-time', '60', '--connect-timeout', '15',
+                   '-A', 'KashmirBirdsAI/1.0',
+                   '-o', dest, entry['url']],
+                  capture_output=True, text=True)
+              if r.returncode != 0:
+                  with failed_lock:
+                      failed.append((folder, entry['file'], entry['url'],
+                                     r.stderr.strip()[-200:]))
+                  return
+              with open(dest, 'rb') as fh:
+                  head = fh.read(3)
+              if head != b'\xff\xd8\xff':
+                  with failed_lock:
+                      failed.append((folder, entry['file'], entry['url'],
+                                     'not a JPEG'))
+                  os.remove(dest)
+                  return
+              with done_lock:
+                  done += 1
+                  if done % 50 == 0:
+                      print('downloaded', done, 'of', len(manifest), flush=True)
+
+          jobs = [e for folder, entries in sorted(by_folder.items())
+                  for e in sorted(entries, key=lambda x: x['file'])]
+          with ThreadPoolExecutor(max_workers=8) as pool:
+              list(pool.map(fetch, jobs))
 
           # distinct hashes per folder
           for folder, entries in sorted(by_folder.items()):
@@ -73,11 +99,11 @@ jobs:
           downloaded = sum(
               1 for folder, entries in by_folder.items() for e in entries
               if os.path.exists(os.path.join('bird_database', folder, e['file'])))
-          print('downloaded OK:', downloaded, 'of', len(manifest))
+          print('downloaded OK:', downloaded, 'of', len(manifest), flush=True)
           if failed:
-              print('FAILURES:', len(failed))
+              print('FAILURES:', len(failed), flush=True)
               for f in failed:
-                  print(' ', f)
+                  print(' ', f, flush=True)
               sys.exit(1)
           PYEOF
           rm -f photo-manifest.json .github/workflows/add-new-bird-photos.yml
