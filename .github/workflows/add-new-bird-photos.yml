@@ -1,4 +1,4 @@
-# Temporary workflow v5: download the photos for the 168 new book-only
+# Temporary workflow v6: download the photos for the 168 new book-only
 # bird species from photo-manifest.json (public CC-licensed URLs),
 # ONE chunk at a time, pushing after EACH chunk.
 # The info.json files for these species are already on main (snapshot push);
@@ -6,23 +6,30 @@
 # NOTE: no `| head` and no pipefail anywhere — a previous workflow died
 # on SIGPIPE (exit 141) from `git status | head -20` under pipefail.
 #
-# WHY v5 — what happened with v4 (run #5, 2026-10-28):
-# - v4 split the 840 photos into 8 parallel chunks on 8 runners.
-#   2 chunks (6, 7) finished fine; the other 6 reached 50/105 and then
-#   crawled: their Wikimedia lanes stalled. Wikimedia throttles parallel
-#   connections from one IP, and GitHub runner IPs are heavily shared, so
-#   a runner's wiki downloads can stall even with only 2 workers. The
-#   probe (3 sequential downloads) was fast, so the host is reachable —
-#   the problem is sustained parallel load from a shared runner IP.
-# - v5 therefore does 20 SMALL chunks (8-9 species, 40-45 photos each),
-#   SEQUENTIALLY, on one runner, and pushes after every chunk. Each push
-#   saves progress on main, so a failure stops the run with everything
-#   so far already committed — nothing is lost and a re-run skips chunks
-#   whose photos are already on main (idempotent).
-# - Per chunk: iNaturalist fast lane (8 workers), Wikimedia polite lane
-#   (2 workers, staggered starts), one retry pass, JPEG + distinct-hash
-#   verification, then commit + push. A chunk that still fails stops the
-#   run cleanly (exit 1) after printing its failures.
+# WHY v6 — the ROOT CAUSE, proven by probe run 40682566077 (2026-10-28):
+# - Wikimedia returns HTTP 429 (Too Many Requests) when a runner's IP
+#   requests too fast. curl's built-in --retry HONOURS the Retry-After
+#   header, which can be 600 SECONDS (10 minutes) for one file: the probe
+#   saw one Azure Tit file take 600.5s total although the transfer itself
+#   took 0.38s, and two Naturalis files take 10.2s each on a 429 retry.
+#   37 of 40 probe downloads finished in 0.1-1.3s with HTTP 200 — the
+#   host is fine; the stall is a single 429 + a 600s forced wait.
+# - v4/v5 therefore looked "stuck" at 50/105 or 30/45: a wiki file had hit
+#   a 429 and curl was silently waiting out its Retry-After (up to 10 min
+#   per file), with no log line while waiting.
+# - v6 fixes this two ways:
+#   (a) the Wikimedia lane is SEQUENTIAL (1 worker) with a 1.0s delay
+#       between requests, so the rate limit is rarely hit at all;
+#   (b) curl runs with --retry 0 — NO curl-level retry, so no Retry-After
+#       wait can ever happen. Retries are done in Python with short fixed
+#       delays (10s, then 30s, max 3 attempts), so the worst case for one
+#       file is bounded (~220s) and visible in the log.
+# - Chunking is IDENTICAL to v5 (20 chunks, 8-9 species each), so a re-run
+#   skips chunks already pushed by v5/v6 (idempotent resume).
+# - Per chunk: iNaturalist fast lane (8 workers, S3 never 429s), Wikimedia
+#   polite sequential lane, JPEG + distinct-hash verification, then commit
+#   + push. A chunk that still fails stops the run cleanly (exit 1) after
+#   printing its failures; everything pushed so far stays on main.
 name: Add photos for new book-only bird species
 
 on:
@@ -68,6 +75,7 @@ jobs:
           manifest = json.load(open('photo-manifest.json'))
           folders = sorted(set(e['folder'] for e in manifest))
           # 20 chunks: first 8 get 9 folders, remaining 12 get 8 folders.
+          # (Identical to v5, so re-runs resume where v5/v6 left off.)
           sizes = [9] * 8 + [8] * 12
           chunks = []
           off = 0
@@ -78,6 +86,27 @@ jobs:
 
           def is_wiki(url):
               return 'wikimedia.org' in urlparse(url).netloc
+
+          def curl_fetch(entry, timeout):
+              """One attempt, no curl-level retry (so no Retry-After wait).
+              Returns (ok, error_text)."""
+              dest = os.path.join('bird_database', entry['folder'],
+                                  entry['file'])
+              os.makedirs(os.path.dirname(dest), exist_ok=True)
+              r = subprocess.run(
+                  ['curl', '-fL', '--retry', '0',
+                   '--max-time', str(timeout), '--connect-timeout', '15',
+                   '-A', 'KashmirBirdsAI/1.0',
+                   '-o', dest, entry['url']],
+                  capture_output=True, text=True)
+              if r.returncode != 0:
+                  return False, r.stderr.strip()[-200:]
+              with open(dest, 'rb') as fh:
+                  head = fh.read(3)
+              if head != b'\xff\xd8\xff':
+                  os.remove(dest)
+                  return False, 'not a JPEG'
+              return True, ''
 
           for ci, my_folders in enumerate(chunks):
               folder_set = set(my_folders)
@@ -99,32 +128,13 @@ jobs:
               done = 0
               done_lock = threading.Lock()
 
-              def fetch(entry, timeout, stagger=0.0):
+              def fetch_inat(entry):
                   global done
-                  if stagger:
-                      time.sleep(stagger)
-                  dest = os.path.join('bird_database', entry['folder'],
-                                      entry['file'])
-                  os.makedirs(os.path.dirname(dest), exist_ok=True)
-                  r = subprocess.run(
-                      ['curl', '-fL', '--retry', '1', '--retry-delay', '5',
-                       '--max-time', str(timeout), '--connect-timeout', '15',
-                       '-A', 'KashmirBirdsAI/1.0',
-                       '-o', dest, entry['url']],
-                      capture_output=True, text=True)
-                  if r.returncode != 0:
+                  ok, err = curl_fetch(entry, 30)
+                  if not ok:
                       with failed_lock:
                           failed.append((entry['folder'], entry['file'],
-                                         entry['url'],
-                                         r.stderr.strip()[-200:]))
-                      return
-                  with open(dest, 'rb') as fh:
-                      head = fh.read(3)
-                  if head != b'\xff\xd8\xff':
-                      with failed_lock:
-                          failed.append((entry['folder'], entry['file'],
-                                         entry['url'], 'not a JPEG'))
-                      os.remove(dest)
+                                         entry['url'], err))
                       return
                   with done_lock:
                       done += 1
@@ -134,29 +144,44 @@ jobs:
 
               # Fast lane: iNaturalist S3 tolerates parallelism.
               with ThreadPoolExecutor(max_workers=8) as pool:
-                  list(pool.map(lambda e: fetch(e, 30), inat))
+                  list(pool.map(fetch_inat, inat))
 
-              # Polite lane: Wikimedia throttles parallel connections from
-              # one IP, so only 2 workers and staggered starts (0 / 0.5s).
-              def fetch_wiki(args):
-                  i, e = args
-                  fetch(e, 60, stagger=(i % 2) * 0.5)
-              with ThreadPoolExecutor(max_workers=2) as pool:
-                  list(pool.map(fetch_wiki, list(enumerate(wiki))))
-
-              # One retry pass for anything that failed.
-              if failed:
-                  retry = [dict(folder=f, file=fn, url=u)
-                           for (f, fn, u, _err) in failed]
-                  print('chunk', ci, 'retrying', len(retry),
-                        'failed downloads', flush=True)
-                  failed.clear()
-                  retry_wiki = [e for e in retry if is_wiki(e['url'])]
-                  retry_inat = [e for e in retry if not is_wiki(e['url'])]
-                  with ThreadPoolExecutor(max_workers=8) as pool:
-                      list(pool.map(lambda e: fetch(e, 30), retry_inat))
-                  with ThreadPoolExecutor(max_workers=2) as pool:
-                      list(pool.map(fetch_wiki, list(enumerate(retry_wiki))))
+              # Polite lane: Wikimedia 429s on parallel load, and curl's
+              # built-in retry waits out Retry-After (up to 600s). So:
+              # ONE worker, 1.0s between requests, retries handled here
+              # with short fixed delays (10s, 30s) — never a 600s wait.
+              for e in wiki:
+                  ok, err = curl_fetch(e, 60)
+                  if ok:
+                      with done_lock:
+                          done += 1
+                          if done % 10 == 0:
+                              print('chunk', ci, 'downloaded', done, 'of',
+                                    len(missing), flush=True)
+                      time.sleep(1.0)
+                      continue
+                  print('chunk', ci, 'wiki 429/timeout, retrying:',
+                        e['folder'], e['file'], err[:80], flush=True)
+                  retried = False
+                  for delay in (10, 30):
+                      time.sleep(delay)
+                      ok, err = curl_fetch(e, 60)
+                      if ok:
+                          retried = True
+                          break
+                      print('chunk', ci, 'retry failed:',
+                            e['folder'], e['file'], err[:80], flush=True)
+                  if retried:
+                      with done_lock:
+                          done += 1
+                          if done % 10 == 0:
+                              print('chunk', ci, 'downloaded', done, 'of',
+                                    len(missing), flush=True)
+                      time.sleep(1.0)
+                  else:
+                      with failed_lock:
+                          failed.append((e['folder'], e['file'], e['url'],
+                                         err))
 
               # distinct hashes per folder
               for folder in my_folders:
@@ -211,6 +236,8 @@ jobs:
           os.remove('.github/workflows/add-new-bird-photos.yml')
           if os.path.exists('.github/workflows/probe-wikimedia.yml'):
               os.remove('.github/workflows/probe-wikimedia.yml')
+          if os.path.exists('.github/workflows/probe-wikimedia-v2.yml'):
+              os.remove('.github/workflows/probe-wikimedia-v2.yml')
           run(['git', 'add', '-A'])
           run(['git', 'commit', '-m',
                'Remove photo manifest and workflow (all 840 photos added)'])
