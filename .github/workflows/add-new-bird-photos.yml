@@ -50,7 +50,7 @@ jobs:
           done_lock = threading.Lock()
 
           def fetch(entry):
-              nonlocal done
+              global done
               folder = entry['folder']
               dest = os.path.join('bird_database', folder, entry['file'])
               os.makedirs(os.path.dirname(dest), exist_ok=True)
