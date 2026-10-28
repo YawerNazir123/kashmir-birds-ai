@@ -1,26 +1,28 @@
-# Temporary workflow v4: download the photos for the 168 new book-only
+# Temporary workflow v5: download the photos for the 168 new book-only
 # bird species from photo-manifest.json (public CC-licensed URLs),
-# commit them, and remove itself.
+# ONE chunk at a time, pushing after EACH chunk.
 # The info.json files for these species are already on main (snapshot push);
 # this workflow only adds the 1.jpg-5.jpg photos.
 # NOTE: no `| head` and no pipefail anywhere — a previous workflow died
 # on SIGPIPE (exit 141) from `git status | head -20` under pipefail.
 #
-# WHY v4 — what stopped run #4 (v3) at 375/840, measured 2026-10-28:
-# - v3's iNaturalist lane finished (~375 files, 16 workers, ~4 min).
-# - Its Wikimedia lane (3 workers, polite) then made ZERO progress in 4+
-#   minutes: not slow, stuck. Wikimedia throttles parallel connections
-#   from one IP; from this VM 32 workers at once failed 360/840, while
-#   the same URLs one-by-one download fine in 0.6-4.7s. A single GitHub
-#   runner IP gets throttled even harder, so one runner downloading all
-#   462 Wikimedia files can stall completely.
-# - v4 therefore splits the work: 8 parallel matrix jobs (8 DIFFERENT
-#   runners, different egress IPs), each downloading ONE chunk of 21
-#   species (105 photos). Each job uploads its chunk as an artifact;
-#   a final job merges all 8 artifacts and makes ONE commit + push.
-#   If one chunk fails, only that chunk is re-run, not all 840.
+# WHY v5 — what happened with v4 (run #5, 2026-10-28):
+# - v4 split the 840 photos into 8 parallel chunks on 8 runners.
+#   2 chunks (6, 7) finished fine; the other 6 reached 50/105 and then
+#   crawled: their Wikimedia lanes stalled. Wikimedia throttles parallel
+#   connections from one IP, and GitHub runner IPs are heavily shared, so
+#   a runner's wiki downloads can stall even with only 2 workers. The
+#   probe (3 sequential downloads) was fast, so the host is reachable —
+#   the problem is sustained parallel load from a shared runner IP.
+# - v5 therefore does 20 SMALL chunks (8-9 species, 40-45 photos each),
+#   SEQUENTIALLY, on one runner, and pushes after every chunk. Each push
+#   saves progress on main, so a failure stops the run with everything
+#   so far already committed — nothing is lost and a re-run skips chunks
+#   whose photos are already on main (idempotent).
 # - Per chunk: iNaturalist fast lane (8 workers), Wikimedia polite lane
-#   (2 workers, staggered starts), one retry pass, progress every 25.
+#   (2 workers, staggered starts), one retry pass, JPEG + distinct-hash
+#   verification, then commit + push. A chunk that still fails stops the
+#   run cleanly (exit 1) after printing its failures.
 name: Add photos for new book-only bird species
 
 on:
@@ -32,21 +34,17 @@ permissions:
   contents: write
 
 jobs:
-  download-chunk:
+  upload-photos:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        chunk: [0, 1, 2, 3, 4, 5, 6, 7]
-    env:
-      CHUNK: ${{ matrix.chunk }}
     steps:
       - name: Check out main
         uses: actions/checkout@v4
 
-      - name: Download chunk photos
+      - name: Download and push photos, one chunk at a time
         run: |
           set -eu
+          git config user.name "YawerNazir123"
+          git config user.email "YawerNazir123@users.noreply.github.com"
           python3 -u - <<'PYEOF'
           import hashlib
           import json
@@ -58,164 +56,165 @@ jobs:
           from concurrent.futures import ThreadPoolExecutor
           from urllib.parse import urlparse
 
+          def run(cmd, **kw):
+              r = subprocess.run(cmd, capture_output=True, text=True, **kw)
+              if r.returncode != 0:
+                  print('COMMAND FAILED:', ' '.join(cmd), flush=True)
+                  print(r.stdout[-2000:], flush=True)
+                  print(r.stderr[-2000:], flush=True)
+                  sys.exit(1)
+              return r
+
           manifest = json.load(open('photo-manifest.json'))
-          chunk = int(os.environ['CHUNK'])
           folders = sorted(set(e['folder'] for e in manifest))
-          my_folders = folders[chunk * 21:(chunk + 1) * 21]
-          entries = [e for e in manifest if e['folder'] in set(my_folders)]
-          print('chunk', chunk, 'folders:', len(my_folders),
-                'files:', len(entries), flush=True)
+          # 20 chunks: first 8 get 9 folders, remaining 12 get 8 folders.
+          sizes = [9] * 8 + [8] * 12
+          chunks = []
+          off = 0
+          for s in sizes:
+              chunks.append(folders[off:off + s])
+              off += s
+          assert len(chunks) == 20 and sum(len(c) for c in chunks) == 168
 
           def is_wiki(url):
               return 'wikimedia.org' in urlparse(url).netloc
 
-          wiki = [e for e in entries if is_wiki(e['url'])]
-          inat = [e for e in entries if not is_wiki(e['url'])]
-          print('wikimedia:', len(wiki), 'inat/s3:', len(inat), flush=True)
-
-          failed = []
-          failed_lock = threading.Lock()
-          done = 0
-          done_lock = threading.Lock()
-
-          def fetch(entry, timeout, stagger=0.0):
-              global done
-              if stagger:
-                  time.sleep(stagger)
-              dest = os.path.join('chunk-photos', 'bird_database',
-                                  entry['folder'], entry['file'])
-              os.makedirs(os.path.dirname(dest), exist_ok=True)
-              r = subprocess.run(
-                  ['curl', '-fL', '--retry', '1', '--retry-delay', '5',
-                   '--max-time', str(timeout), '--connect-timeout', '15',
-                   '-A', 'KashmirBirdsAI/1.0',
-                   '-o', dest, entry['url']],
-                  capture_output=True, text=True)
-              if r.returncode != 0:
-                  with failed_lock:
-                      failed.append((entry['folder'], entry['file'],
-                                     entry['url'], r.stderr.strip()[-200:]))
-                  return
-              with open(dest, 'rb') as fh:
-                  head = fh.read(3)
-              if head != b'\xff\xd8\xff':
-                  with failed_lock:
-                      failed.append((entry['folder'], entry['file'],
-                                     entry['url'], 'not a JPEG'))
-                  os.remove(dest)
-                  return
-              with done_lock:
-                  done += 1
-                  if done % 25 == 0:
-                      print('chunk', chunk, 'downloaded', done,
-                            'of', len(entries), flush=True)
-
-          # Fast lane: iNaturalist S3 tolerates parallelism.
-          with ThreadPoolExecutor(max_workers=8) as pool:
-              list(pool.map(lambda e: fetch(e, 30), inat))
-
-          # Polite lane: Wikimedia throttles parallel connections from one
-          # IP, so only 2 workers and staggered starts (0 / 0.5s).
-          def fetch_wiki(args):
-              i, e = args
-              fetch(e, 60, stagger=(i % 2) * 0.5)
-          with ThreadPoolExecutor(max_workers=2) as pool:
-              list(pool.map(fetch_wiki, list(enumerate(wiki))))
-
-          # One retry pass for anything that failed (same polite settings).
-          if failed:
-              retry = [dict(folder=f, file=fn, url=u)
-                       for (f, fn, u, _err) in failed]
-              print('chunk', chunk, 'retrying', len(retry),
-                    'failed downloads', flush=True)
-              failed.clear()
-              retry_wiki = [e for e in retry if is_wiki(e['url'])]
-              retry_inat = [e for e in retry if not is_wiki(e['url'])]
-              with ThreadPoolExecutor(max_workers=8) as pool:
-                  list(pool.map(lambda e: fetch(e, 30), retry_inat))
-              with ThreadPoolExecutor(max_workers=2) as pool:
-                  list(pool.map(fetch_wiki, list(enumerate(retry_wiki))))
-
-          # distinct hashes per folder
-          for folder in my_folders:
-              seen = {}
-              for e in sorted([x for x in entries if x['folder'] == folder],
-                              key=lambda x: x['file']):
-                  dest = os.path.join('chunk-photos', 'bird_database',
-                                      folder, e['file'])
-                  if not os.path.exists(dest):
-                      continue
-                  h = hashlib.md5(open(dest, 'rb').read()).hexdigest()
-                  if h in seen:
-                      failed.append((folder, e['file'], e['url'],
-                                     'duplicate of ' + seen[h]))
-                  seen[h] = e['file']
-
-          downloaded = sum(
-              1 for e in entries
-              if os.path.exists(os.path.join(
-                  'chunk-photos', 'bird_database', e['folder'], e['file'])))
-          print('chunk', chunk, 'downloaded OK:', downloaded,
-                'of', len(entries), flush=True)
-          if failed:
-              print('chunk', chunk, 'FAILURES:', len(failed), flush=True)
-              for f in failed:
-                  print(' ', f, flush=True)
-              sys.exit(1)
-          PYEOF
-
-      - name: Upload chunk artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: photos-chunk-${{ matrix.chunk }}
-          path: chunk-photos
-          retention-days: 1
-
-  commit-photos:
-    needs: download-chunk
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check out main
-        uses: actions/checkout@v4
-
-      - name: Download all chunk artifacts
-        uses: actions/download-artifact@v4
-        with:
-          path: .
-          merge-multiple: true
-
-      - name: Verify, commit, self-remove
-        run: |
-          set -eu
-          cp -r chunk-photos/bird_database/. bird_database/
-          rm -rf chunk-photos
-          python3 -u - <<'PYEOF'
-          import hashlib
-          import json
-          import os
-          import sys
-          manifest = json.load(open('photo-manifest.json'))
-          missing = []
-          bad = []
-          for e in manifest:
-              dest = os.path.join('bird_database', e['folder'], e['file'])
-              if not os.path.exists(dest):
-                  missing.append(dest)
+          for ci, my_folders in enumerate(chunks):
+              folder_set = set(my_folders)
+              entries = [e for e in manifest if e['folder'] in folder_set]
+              # Skip chunks already fully on main (re-runs resume here).
+              missing = [e for e in entries if not os.path.exists(
+                  os.path.join('bird_database', e['folder'], e['file']))]
+              if not missing:
+                  print('chunk', ci, 'already on main, skipping',
+                        flush=True)
                   continue
-              with open(dest, 'rb') as fh:
-                  if fh.read(3) != b'\xff\xd8\xff':
-                      bad.append(dest)
-          print('total files:', len(manifest), 'missing:', len(missing),
-                'not-jpeg:', len(bad), flush=True)
-          if missing or bad:
-              for f in (missing + bad)[:20]:
-                  print(' ', f, flush=True)
+              print('chunk', ci, 'folders:', len(my_folders),
+                    'files:', len(entries), 'missing:', len(missing),
+                    flush=True)
+              wiki = [e for e in missing if is_wiki(e['url'])]
+              inat = [e for e in missing if not is_wiki(e['url'])]
+              failed = []
+              failed_lock = threading.Lock()
+              done = 0
+              done_lock = threading.Lock()
+
+              def fetch(entry, timeout, stagger=0.0):
+                  global done
+                  if stagger:
+                      time.sleep(stagger)
+                  dest = os.path.join('bird_database', entry['folder'],
+                                      entry['file'])
+                  os.makedirs(os.path.dirname(dest), exist_ok=True)
+                  r = subprocess.run(
+                      ['curl', '-fL', '--retry', '1', '--retry-delay', '5',
+                       '--max-time', str(timeout), '--connect-timeout', '15',
+                       '-A', 'KashmirBirdsAI/1.0',
+                       '-o', dest, entry['url']],
+                      capture_output=True, text=True)
+                  if r.returncode != 0:
+                      with failed_lock:
+                          failed.append((entry['folder'], entry['file'],
+                                         entry['url'],
+                                         r.stderr.strip()[-200:]))
+                      return
+                  with open(dest, 'rb') as fh:
+                      head = fh.read(3)
+                  if head != b'\xff\xd8\xff':
+                      with failed_lock:
+                          failed.append((entry['folder'], entry['file'],
+                                         entry['url'], 'not a JPEG'))
+                      os.remove(dest)
+                      return
+                  with done_lock:
+                      done += 1
+                      if done % 10 == 0:
+                          print('chunk', ci, 'downloaded', done, 'of',
+                                len(missing), flush=True)
+
+              # Fast lane: iNaturalist S3 tolerates parallelism.
+              with ThreadPoolExecutor(max_workers=8) as pool:
+                  list(pool.map(lambda e: fetch(e, 30), inat))
+
+              # Polite lane: Wikimedia throttles parallel connections from
+              # one IP, so only 2 workers and staggered starts (0 / 0.5s).
+              def fetch_wiki(args):
+                  i, e = args
+                  fetch(e, 60, stagger=(i % 2) * 0.5)
+              with ThreadPoolExecutor(max_workers=2) as pool:
+                  list(pool.map(fetch_wiki, list(enumerate(wiki))))
+
+              # One retry pass for anything that failed.
+              if failed:
+                  retry = [dict(folder=f, file=fn, url=u)
+                           for (f, fn, u, _err) in failed]
+                  print('chunk', ci, 'retrying', len(retry),
+                        'failed downloads', flush=True)
+                  failed.clear()
+                  retry_wiki = [e for e in retry if is_wiki(e['url'])]
+                  retry_inat = [e for e in retry if not is_wiki(e['url'])]
+                  with ThreadPoolExecutor(max_workers=8) as pool:
+                      list(pool.map(lambda e: fetch(e, 30), retry_inat))
+                  with ThreadPoolExecutor(max_workers=2) as pool:
+                      list(pool.map(fetch_wiki, list(enumerate(retry_wiki))))
+
+              # distinct hashes per folder
+              for folder in my_folders:
+                  seen = {}
+                  for e in sorted([x for x in entries
+                                   if x['folder'] == folder],
+                                  key=lambda x: x['file']):
+                      dest = os.path.join('bird_database', folder,
+                                          e['file'])
+                      if not os.path.exists(dest):
+                          continue
+                      h = hashlib.md5(open(dest, 'rb').read()).hexdigest()
+                      if h in seen:
+                          failed.append((folder, e['file'], e['url'],
+                                         'duplicate of ' + seen[h]))
+                      seen[h] = e['file']
+
+              still_missing = [e for e in entries if not os.path.exists(
+                  os.path.join('bird_database', e['folder'], e['file']))]
+              if failed or still_missing:
+                  print('chunk', ci, 'FAILED: failures:', len(failed),
+                        'missing:', len(still_missing), flush=True)
+                  for f in failed:
+                      print(' ', f, flush=True)
+                  for e in still_missing:
+                      print('  missing:', e['folder'], e['file'],
+                            flush=True)
+                  sys.exit(1)
+              print('chunk', ci, 'downloaded OK:', len(entries), 'of',
+                    len(entries), flush=True)
+
+              # Push this chunk now — progress is saved on main.
+              for folder in my_folders:
+                  run(['git', 'add', os.path.join('bird_database', folder)])
+              run(['git', 'commit', '-m',
+                   'Add photos for 168 new book-only bird species '
+                   '(chunk %d/20, %d species)' % (ci + 1, len(my_folders))])
+              run(['git', 'pull', '--rebase', 'origin', 'main'])
+              run(['git', 'push', 'origin', 'main'])
+              print('chunk', ci, 'PUSHED', flush=True)
+
+          # Final check + self-removal.
+          all_missing = [e for e in manifest if not os.path.exists(
+              os.path.join('bird_database', e['folder'], e['file']))]
+          print('total files:', len(manifest),
+                'missing:', len(all_missing), flush=True)
+          if all_missing:
+              print('NOT ALL PHOTOS PRESENT — not removing workflow',
+                    flush=True)
               sys.exit(1)
+          os.remove('photo-manifest.json')
+          os.remove('.github/workflows/add-new-bird-photos.yml')
+          if os.path.exists('.github/workflows/probe-wikimedia.yml'):
+              os.remove('.github/workflows/probe-wikimedia.yml')
+          run(['git', 'add', '-A'])
+          run(['git', 'commit', '-m',
+               'Remove photo manifest and workflow (all 840 photos added)'])
+          run(['git', 'pull', '--rebase', 'origin', 'main'])
+          run(['git', 'push', 'origin', 'main'])
+          print('ALL 840 PHOTOS ADDED AND PUSHED', flush=True)
           PYEOF
-          rm -f photo-manifest.json .github/workflows/add-new-bird-photos.yml .github/workflows/probe-wikimedia.yml
-          git config user.name "YawerNazir123"
-          git config user.email "YawerNazir123@users.noreply.github.com"
-          git add -A
-          git commit -m "Add photos for 168 new book-only bird species" -m "Photos downloaded from photo-manifest.json (Wikimedia Commons / iNaturalist, CC0/CC-BY/CC-BY-NC only); each verified as a JPEG with distinct hashes per folder."
-          git pull --rebase origin main
-          git push origin main
