@@ -201,18 +201,18 @@
                     {{ bird.wingspan }}
                 </p>
             </div>
-            {% if bird.local_name_kashmiri %}
+            {% if bird.local_name_kashmiri or bird.local_name_dogri or bird.local_name_ladakhi %}
             <div class="metadata-card">
 
                 <h3>
 
-                    Kashmiri Name
+                    Local Names
 
                 </h3>
 
                 <p>
 
-                    {{ bird.local_name_kashmiri }}
+                    {% if bird.local_name_kashmiri %}Kashmiri: {{ bird.local_name_kashmiri }}<br>{% endif %}{% if bird.local_name_dogri %}Dogri: {{ bird.local_name_dogri }}<br>{% endif %}{% if bird.local_name_ladakhi %}Ladakhi: {{ bird.local_name_ladakhi }}{% endif %}
 
                 </p>
 
