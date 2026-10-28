@@ -1,0 +1,88 @@
+# Temporary workflow: download the photos for the 168 new book-only
+# bird species from photo-manifest.json (public CC-licensed URLs),
+# commit them, and remove itself.
+# The info.json files for these species are already on main (snapshot push);
+# this workflow only adds the 1.jpg-5.jpg photos.
+# NOTE: no `| head` and no pipefail anywhere — a previous workflow died
+# on SIGPIPE (exit 141) from `git status | head -20` under pipefail.
+name: Add photos for new book-only bird species
+
+on:
+  push:
+    paths:
+      - .github/workflows/add-new-bird-photos.yml
+
+permissions:
+  contents: write
+
+jobs:
+  add-photos:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Download photos from manifest, verify, commit, self-remove
+        run: |
+          set -eu
+          python3 - <<'PYEOF'
+          import hashlib
+          import json
+          import os
+          import subprocess
+          import sys
+
+          manifest = json.load(open('photo-manifest.json'))
+          print('manifest entries:', len(manifest))
+          by_folder = {}
+          for e in manifest:
+              by_folder.setdefault(e['folder'], []).append(e)
+
+          failed = []
+          for folder, entries in sorted(by_folder.items()):
+              for e in sorted(entries, key=lambda x: x['file']):
+                  dest = os.path.join('bird_database', folder, e['file'])
+                  os.makedirs(os.path.dirname(dest), exist_ok=True)
+                  r = subprocess.run(
+                      ['curl', '-fL', '--retry', '2', '--retry-delay', '5',
+                       '-A', 'KashmirBirdsAI/1.0',
+                       '-o', dest, e['url']],
+                      capture_output=True, text=True)
+                  if r.returncode != 0:
+                      failed.append((folder, e['file'], e['url'], r.stderr.strip()[-200:]))
+                      continue
+                  with open(dest, 'rb') as fh:
+                      head = fh.read(3)
+                  if head != b'\xff\xd8\xff':
+                      failed.append((folder, e['file'], e['url'], 'not a JPEG'))
+                      os.remove(dest)
+
+          # distinct hashes per folder
+          for folder, entries in sorted(by_folder.items()):
+              seen = {}
+              for e in sorted(entries, key=lambda x: x['file']):
+                  dest = os.path.join('bird_database', folder, e['file'])
+                  if not os.path.exists(dest):
+                      continue
+                  h = hashlib.md5(open(dest, 'rb').read()).hexdigest()
+                  if h in seen:
+                      failed.append((folder, e['file'], e['url'],
+                                     'duplicate of ' + seen[h]))
+                  seen[h] = e['file']
+
+          downloaded = sum(
+              1 for folder, entries in by_folder.items() for e in entries
+              if os.path.exists(os.path.join('bird_database', folder, e['file'])))
+          print('downloaded OK:', downloaded, 'of', len(manifest))
+          if failed:
+              print('FAILURES:', len(failed))
+              for f in failed:
+                  print(' ', f)
+              sys.exit(1)
+          PYEOF
+          rm -f photo-manifest.json .github/workflows/add-new-bird-photos.yml
+          git config user.name "YawerNazir123"
+          git config user.email "YawerNazir123@users.noreply.github.com"
+          git add -A
+          git commit -m "Add photos for 168 new book-only bird species" -m "Photos downloaded from photo-manifest.json (Wikimedia Commons / iNaturalist, CC0/CC-BY/CC-BY-NC only); each verified as a JPEG with distinct hashes per folder."
+          git push origin main
