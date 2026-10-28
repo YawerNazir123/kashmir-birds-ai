@@ -203,6 +203,16 @@
                     {{ bird.wingspan }}
                 </p>
             </div>
+            {% if bird.conservation_status or bird.iucn_status %}
+            <div class="metadata-card">
+                <h3>
+                    IUCN Status
+                </h3>
+                <p>
+                    {% if bird.conservation_status %}{{ bird.conservation_status }}{% else %}{{ bird.iucn_status }}{% endif %}
+                </p>
+            </div>
+            {% endif %}
             {% if bird.local_name_kashmiri or bird.local_name_dogri or bird.local_name_ladakhi %}
             <div class="metadata-card">
 
