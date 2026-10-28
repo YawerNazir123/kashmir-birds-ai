@@ -1,0 +1,81 @@
+# Diagnostic probe v2: reproduce the v5 wiki-lane failure conditions on a
+# GitHub runner and print the ACTUAL error for every file.
+# The earlier probe only did 3 SEQUENTIAL downloads with curl's default
+# user-agent — all fast. The v4/v5 wiki lane uses 2 parallel workers and a
+# custom user-agent (-A 'KashmirBirdsAI/1.0'), and stalls. This probe tests
+# both, with full per-file output (http code, time, size, curl error), so we
+# see whether the failure is a 429, a timeout, a reset, or something else.
+name: Probe Wikimedia failure mode
+
+on:
+  push:
+    paths:
+      - .github/workflows/probe-wikimedia-v2.yml
+
+permissions:
+  contents: write
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out main
+        uses: actions/checkout@v4
+
+      - name: Probe wiki downloads with full error output
+        run: |
+          set -eu
+          python3 -u - <<'PYEOF'
+          import json
+          import subprocess
+          import threading
+          import time
+          from concurrent.futures import ThreadPoolExecutor
+          from urllib.parse import urlparse
+
+          manifest = json.load(open('photo-manifest.json'))
+          wiki = [e for e in manifest
+                  if 'wikimedia.org' in urlparse(e['url']).netloc]
+          sample = wiki[:20]
+          print('sample: 20 wiki urls, hosts:',
+                sorted(set(urlparse(e['url']).netloc for e in sample)),
+                flush=True)
+
+          def fetch(entry, ua):
+              t0 = time.time()
+              args = ['curl', '-fL', '--retry', '1', '--retry-delay', '5',
+                      '--max-time', '60', '--connect-timeout', '15',
+                      '-w', 'HTTP:%{http_code} TIME:%{time_total} SIZE:%{size_download}',
+                      '-o', '/dev/null', '-s', '-S']
+              if ua:
+                  args += ['-A', ua]
+              args.append(entry['url'])
+              r = subprocess.run(args, capture_output=True, text=True)
+              dt = time.time() - t0
+              out = (r.stdout + ' ' + r.stderr).strip().replace('\n', ' ')
+              print('UA=%s rc=%d %.1fs %s %s' %
+                    ('custom' if ua else 'default', r.returncode, dt,
+                     entry['url'][:100], out[-160:]), flush=True)
+
+          print('--- pass 1: custom UA, 2 workers (same as v5 wiki lane) ---',
+                flush=True)
+          with ThreadPoolExecutor(max_workers=2) as pool:
+              list(pool.map(lambda e: fetch(e, 'KashmirBirdsAI/1.0'), sample))
+          print('--- pass 2: default curl UA, 2 workers (control) ---',
+                flush=True)
+          with ThreadPoolExecutor(max_workers=2) as pool:
+              list(pool.map(lambda e: fetch(e, None), sample))
+          print('--- done ---', flush=True)
+          PYEOF
+
+      - name: Remove probe workflow
+        if: always()
+        run: |
+          set -eu
+          rm -f .github/workflows/probe-wikimedia-v2.yml
+          git config user.name "YawerNazir123"
+          git config user.email "YawerNazir123@users.noreply.github.com"
+          git add -A
+          git commit -m "Remove probe workflow" || true
+          git pull --rebase origin main || true
+          git push origin main || true
