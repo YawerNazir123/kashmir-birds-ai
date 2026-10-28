@@ -6,7 +6,7 @@
     "size": "",
     "wingspan": "50 cm",
     "habitat": "",
-    "iucn_status": "",
+    "iucn_status": "Least Concern",
     "description": "A distinctive pheasant with bare red facial skin, a backward-pointing crest, and a vertically compressed tail.",
     "wikipedia_url": "http://en.wikipedia.org/wiki/Kalij_pheasant",
     "images": [
@@ -19,10 +19,10 @@
     "region": "Jammu, Kashmir Valley",
     "family": "Phasianidae",
     "genus": "Lophura",
-    "conservation_status": "",
+    "conservation_status": "Least Concern",
     "category": "Other",
-    "length": "74 cm",
-    "weight": "500–1,150 g",
+    "length": "50–74 cm",
+    "weight": "564–1,150 g",
     "local_name_kashmiri": "Van kokur",
     "local_name_dogri": "",
     "local_name_ladakhi": ""

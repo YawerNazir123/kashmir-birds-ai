@@ -6,7 +6,7 @@
     "size": "",
     "wingspan": "90–105 cm",
     "habitat": "",
-    "iucn_status": "",
+    "iucn_status": "Least Concern",
     "description": "A dark ducklike waterbird with blue-green eyes, a rounded head, a sloping forehead, and a long and slender bill that is sharply hooked at the tip.",
     "wikipedia_url": "http://en.wikipedia.org/wiki/Indian_cormorant",
     "images": [
@@ -19,10 +19,10 @@
     "region": "Jammu",
     "family": "Phalacrocoracidae",
     "genus": "Phalacrocorax",
-    "conservation_status": "",
+    "conservation_status": "Least Concern",
     "category": "Other",
-    "length": "60–63 cm",
-    "weight": "600–1,200 g",
+    "length": "63 cm",
+    "weight": "600–790 g",
     "local_name_kashmiri": "Mong",
     "local_name_dogri": "",
     "local_name_ladakhi": ""

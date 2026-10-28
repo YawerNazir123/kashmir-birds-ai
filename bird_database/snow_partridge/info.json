@@ -6,7 +6,7 @@
     "size": "",
     "wingspan": "",
     "habitat": "",
-    "iucn_status": "",
+    "iucn_status": "Least Concern",
     "description": "A stone-colored terrestrial bird of stony hillsides, mountain ridges, and meadows above treeline.",
     "wikipedia_url": "http://en.wikipedia.org/wiki/Snow_partridge",
     "images": [
@@ -19,10 +19,10 @@
     "region": "Jammu, Kashmir Valley, Ladakh",
     "family": "Phasianidae",
     "genus": "Lerwa Hodgson, 1837",
-    "conservation_status": "",
+    "conservation_status": "Least Concern",
     "category": "Other",
-    "length": "38–40 cm",
-    "weight": "450–580 g",
+    "length": "30–40 cm",
+    "weight": "454–709 g",
     "local_name_kashmiri": "",
     "local_name_dogri": "",
     "local_name_ladakhi": ""
