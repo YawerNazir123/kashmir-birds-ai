@@ -5,10 +5,20 @@
 # this workflow only adds the 1.jpg-5.jpg photos.
 # NOTE: no `| head` and no pipefail anywhere — a previous workflow died
 # on SIGPIPE (exit 141) from `git status | head -20` under pipefail.
-# FIX v2: the first run hung for 25+ min on one stalled download (curl had
-# no timeout) and printed nothing while running. This version adds
-# --max-time 60 --connect-timeout 15 to every curl, downloads 8 at a time,
-# and prints unbuffered progress every 50 photos.
+#
+# FIX v3 — why v1/v2 were slow (measured 2026-10-28, not guessed):
+# - v1 (sequential, no timeout) hung 25+ min on stalled downloads.
+# - v2 (8 parallel workers, 60s timeout) did <50 of 840 in ~6 min.
+# - Root cause found by testing all 840 URLs: Wikimedia (462 of 840
+#   URLs: upload.wikimedia.org + thumb.wikimedia.org) THROTTLES many
+#   parallel connections from one IP. 32 workers at once -> 360 of 840
+#   failed outright; the same URLs one-by-one download fine in 0.6-4.7s.
+#   iNaturalist S3 (378 URLs) is fast and tolerates parallelism.
+# - Proof: 30 Wikimedia files with 3 workers + staggered starts ->
+#   13.9s, 0 failures. So this version splits by host: iNaturalist fast
+#   lane (16 workers), Wikimedia polite lane (3 workers, staggered
+#   starts, 60s timeout for the few 10-30 MB originals), plus one retry
+#   pass for anything that still fails. Expected total ~10-15 min.
 name: Add photos for new book-only bird species
 
 on:
@@ -36,27 +46,35 @@ jobs:
           import subprocess
           import sys
           import threading
+          import time
           from concurrent.futures import ThreadPoolExecutor
+          from urllib.parse import urlparse
 
           manifest = json.load(open('photo-manifest.json'))
           print('manifest entries:', len(manifest), flush=True)
-          by_folder = {}
-          for e in manifest:
-              by_folder.setdefault(e['folder'], []).append(e)
+
+          def is_wiki(url):
+              return 'wikimedia.org' in urlparse(url).netloc
+
+          wiki = [e for e in manifest if is_wiki(e['url'])]
+          inat = [e for e in manifest if not is_wiki(e['url'])]
+          print('wikimedia:', len(wiki), 'inat/s3:', len(inat), flush=True)
 
           failed = []
           failed_lock = threading.Lock()
           done = 0
           done_lock = threading.Lock()
 
-          def fetch(entry):
+          def fetch(entry, timeout, stagger=0.0):
               global done
+              if stagger:
+                  time.sleep(stagger)
               folder = entry['folder']
               dest = os.path.join('bird_database', folder, entry['file'])
               os.makedirs(os.path.dirname(dest), exist_ok=True)
               r = subprocess.run(
-                  ['curl', '-fL', '--retry', '2', '--retry-delay', '5',
-                   '--max-time', '60', '--connect-timeout', '15',
+                  ['curl', '-fL', '--retry', '1', '--retry-delay', '5',
+                   '--max-time', str(timeout), '--connect-timeout', '15',
                    '-A', 'KashmirBirdsAI/1.0',
                    '-o', dest, entry['url']],
                   capture_output=True, text=True)
@@ -75,15 +93,38 @@ jobs:
                   return
               with done_lock:
                   done += 1
-                  if done % 50 == 0:
+                  if done % 25 == 0:
                       print('downloaded', done, 'of', len(manifest), flush=True)
 
-          jobs = [e for folder, entries in sorted(by_folder.items())
-                  for e in sorted(entries, key=lambda x: x['file'])]
-          with ThreadPoolExecutor(max_workers=8) as pool:
-              list(pool.map(fetch, jobs))
+          # Fast lane: iNaturalist S3 tolerates parallelism.
+          with ThreadPoolExecutor(max_workers=16) as pool:
+              list(pool.map(lambda e: fetch(e, 30), inat))
+
+          # Polite lane: Wikimedia throttles parallel connections from one
+          # IP, so only 3 workers and staggered starts (0 / 0.3 / 0.6s).
+          def fetch_wiki(args):
+              i, e = args
+              fetch(e, 60, stagger=(i % 3) * 0.3)
+          with ThreadPoolExecutor(max_workers=3) as pool:
+              list(pool.map(fetch_wiki, list(enumerate(wiki))))
+
+          # One retry pass for anything that failed (same polite settings).
+          if failed:
+              retry = [dict(folder=f, file=fn, url=u)
+                       for (f, fn, u, _err) in failed]
+              print('retrying', len(retry), 'failed downloads', flush=True)
+              failed.clear()
+              retry_wiki = [e for e in retry if is_wiki(e['url'])]
+              retry_inat = [e for e in retry if not is_wiki(e['url'])]
+              with ThreadPoolExecutor(max_workers=8) as pool:
+                  list(pool.map(lambda e: fetch(e, 30), retry_inat))
+              with ThreadPoolExecutor(max_workers=3) as pool:
+                  list(pool.map(fetch_wiki, list(enumerate(retry_wiki))))
 
           # distinct hashes per folder
+          by_folder = {}
+          for e in manifest:
+              by_folder.setdefault(e['folder'], []).append(e)
           for folder, entries in sorted(by_folder.items()):
               seen = {}
               for e in sorted(entries, key=lambda x: x['file']):
