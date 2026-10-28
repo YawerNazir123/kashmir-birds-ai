@@ -161,6 +161,12 @@
                 {% if result.bird and result.bird.local_name_kashmiri %}
                 <span class="badge kashmiri-badge">Kashmiri: {{ result.bird.local_name_kashmiri }}</span>
                 {% endif %}
+                {% if result.bird and result.bird.local_name_dogri %}
+                <span class="badge dogri-badge">Dogri: {{ result.bird.local_name_dogri }}</span>
+                {% endif %}
+                {% if result.bird and result.bird.local_name_ladakhi %}
+                <span class="badge ladakhi-badge">Ladakhi: {{ result.bird.local_name_ladakhi }}</span>
+                {% endif %}
                 {% if not result.bird %}
                 <p class="result-note">(Not in the field guide yet.)</p>
                 {% endif %}
@@ -199,6 +205,8 @@
                 <p class="result-sci"><em>{{ top_bird.scientific_name }}</em></p>
                 <div class="detail-badges">
                     {% if top_bird.local_name_kashmiri %}<span class="detail-badge kashmiri-badge">Kashmiri: {{ top_bird.local_name_kashmiri }}</span>{% endif %}
+                    {% if top_bird.local_name_dogri %}<span class="detail-badge dogri-badge">Dogri: {{ top_bird.local_name_dogri }}</span>{% endif %}
+                    {% if top_bird.local_name_ladakhi %}<span class="detail-badge ladakhi-badge">Ladakhi: {{ top_bird.local_name_ladakhi }}</span>{% endif %}
                     {% if top_bird.region %}<span class="detail-badge">{{ top_bird.region }}</span>{% endif %}
                     {% if top_bird.category %}<span class="detail-badge">{{ top_bird.category }}</span>{% endif %}
                     <span class="detail-badge">{{ top_bird.migratory_status }}</span>

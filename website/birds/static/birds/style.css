@@ -2224,19 +2224,23 @@ a {
 }
 
 /* =========================
-   KASHMIRI LOCAL NAME BADGE
+   LOCAL NAME BADGES (Kashmiri / Dogri / Ladakhi)
    Same pill-badge style as the category / region /
    migratory badges, in a distinct amber so the
-   Kashmiri name stands out.
+   local names stand out.
 ========================= */
 
-.kashmiri-badge {
+.kashmiri-badge,
+.dogri-badge,
+.ladakhi-badge {
 
     background: #b45309;
 
 }
 
-.detail-badge.kashmiri-badge {
+.detail-badge.kashmiri-badge,
+.detail-badge.dogri-badge,
+.detail-badge.ladakhi-badge {
 
     background: #b45309;
 
