@@ -1,0 +1,29 @@
+{
+    "common_name": "White-Headed Duck",
+    "scientific_name": "Oxyura leucocephala",
+    "local_name": "",
+    "migratory_status": "Winter Migratory",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Endangered",
+    "description": "Remarkable odd-looking diving duck with a long tail, often held cocked.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/White-Headed_Duck",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Anatidae",
+    "genus": "Oxyura",
+    "conservation_status": "Endangered",
+    "region": "Kashmir Valley",
+    "category": "Duck",
+    "length": "47.4 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

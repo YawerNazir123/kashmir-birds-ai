@@ -1,0 +1,29 @@
+{
+    "common_name": "Crimson-Winged Finch",
+    "scientific_name": "Rhodopechys sanguineus",
+    "local_name": "",
+    "migratory_status": "Resident",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "A striking, large finch of high altitude rocky slopes.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Crimson-Winged_Finch",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Fringillidae",
+    "genus": "Rhodopechys",
+    "conservation_status": "Least Concern",
+    "region": "Ladakh",
+    "category": "Songbird",
+    "length": "15–18 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

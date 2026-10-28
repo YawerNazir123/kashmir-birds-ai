@@ -1,0 +1,29 @@
+{
+    "common_name": "Common Shelduck",
+    "scientific_name": "Tadorna tadorna",
+    "local_name": "",
+    "migratory_status": "Passage Migrant",
+    "size": "",
+    "wingspan": "110–133 cm",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Distinctive, large, rather gooselike duck of coastal wetlands, tidal mudflats, and nearby grassy fields.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Common_Shelduck",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Anatidae",
+    "genus": "Tadorna",
+    "conservation_status": "Least Concern",
+    "region": "Jammu, Kashmir Valley, Ladakh",
+    "category": "Duck",
+    "length": "58–67 cm",
+    "weight": "562–1,500 g",
+    "local_name_kashmiri": "Cxaakav",
+    "local_name_dogri": "",
+    "local_name_ladakhi": "Cha Muru, Maroo"
+}

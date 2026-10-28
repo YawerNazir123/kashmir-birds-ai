@@ -1,0 +1,29 @@
+{
+    "common_name": "Bohemian Waxwing",
+    "scientific_name": "Bombycilla garrulus",
+    "local_name": "",
+    "migratory_status": "Summer Migratory",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Plump, smooth-plumaged bird with a sleek crest and white and yellow markings on wings.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Bohemian_Waxwing",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Bombycillidae",
+    "genus": "Bombycilla",
+    "conservation_status": "Least Concern",
+    "region": "Kashmir Valley",
+    "category": "Songbird",
+    "length": "20.5 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

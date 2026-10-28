@@ -1,0 +1,29 @@
+{
+    "common_name": "Red-Breasted Parakeet",
+    "scientific_name": "Psittacula alexandri",
+    "local_name": "",
+    "migratory_status": "Resident",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Near Threatened",
+    "description": "Swarthily mustachioed parakeet of lowland forests and forest edges; found in gardens and parks in its introduced range.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Red-Breasted_Parakeet",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Psittaculidae",
+    "genus": "Psittacula",
+    "conservation_status": "Near Threatened",
+    "region": "Jammu",
+    "category": "Parakeet",
+    "length": "33–38 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

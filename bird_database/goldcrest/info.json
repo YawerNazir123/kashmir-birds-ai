@@ -1,0 +1,29 @@
+{
+    "common_name": "Goldcrest",
+    "scientific_name": "Regulus regulus",
+    "local_name": "",
+    "migratory_status": "Resident",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Tiny bird, smaller than warblers, with a distinctive combination of black-edged golden crown stripe, big dark eye giving impression of \"innocent\" face, ,and white wingbar offset by black wing patch.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Goldcrest",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Regulidae",
+    "genus": "Regulus",
+    "conservation_status": "Least Concern",
+    "region": "Jammu, Kashmir Valley, Ladakh",
+    "category": "Songbird",
+    "length": "8.5–9.5 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

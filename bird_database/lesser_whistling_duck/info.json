@@ -1,0 +1,29 @@
+{
+    "common_name": "Lesser Whistling-Duck",
+    "scientific_name": "Dendrocygna javanica",
+    "local_name": "",
+    "migratory_status": "Summer Migratory",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "A small, well-proportioned, tree-nesting duck.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Lesser_Whistling-Duck",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Anatidae",
+    "genus": "Dendrocygna",
+    "conservation_status": "Least Concern",
+    "region": "Jammu",
+    "category": "Duck",
+    "length": "38–42 cm",
+    "weight": "450–600 g",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

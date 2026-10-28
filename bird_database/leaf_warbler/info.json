@@ -1,0 +1,29 @@
+{
+    "common_name": "Leaf Warbler",
+    "scientific_name": "Phylloscopus tytleri",
+    "local_name": "",
+    "migratory_status": "Passage Migrant",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Slender leaf warbler with no wingbar, greenish wings contrasting with grayish upperparts, a long, contrasting white eyebrow, and a long, pointed, mostly dark bill.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Leaf_Warbler",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Phylloscopidae",
+    "genus": "Phylloscopus",
+    "conservation_status": "Least Concern",
+    "region": "Jammu, Kashmir Valley, Ladakh",
+    "category": "Songbird",
+    "length": "10–12 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

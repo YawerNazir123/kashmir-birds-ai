@@ -1,0 +1,29 @@
+{
+    "common_name": "Scaly-Bellied Woodpecker",
+    "scientific_name": "Picus squamatus",
+    "local_name": "",
+    "migratory_status": "Resident",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "A large green woodpecker with a distinctive black-and-white scaly pattern running from the belly to the tail.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Scaly-Bellied_Woodpecker",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Picidae",
+    "genus": "Picus",
+    "conservation_status": "Least Concern",
+    "region": "Jammu, Kashmir Valley, Ladakh",
+    "category": "Other",
+    "length": "35 cm",
+    "weight": "",
+    "local_name_kashmiri": "Kul makicx",
+    "local_name_dogri": "tirikhaan",
+    "local_name_ladakhi": ""
+}

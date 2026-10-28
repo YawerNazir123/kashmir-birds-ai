@@ -1,0 +1,29 @@
+{
+    "common_name": "Arctic Tern",
+    "scientific_name": "Sterna paradisaea",
+    "local_name": "",
+    "migratory_status": "Winter Migratory",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Adults are pale gray with white cheek, black cap, and red bill and legs.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Arctic_Tern",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Laridae",
+    "genus": "Sterna",
+    "conservation_status": "Least Concern",
+    "region": "Kashmir Valley, Ladakh",
+    "category": "Other",
+    "length": "28–39 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

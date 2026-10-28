@@ -1,0 +1,29 @@
+{
+    "common_name": "White-Tailed Lapwing",
+    "scientific_name": "Vanellus leucurus",
+    "local_name": "",
+    "migratory_status": "Winter Migratory",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "An elegant, rather small lapwing. Pale sandy-brown overall with long, bright yellow legs.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/White-Tailed_Lapwing",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Charadriidae",
+    "genus": "Vanellus",
+    "conservation_status": "Least Concern",
+    "region": "Jammu, Kashmir Valley",
+    "category": "Other",
+    "length": "26–29 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

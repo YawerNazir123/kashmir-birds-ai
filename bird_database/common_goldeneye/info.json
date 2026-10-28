@@ -1,0 +1,29 @@
+{
+    "common_name": "Common Goldeneye",
+    "scientific_name": "Bucephala clangula",
+    "local_name": "",
+    "migratory_status": "Winter Migratory",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Adult males have a black head with circular white patch at the base of the bill and a mostly white body with limited black.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Common_Goldeneye",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Anatidae",
+    "genus": "Bucephala",
+    "conservation_status": "Least Concern",
+    "region": "Kashmir Valley",
+    "category": "Duck",
+    "length": "45–51 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

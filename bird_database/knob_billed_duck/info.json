@@ -1,0 +1,29 @@
+{
+    "common_name": "Knob-Billed Duck",
+    "scientific_name": "Sarkidiornis melanotos",
+    "local_name": "",
+    "migratory_status": "Winter Migratory",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Large bicolored waterbird. Both sexes are iridescent purplish-green above with a white or buffy breast.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Knob-Billed_Duck",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Anatidae",
+    "genus": "Sarkidiornis",
+    "conservation_status": "Least Concern",
+    "region": "Jammu",
+    "category": "Duck",
+    "length": "64–79 cm",
+    "weight": "1,230–2,610 g",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "Nakata",
+    "local_name_ladakhi": ""
+}

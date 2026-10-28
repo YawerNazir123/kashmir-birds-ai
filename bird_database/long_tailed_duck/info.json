@@ -1,0 +1,29 @@
+{
+    "common_name": "Long-Tailed Duck",
+    "scientific_name": "Clangula hyemalis",
+    "local_name": "",
+    "migratory_status": "Winter Migratory",
+    "size": "",
+    "wingspan": "73–79 cm",
+    "habitat": "",
+    "iucn_status": "Vulnerable",
+    "description": "Males are distinctive with black, white, gray, and brown patterns and long pointed tail.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Long-Tailed_Duck",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Anatidae",
+    "genus": "Clangula",
+    "conservation_status": "Vulnerable",
+    "region": "Jammu, Kashmir Valley, Ladakh",
+    "category": "Duck",
+    "length": "38–47 cm",
+    "weight": "700–800 g",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

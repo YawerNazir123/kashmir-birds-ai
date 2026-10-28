@@ -1,0 +1,29 @@
+{
+    "common_name": "Hooded Crow",
+    "scientific_name": "Corvus cornix",
+    "local_name": "",
+    "migratory_status": "Resident",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Distinctive crow with an ashy gray body and contrasting black head, wings, and tail.",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Hooded_Crow",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Corvidae",
+    "genus": "Corvus",
+    "conservation_status": "Least Concern",
+    "region": "Ladakh",
+    "category": "Songbird",
+    "length": "48–54 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

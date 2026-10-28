@@ -1,0 +1,29 @@
+{
+    "common_name": "Red Junglefowl",
+    "scientific_name": "Gallus gallus",
+    "local_name": "",
+    "migratory_status": "Resident",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "This “original chicken” is smaller than its domestic descendants, Both sexes can be distinguished from feral chickens by gray instead of yellow legs",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Red_Junglefowl",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Phasianidae",
+    "genus": "Gallus",
+    "conservation_status": "Least Concern",
+    "region": "Jammu",
+    "category": "Pheasant",
+    "length": "41–78 cm",
+    "weight": "485–1,450 g",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}

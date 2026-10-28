@@ -1,0 +1,29 @@
+{
+    "common_name": "Wood Warbler",
+    "scientific_name": "Phylloscopus sibilatrix",
+    "local_name": "",
+    "migratory_status": "Resident",
+    "size": "",
+    "wingspan": "",
+    "habitat": "",
+    "iucn_status": "Least Concern",
+    "description": "Small warbler with subtly distinctive plumage: muted lime green above, silky white below, with a pale yellow throat and yellow eyebrows",
+    "wikipedia_url": "http://en.wikipedia.org/wiki/Wood_Warbler",
+    "images": [
+        "1.jpg",
+        "2.jpg",
+        "3.jpg",
+        "4.jpg",
+        "5.jpg"
+    ],
+    "family": "Phylloscopidae",
+    "genus": "Phylloscopus",
+    "conservation_status": "Least Concern",
+    "region": "Ladakh",
+    "category": "Songbird",
+    "length": "11–13 cm",
+    "weight": "",
+    "local_name_kashmiri": "",
+    "local_name_dogri": "",
+    "local_name_ladakhi": ""
+}
