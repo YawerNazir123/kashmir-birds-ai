@@ -579,6 +579,8 @@ a {
 
     display: flex;
 
+    flex-wrap: wrap;
+
     justify-content: space-between;
 
     align-items: center;
@@ -596,7 +598,7 @@ a {
 
     align-items: center;
 
-    gap: 55px;
+    gap: 28px;
 
     margin-left: 80px;
 }
@@ -2772,6 +2774,125 @@ a {
 }
 
 /* =========================
+   CONTRIBUTORS PAGE
+   Same card language as the About page:
+   white cards, dark-green headings, amber
+   role badges (like the local-name badges).
+========================= */
+
+.contributor-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    max-width: 1300px;
+    margin: auto;
+}
+
+.contributor-card {
+    background: white;
+    padding: 40px 30px;
+    border-radius: 25px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+    transition: 0.3s;
+}
+
+.contributor-card:hover {
+    transform: translateY(-10px);
+}
+
+.contributor-card h3 {
+    font-size: 30px;
+    color: #033d2f;
+    margin: 0 0 12px;
+}
+
+.contributor-role {
+    display: inline-block;
+    background: #b45309;
+    color: white;
+    padding: 6px 14px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: bold;
+    margin-bottom: 18px;
+}
+
+.contributor-card p {
+    font-size: 18px;
+    line-height: 1.7;
+    color: #555;
+}
+
+.contributor-link {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 10px 22px;
+    border-radius: 30px;
+    background: #0b3d2e;
+    color: white;
+    font-size: 17px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+.contributor-link:hover {
+    background: #1f7a5c;
+    transform: translateY(-2px);
+}
+
+/* ---- "From the book" credits ---- */
+
+.credits-list {
+    list-style: none;
+    padding: 0;
+    max-width: 1100px;
+    margin: 40px auto 0;
+}
+
+.credits-list li {
+    font-size: 20px;
+    line-height: 1.8;
+    color: #444;
+    padding: 12px 0;
+    border-bottom: 1px solid #e6e6e6;
+}
+
+.credits-list li strong {
+    color: #033d2f;
+}
+
+/* ---- Photographers name list ----
+   Plain names only, in a compact scrollable
+   box — no cards or profiles. */
+
+.photographers-box {
+    max-width: 1100px;
+    max-height: 420px;
+    overflow-y: auto;
+    margin: 40px auto 0;
+    padding: 30px 35px;
+    background: white;
+    border: 1px solid #e6e6e6;
+    border-radius: 20px;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.06);
+}
+
+.photographers-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    columns: 3;
+    column-gap: 40px;
+}
+
+.photographers-list li {
+    font-size: 16px;
+    color: #444;
+    padding: 3px 0;
+    break-inside: avoid;
+}
+
+/* =========================
    IDENTIFY — LOW CONFIDENCE NOTE
 ========================= */
 
@@ -3388,6 +3509,23 @@ img {
     .container {
         width: 94%;
     }
+
+    /* ---- Contributors page ---- */
+    .contributor-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .contributor-card h3 {
+        font-size: 26px;
+    }
+
+    .photographers-list {
+        columns: 2;
+    }
+
+    .credits-list li {
+        font-size: 17px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -3503,5 +3641,14 @@ img {
 
     .new-bird-banner h3 {
         font-size: 20px;
+    }
+
+    /* ---- Contributors page ---- */
+    .photographers-list {
+        columns: 1;
+    }
+
+    .photographers-box {
+        padding: 20px;
     }
 }

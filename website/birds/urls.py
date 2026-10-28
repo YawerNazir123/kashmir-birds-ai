@@ -41,6 +41,11 @@ path(
     name='about'
 ),
 path(
+    'contributors/',
+    views.contributors,
+    name='contributors'
+),
+path(
     'contact/',
     views.contact,
     name='contact'
