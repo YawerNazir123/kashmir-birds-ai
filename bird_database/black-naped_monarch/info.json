@@ -2,7 +2,7 @@
     "common_name": "Black-naped Monarch",
     "scientific_name": "Hypothymis azurea",
     "local_name": "",
-    "migratory_status": "Resident",
+    "migratory_status": "Passage Migrant",
     "size": "16 cm",
     "wingspan": "20–24 cm",
     "habitat": "Moist and dry broadleaf forest, forest edge, secondary growth, bamboo, riverine woodland and well-vegetated gardens near forest; lower and mid canopy, shaded perches; 0–1800 m",
@@ -16,7 +16,7 @@
         "4.jpg",
         "5.jpg"
     ],
-    "region": "Jammu, Kashmir Valley",
+    "region": "Jammu",
     "family": "Monarchidae",
     "genus": "Hypothymis",
     "conservation_status": "Least Concern",
