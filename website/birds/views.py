@@ -132,7 +132,7 @@ def landing_page(request):
     # Verified 2026-10-26 from bird_database/*/info.json.
     featured_names = [
         'Black-necked Crane',
-        'Himalayan Monal',
+        'Relict Gull',
         'Amur Falcon',
         'Saker Falcon',
         'Greater Spotted Eagle',
@@ -142,9 +142,9 @@ def landing_page(request):
         'Black-necked Crane':
             'A rare high-altitude crane — only a handful reach '
             'the wetlands of Ladakh each year.',
-        'Himalayan Monal':
-            'Kashmir’s most colourful pheasant — a glittering '
-            'high-altitude bird of the Himalayan forests.',
+        'Relict Gull':
+            'A very rare visitor to the wetlands of the Kashmir '
+            'Valley, recorded only a few times.',
         'Amur Falcon':
             'A small falcon on a long migration — a rare passage '
             'visitor through Kashmir.',
@@ -321,14 +321,6 @@ def about(request):
         request,
 
         'birds/about.html'
-    )
-def contributors(request):
-
-    return render(
-
-        request,
-
-        'birds/contributors.html'
     )
 def contact(request):
 
