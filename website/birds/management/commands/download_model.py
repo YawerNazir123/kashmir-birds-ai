@@ -1,1 +1,88 @@
-IiIiRG93bmxvYWQgdGhlIGJpcmQgSUQgbW9kZWwgZmlsZXMgKE9OTlgpIGZvciB0aGUgUmVuZGVyIGJ1aWxkLgoKVGhlIHYyIG1vZGVsIGlzIHR3byBmaWxlcywgbmVpdGhlciBjb21taXR0ZWQgKEdpdEh1YiBibG9ja3MgZmlsZXMKb3ZlciAxMDAgTUIgYW5kIHRoZSBBUEkgdG9vbGluZyBjYXBzIGFyZyBzaXplKToKLSBtb2RlbC5vbm54ICgxLjIgTUIgZ3JhcGgpCi0gbW9kZWwub25ueC5kYXRhICgyMDAgTUIgd2VpZ2h0cywgZXh0ZXJuYWwtZGF0YSBmb3JtYXQpClRoaXMgY29tbWFuZCBmZXRjaGVzIGJvdGggZnJvbSB0aGUgcHVibGljIEthZ2dsZSBkYXRhc2V0Cnlhd2FybmF6aXIva2FzaG1pci1iaXJkcy1tb2RlbC12Mi1vbm54IGludG8gd2Vic2l0ZS9iaXJkcy9tb2RlbC8uClJ1biBieSByZW5kZXIueWFtbCBvbiBldmVyeSBkZXBsb3ksIHNraXBwZWQgd2hlbiBmaWxlcyBleGlzdC4KClRoZSBLYWdnbGUgc2luZ2xlLWZpbGUgZG93bmxvYWQgZW5kcG9pbnQgd29ya3Mgd2l0aG91dCBhdXRoZW50aWNhdGlvbgpmb3IgYSBwdWJsaWMgZGF0YXNldCAodmVyaWZpZWQgMjAyNi0xMS0wMSkuCgpCZXN0LWVmZm9ydCBvbiBwdXJwb3NlOiB0aGlzIGNvbW1hbmQgTkVWRVIgZmFpbHMgdGhlIGJ1aWxkLiBJZiB0aGUKZG93bmxvYWQgZmFpbHMgaGVyZSwgdGhlIGNvbW1hbmQgd2FybnMgYW5kIGV4aXRzIDAsIHRoZSBkZXBsb3kgZ29lcwphaGVhZCwgYW5kIHRoZSBzaXRlIGZldGNoZXMgdGhlIGZpbGVzIGF0IHJ1bnRpbWUgaW5zdGVhZCAoc2VlCmJpcmRzL2lkZW50aWZpZXIucHkgLS0gYmFja2dyb3VuZCBkb3dubG9hZCB0aHJlYWQgd2l0aCByZXN1bWUpLgpNaXNzaW5nIG1vZGVsIGZpbGVzIG11c3QgbmV2ZXIgYmxvY2sgYSBkZXBsb3kuCiIiIgoKaW1wb3J0IG9zCmltcG9ydCB0ZW1wZmlsZQppbXBvcnQgdXJsbGliLnJlcXVlc3QKZnJvbSBwYXRobGliIGltcG9ydCBQYXRoCgpmcm9tIGRqYW5nby5jb3JlLm1hbmFnZW1lbnQuYmFzZSBpbXBvcnQgQmFzZUNvbW1hbmQKCl9LQUdHTEVfRFMgPSAieWF3YXJuYXppci9rYXNobWlyLWJpcmRzLW1vZGVsLXYyLW9ubngiCkZJTEVTID0gWwogICAgIyAoZmlsZW5hbWUsIG1pbl9ieXRlcywgZW52X3ZhcikKICAgICgibW9kZWwub25ueCIsIDEwMF8wMDAsICJNT0RFTF9ET1dOTE9BRF9VUkwiKSwKICAgICgibW9kZWwub25ueC5kYXRhIiwgMTAwXzAwMF8wMDAsICJNT0RFTF9EQVRBX0RPV05MT0FEX1VSTCIpLApdCk1PREVMX0RJUiA9IFBhdGgoX19maWxlX18pLnJlc29sdmUoKS5wYXJlbnQucGFyZW50LnBhcmVudCAvICJtb2RlbCIKCgpjbGFzcyBDb21tYW5kKEJhc2VDb21tYW5kKToKICAgIGhlbHAgPSAiRG93bmxvYWQgdjIgbW9kZWwgZmlsZXMgaW50byB3ZWJzaXRlL2JpcmRzL21vZGVsLyBpZiBtaXNzaW5nLiIKCiAgICBkZWYgaGFuZGxlKHNlbGYsICphcmdzLCAqKm9wdGlvbnMpOgogICAgICAgIHRyeToKICAgICAgICAgICAgc2VsZi5fZG93bmxvYWQoKQogICAgICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZXhjOiAgIyBub3FhOiBCTEUwMDEgLSBuZXZlciBmYWlsIHRoZSBidWlsZAogICAgICAgICAgICBzZWxmLnN0ZG91dC53cml0ZSgKICAgICAgICAgICAgICAgICJXQVJOSU5HOiBtb2RlbCBkb3dubG9hZCBmYWlsZWQgZHVyaW5nIGJ1aWxkICIKICAgICAgICAgICAgICAgIGYiKHtleGMhcn0pLiBEZXBsb3kgY29udGludWVzOyB0aGUgc2l0ZSB3aWxsIGRvd25sb2FkICIKICAgICAgICAgICAgICAgICJ0aGUgbW9kZWwgYXQgcnVudGltZSBvbiBmaXJzdCByZXF1ZXN0ICIKICAgICAgICAgICAgICAgICIoc2VlIGJpcmRzL2lkZW50aWZpZXIucHkpLiIKICAgICAgICAgICAgKQoKICAgIGRlZiBfZG93bmxvYWQoc2VsZik6CiAgICAgICAgTU9ERUxfRElSLm1rZGlyKHBhcmVudHM9VHJ1ZSwgZXhpc3Rfb2s9VHJ1ZSkKICAgICAgICBmb3IgZmlsZW5hbWUsIG1pbl9ieXRlcywgZW52X3ZhciBpbiBGSUxFUzoKICAgICAgICAgICAgZGVzdCA9IE1PREVMX0RJUiAvIGZpbGVuYW1lCiAgICAgICAgICAgIGlmIGRlc3QuZXhpc3RzKCkgYW5kIGRlc3Quc3RhdCgpLnN0X3NpemUgPiBtaW5fYnl0ZXM6CiAgICAgICAgICAgICAgICBzZWxmLnN0ZG91dC53cml0ZSgKICAgICAgICAgICAgICAgICAgICBmIntmaWxlbmFtZX0gYWxyZWFkeSBwcmVzZW50ICIKICAgICAgICAgICAgICAgICAgICBmIih7ZGVzdC5zdGF0KCkuc3Rfc2l6ZSAvIDFlNjouMWZ9IE1CKSIKICAgICAgICAgICAgICAgICkKICAgICAgICAgICAgICAgIGNvbnRpbnVlCiAgICAgICAgICAgIHVybCA9IG9zLmVudmlyb24uZ2V0KAogICAgICAgICAgICAgICAgZW52X3ZhciwKICAgICAgICAgICAgICAgIGYiaHR0cHM6Ly93d3cua2FnZ2xlLmNvbS9hcGkvdjEvZGF0YXNldHMvZG93bmxvYWQvIgogICAgICAgICAgICAgICAgZiJ7X0tBR0dMRV9EU30ve2ZpbGVuYW1lfSIsCiAgICAgICAgICAgICkKICAgICAgICAgICAgc2VsZi5zdGRvdXQud3JpdGUoZiJkb3dubG9hZGluZyB7ZmlsZW5hbWV9IGZyb20ge3VybH0iKQogICAgICAgICAgICB3aXRoIHRlbXBmaWxlLlRlbXBvcmFyeURpcmVjdG9yeShkaXI9TU9ERUxfRElSKSBhcyB0bXA6CiAgICAgICAgICAgICAgICB0bXBfcGF0aCA9IFBhdGgodG1wKSAvICJkb3dubG9hZCIKICAgICAgICAgICAgICAgIHJlcSA9IHVybGxpYi5yZXF1ZXN0LlJlcXVlc3QoCiAgICAgICAgICAgICAgICAgICAgdXJsLCBoZWFkZXJzPXsiVXNlci1BZ2VudCI6ICJNb3ppbGxhLzUuMCJ9CiAgICAgICAgICAgICAgICApCiAgICAgICAgICAgICAgICB3aXRoIHVybGxpYi5yZXF1ZXN0LnVybG9wZW4ocmVxLCB0aW1lb3V0PTkwMCkgYXMgcmVzcCwgb3BlbigKICAgICAgICAgICAgICAgICAgICB0bXBfcGF0aCwgIndiIgogICAgICAgICAgICAgICAgKSBhcyBmOgogICAgICAgICAgICAgICAgICAgIHdoaWxlIFRydWU6CiAgICAgICAgICAgICAgICAgICAgICAgIGNodW5rID0gcmVzcC5yZWFkKDEwMjQgKiAxMDI0KQogICAgICAgICAgICAgICAgICAgICAgICBpZiBub3QgY2h1bms6CiAgICAgICAgICAgICAgICAgICAgICAgICAgICBicmVhawogICAgICAgICAgICAgICAgICAgICAgICBmLndyaXRlKGNodW5rKQogICAgICAgICAgICAgICAgaWYgdG1wX3BhdGguc3RhdCgpLnN0X3NpemUgPCBtaW5fYnl0ZXM6CiAgICAgICAgICAgICAgICAgICAgcmFpc2UgUnVudGltZUVycm9yKAogICAgICAgICAgICAgICAgICAgICAgICBmIntmaWxlbmFtZX0gZG93bmxvYWQgdG9vIHNtYWxsICIKICAgICAgICAgICAgICAgICAgICAgICAgZiIoe3RtcF9wYXRoLnN0YXQoKS5zdF9zaXplfSBieXRlcykiCiAgICAgICAgICAgICAgICAgICAgKQogICAgICAgICAgICAgICAgdG1wX3BhdGgucmVwbGFjZShkZXN0KQogICAgICAgICAgICBzZWxmLnN0ZG91dC53cml0ZSgKICAgICAgICAgICAgICAgIGYie2ZpbGVuYW1lfSBpbnN0YWxsZWQgKHtkZXN0LnN0YXQoKS5zdF9zaXplIC8gMWU2Oi4xZn0gTUIpIgogICAgICAgICAgICApCg==
+"""Download the bird ID model files (ONNX) for the Render build.
+
+The v2 model is two files, neither committed (GitHub blocks files
+over 100 MB and the API tooling caps arg size):
+- model.onnx (1.2 MB graph)
+- model.onnx.data (200 MB weights, external-data format)
+This command fetches both from the public Kaggle dataset
+yawarnazir/kashmir-birds-model-v2-onnx into website/birds/model/.
+Run by render.yaml on every deploy, skipped when files exist.
+
+The Kaggle single-file download endpoint works without authentication
+for a public dataset (verified 2026-11-01).
+
+Best-effort on purpose: this command NEVER fails the build. If the
+download fails here, the command warns and exits 0, the deploy goes
+ahead, and the site fetches the files at runtime instead (see
+birds/identifier.py -- background download thread with resume).
+Missing model files must never block a deploy.
+"""
+
+import os
+import tempfile
+import urllib.request
+from pathlib import Path
+
+from django.core.management.base import BaseCommand
+
+_KAGGLE_DS = "yawarnazir/kashmir-birds-model-v2-onnx"
+FILES = [
+    # (filename, min_bytes, env_var)
+    ("model.onnx", 100_000, "MODEL_DOWNLOAD_URL"),
+    ("model.onnx.data", 100_000_000, "MODEL_DATA_DOWNLOAD_URL"),
+]
+MODEL_DIR = Path(__file__).resolve().parent.parent.parent / "model"
+
+
+class Command(BaseCommand):
+    help = "Download v2 model files into website/birds/model/ if missing."
+
+    def handle(self, *args, **options):
+        try:
+            self._download()
+        except Exception as exc:  # noqa: BLE001 - never fail the build
+            self.stdout.write(
+                "WARNING: model download failed during build "
+                f"({exc!r}). Deploy continues; the site will download "
+                "the model at runtime on first request "
+                "(see birds/identifier.py)."
+            )
+
+    def _download(self):
+        MODEL_DIR.mkdir(parents=True, exist_ok=True)
+        for filename, min_bytes, env_var in FILES:
+            dest = MODEL_DIR / filename
+            if dest.exists() and dest.stat().st_size > min_bytes:
+                self.stdout.write(
+                    f"{filename} already present "
+                    f"({dest.stat().st_size / 1e6:.1f} MB)"
+                )
+                continue
+            url = os.environ.get(
+                env_var,
+                f"https://www.kaggle.com/api/v1/datasets/download/"
+                f"{_KAGGLE_DS}/{filename}",
+            )
+            self.stdout.write(f"downloading {filename} from {url}")
+            with tempfile.TemporaryDirectory(dir=MODEL_DIR) as tmp:
+                tmp_path = Path(tmp) / "download"
+                req = urllib.request.Request(
+                    url, headers={"User-Agent": "Mozilla/5.0"}
+                )
+                with urllib.request.urlopen(req, timeout=900) as resp, open(
+                    tmp_path, "wb"
+                ) as f:
+                    while True:
+                        chunk = resp.read(1024 * 1024)
+                        if not chunk:
+                            break
+                        f.write(chunk)
+                if tmp_path.stat().st_size < min_bytes:
+                    raise RuntimeError(
+                        f"{filename} download too small "
+                        f"({tmp_path.stat().st_size} bytes)"
+                    )
+                tmp_path.replace(dest)
+            self.stdout.write(
+                f"{filename} installed ({dest.stat().st_size / 1e6:.1f} MB)"
+            )
