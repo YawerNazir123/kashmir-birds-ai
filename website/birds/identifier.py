@@ -1,1 +1,278 @@
-IiIiQmlyZCBpZGVudGlmaWNhdGlvbiB3aXRoIHRoZSB0cmFpbmVkIENvbnZOZVh0LVNtYWxsIG1vZGVsIChPTk5YKS4KCk1vZGVsOiBzaW5nbGUgZmxhdCA3MDctd2F5IGNsYXNzaWZpZXIsIHRyYWluZWQgb24gS2FnZ2xlICh2MiBydW4sCnRlc3QgdG9wLTEgNjYuMzglIC8gdG9wLTUgODQuNTclIHdpdGggdGVzdC10aW1lIGF1Z21lbnRhdGlvbikuCkV4cG9ydGVkIHRvIE9OTlggKGZwMzIsIGV4dGVybmFsLWRhdGEgZm9ybWF0KSBhbmQgdmVyaWZpZWQgYWdhaW5zdAp0aGUgUHlUb3JjaCBjaGVja3BvaW50IHdpdGggb25ueHJ1bnRpbWUuCgpUaGUgbW9kZWwgaXMgVFdPIGZpbGVzLCBib3RoIGRvd25sb2FkZWQgKG5vdCBjb21taXR0ZWQgLS0gR2l0SHViCmJsb2NrcyBmaWxlcyBvdmVyIDEwMCBNQiBhbmQgdGhlIEFQSSB0b29saW5nIGNhcHMgYXJnIHNpemUpOgotIG1vZGVsLm9ubnggKDEuMiBNQiBncmFwaCkKLSBtb2RlbC5vbm54LmRhdGEgKDIwMCBNQiB3ZWlnaHRzKQpCb3RoIGFyZSBmZXRjaGVkIGF0IFJlbmRlciBidWlsZCB0aW1lIGJ5IHRoZSBgZG93bmxvYWRfbW9kZWxgCm1hbmFnZW1lbnQgY29tbWFuZCAoc2VlIHJlbmRlci55YW1sKSBmcm9tIHRoZSBwdWJsaWMgS2FnZ2xlIGRhdGFzZXQKeWF3YXJuYXppci9rYXNobWlyLWJpcmRzLW1vZGVsLXYyLW9ubngsIGludG8gdGhpcyBzYW1lIGRpcmVjdG9yeS4KT05OWCBSdW50aW1lIGxvYWRzIG1vZGVsLm9ubnggYW5kIGF1dG9tYXRpY2FsbHkgcGlja3MgdXAKbW9kZWwub25ueC5kYXRhIGZyb20gdGhlIHNhbWUgZm9sZGVyLgpgY2xhc3Nlcy5qc29uYCAodGhlIDcwNyBzcGVjaWVzLCBpbiBtb2RlbCBvdXRwdXQgb3JkZXIpIElTIGNvbW1pdHRlZC4KCkluZmVyZW5jZSBpcyBsYXp5OiB0aGUgT05OWCBzZXNzaW9uIGlzIGNyZWF0ZWQgb24gdGhlIGZpcnN0IHBob3RvLApub3QgYXQgaW1wb3J0IHRpbWUsIHNvIHRoZSBsYW5kaW5nIHBhZ2UgYW5kIGdhbGxlcnkgc3RheSBmYXN0IGFuZCBhCm1pc3Npbmcgd2VpZ2h0cyBmaWxlIG5ldmVyIGJyZWFrcyB0aGUgcmVzdCBvZiB0aGUgc2l0ZS4KCkhvdyB0aGUgd2VpZ2h0cyBnZXQgb250byB0aGUgc2VydmVyOiB0aGUgYnVpbGQtdGltZSBkb3dubG9hZCBpcwpiZXN0LWVmZm9ydCAtLSBpZiBpdCBmYWlscywgdGhlIGRlcGxveSBzdGlsbCBnb2VzIGFoZWFkIGFuZCB0aGUKd2VpZ2h0cyBhcmUgZmV0Y2hlZCBhdCBydW50aW1lIGluc3RlYWQuIFRoZSBydW50aW1lIGRvd25sb2FkIHJ1bnMKaW4gYSBCQUNLR1JPVU5EIHRocmVhZCB3aXRoIHJlc3VtZTogdGhlIHJlcXVlc3QgcmV0dXJucyBpbW1lZGlhdGVseQoodGhlIHBhZ2Ugc2F5cyB0aGUgbW9kZWwgaXMgZG93bmxvYWRpbmcpLCB0aGUgdGhyZWFkIGtlZXBzCmRvd25sb2FkaW5nLCBhIHBhcnRpYWwgZmlsZSBzdXJ2aXZlcyB3b3JrZXIgcmVzdGFydHMsIGFuZCB0aGUgbmV4dAphdHRlbXB0IHJlc3VtZXMgZnJvbSB3aGVyZSBpdCBzdG9wcGVkIHZpYSBIVFRQIFJhbmdlLgoiIiIKCmltcG9ydCBqc29uCmltcG9ydCBvcwppbXBvcnQgdGhyZWFkaW5nCmltcG9ydCB0aW1lCmltcG9ydCB1cmxsaWIucmVxdWVzdApmcm9tIHBhdGhsaWIgaW1wb3J0IFBhdGgKCmltcG9ydCBudW1weSBhcyBucApmcm9tIFBJTCBpbXBvcnQgSW1hZ2UKCk1PREVMX0RJUiA9IFBhdGgoX19maWxlX18pLnJlc29sdmUoKS5wYXJlbnQgLyAibW9kZWwiCk1PREVMX1BBVEggPSBNT0RFTF9ESVIgLyAibW9kZWwub25ueCIgICMgMS4yIE1CIGdyYXBoLCBkb3dubG9hZGVkCk1PREVMX1RNUF9QQVRIID0gTU9ERUxfRElSIC8gIm1vZGVsLm9ubnguZG93bmxvYWQiCk1PREVMX0RBVEFfUEFUSCA9IE1PREVMX0RJUiAvICJtb2RlbC5vbm54LmRhdGEiICAjIDIwMCBNQiwgZG93bmxvYWRlZApNT0RFTF9EQVRBX1RNUF9QQVRIID0gTU9ERUxfRElSIC8gIm1vZGVsLm9ubnguZGF0YS5kb3dubG9hZCIKQ0xBU1NFU19QQVRIID0gTU9ERUxfRElSIC8gImNsYXNzZXMuanNvbiIKCiMgUHVibGljIG1vZGVsIGZpbGVzIHRoZSBidWlsZC10aW1lIGRvd25sb2FkX21vZGVsIGNvbW1hbmQgdXNlcy4KX0tBR0dMRV9EUyA9ICJ5YXdhcm5hemlyL2thc2htaXItYmlyZHMtbW9kZWwtdjItb25ueCIKTU9ERUxfVVJMID0gb3MuZW52aXJvbi5nZXQoCiAgICAiTU9ERUxfRE9XTkxPQURfVVJMIiwKICAgIGYiaHR0cHM6Ly93d3cua2FnZ2xlLmNvbS9hcGkvdjEvZGF0YXNldHMvZG93bmxvYWQve19LQUdHTEVfRFN9L21vZGVsLm9ubngiLAopCk1PREVMX0RBVEFfVVJMID0gb3MuZW52aXJvbi5nZXQoCiAgICAiTU9ERUxfREFUQV9ET1dOTE9BRF9VUkwiLAogICAgZiJodHRwczovL3d3dy5rYWdnbGUuY29tL2FwaS92MS9kYXRhc2V0cy9kb3dubG9hZC97X0tBR0dMRV9EU30vbW9kZWwub25ueC5kYXRhIiwKKQpfTUlOX0RBVEFfQllURVMgPSAxMDBfMDAwXzAwMCAgIyB3ZWlnaHRzIGZpbGUgaXMgfjIwMCBNQgojIFdhaXQgdGhpcyBsb25nIGFmdGVyIGEgZmFpbGVkIGRvd25sb2FkIGJlZm9yZSBzdGFydGluZyBhIG5ldyBhdHRlbXB0LgpfUkVUUllfU0VDT05EUyA9IDYwCgojIE11c3QgbWF0Y2ggdGhlIGV2YWwgdHJhbnNmb3JtIHVzZWQgaW4gdHJhaW5pbmcgKHRyYWluX3YyLnB5KS4KSU1HX1NJWkUgPSAyMjQKX01FQU4gPSBucC5hcnJheShbMC40ODUsIDAuNDU2LCAwLjQwNl0sIGR0eXBlPW5wLmZsb2F0MzIpCl9TVEQgPSBucC5hcnJheShbMC4yMjksIDAuMjI0LCAwLjIyNV0sIGR0eXBlPW5wLmZsb2F0MzIpCgpfc2Vzc2lvbiA9IE5vbmUKX2NsYXNzZXMgPSBOb25lCgojIE9uZSBsb2NrIGd1YXJkcyB0aGUgZG93bmxvYWQgdGhyZWFkIGhhbmRsZSBhbmQgdGhlIHN0YXR1cyBkaWN0LgpfbG9jayA9IHRocmVhZGluZy5Mb2NrKCkKX2Rvd25sb2FkX3RocmVhZCA9IE5vbmUKX2Rvd25sb2FkX3N0YXRlID0gewogICAgInN0YXR1cyI6ICJpZGxlIiwgICMgaWRsZSB8IGRvd25sb2FkaW5nIHwgZG9uZSB8IGZhaWxlZAogICAgImRvd25sb2FkZWQiOiAwLCAgIyBieXRlcyBpbiB0aGUgcGFydGlhbCBmaWxlCiAgICAidG90YWwiOiBOb25lLCAgIyB0b3RhbCBieXRlcywgb25jZSBrbm93bgogICAgImVycm9yIjogTm9uZSwgICMgbGFzdCBlcnJvciBtZXNzYWdlCiAgICAiZmluaXNoZWRfYXQiOiAwLjAsICAjIHRpbWUgdGhlIGxhc3QgYXR0ZW1wdCBlbmRlZAp9CgoKZGVmIF9tb2RlbF9maWxlX29rKCk6CiAgICByZXR1cm4gKAogICAgICAgIE1PREVMX1BBVEguZXhpc3RzKCkKICAgICAgICBhbmQgTU9ERUxfUEFUSC5zdGF0KCkuc3Rfc2l6ZSA+IDEwMF8wMDAgICMgMS4yIE1CIGdyYXBoCiAgICAgICAgYW5kIE1PREVMX0RBVEFfUEFUSC5leGlzdHMoKQogICAgICAgIGFuZCBNT0RFTF9EQVRBX1BBVEguc3RhdCgpLnN0X3NpemUgPiBfTUlOX0RBVEFfQllURVMKICAgICkKCgpkZWYgX2ZldGNoX2ZpbGUodXJsLCBkZXN0LCB0bXBfZGVzdCwgbWluX2J5dGVzLCBsYWJlbCk6CiAgICAiIiJEb3dubG9hZCBvbmUgZmlsZSB3aXRoIHJlc3VtZS4gUmV0dXJucyBieXRlcyBkb3dubG9hZGVkLiIiIgogICAgZm9yIGF0dGVtcHQgaW4gcmFuZ2UoMik6CiAgICAgICAgZXhpc3RpbmcgPSB0bXBfZGVzdC5zdGF0KCkuc3Rfc2l6ZSBpZiB0bXBfZGVzdC5leGlzdHMoKSBlbHNlIDAKICAgICAgICBoZWFkZXJzID0geyJVc2VyLUFnZW50IjogIk1vemlsbGEvNS4wIn0KICAgICAgICBpZiBleGlzdGluZyA+IDA6CiAgICAgICAgICAgIGhlYWRlcnNbIlJhbmdlIl0gPSBmImJ5dGVzPXtleGlzdGluZ30tIgogICAgICAgIHJlcSA9IHVybGxpYi5yZXF1ZXN0LlJlcXVlc3QodXJsLCBoZWFkZXJzPWhlYWRlcnMpCiAgICAgICAgdHJ5OgogICAgICAgICAgICByZXNwID0gdXJsbGliLnJlcXVlc3QudXJsb3BlbihyZXEsIHRpbWVvdXQ9MzAwKQogICAgICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZXhjOgogICAgICAgICAgICByYWlzZSBSdW50aW1lRXJyb3IoZiJjb3VsZCBub3QgcmVhY2gge2xhYmVsfSBVUkw6IHtleGN9IikgZnJvbSBleGMKICAgICAgICB3aXRoIHJlc3A6CiAgICAgICAgICAgIHN0YXR1cyA9IHJlc3Auc3RhdHVzCiAgICAgICAgICAgIGlmIHN0YXR1cyA9PSA0MTY6CiAgICAgICAgICAgICAgICB0bXBfZGVzdC51bmxpbmsobWlzc2luZ19vaz1UcnVlKQogICAgICAgICAgICAgICAgY29udGludWUKICAgICAgICAgICAgaWYgc3RhdHVzID09IDIwNjoKICAgICAgICAgICAgICAgIG1vZGUsIGRvd25sb2FkZWQgPSAiYWIiLCBleGlzdGluZwogICAgICAgICAgICBlbGlmIHN0YXR1cyA9PSAyMDA6CiAgICAgICAgICAgICAgICBtb2RlLCBkb3dubG9hZGVkID0gIndiIiwgMAogICAgICAgICAgICBlbHNlOgogICAgICAgICAgICAgICAgcmFpc2UgUnVudGltZUVycm9yKGYidW5leHBlY3RlZCBIVFRQIHN0YXR1cyB7c3RhdHVzfSIpCiAgICAgICAgICAgIGNvbnRlbnRfbGVuID0gcmVzcC5oZWFkZXJzLmdldCgiQ29udGVudC1MZW5ndGgiKQogICAgICAgICAgICB0b3RhbCA9IChkb3dubG9hZGVkICsgaW50KGNvbnRlbnRfbGVuKSkgaWYgY29udGVudF9sZW4gZWxzZSBOb25lCiAgICAgICAgICAgIHdpdGggX2xvY2s6CiAgICAgICAgICAgICAgICBfZG93bmxvYWRfc3RhdGVbInRvdGFsIl0gPSB0b3RhbAogICAgICAgICAgICAgICAgX2Rvd25sb2FkX3N0YXRlWyJkb3dubG9hZGVkIl0gPSBkb3dubG9hZGVkCiAgICAgICAgICAgIHdpdGggb3Blbih0bXBfZGVzdCwgbW9kZSkgYXMgZjoKICAgICAgICAgICAgICAgIHdoaWxlIFRydWU6CiAgICAgICAgICAgICAgICAgICAgY2h1bmsgPSByZXNwLnJlYWQoMTAyNCAqIDEwMjQpCiAgICAgICAgICAgICAgICAgICAgaWYgbm90IGNodW5rOgogICAgICAgICAgICAgICAgICAgICAgICBicmVhawogICAgICAgICAgICAgICAgICAgIGYud3JpdGUoY2h1bmspCiAgICAgICAgICAgICAgICAgICAgZG93bmxvYWRlZCArPSBsZW4oY2h1bmspCiAgICAgICAgICAgICAgICAgICAgd2l0aCBfbG9jazoKICAgICAgICAgICAgICAgICAgICAgICAgX2Rvd25sb2FkX3N0YXRlWyJkb3dubG9hZGVkIl0gPSBkb3dubG9hZGVkCiAgICAgICAgc2l6ZSA9IHRtcF9kZXN0LnN0YXQoKS5zdF9zaXplCiAgICAgICAgaWYgc2l6ZSA8IG1pbl9ieXRlczoKICAgICAgICAgICAgdG1wX2Rlc3QudW5saW5rKG1pc3Npbmdfb2s9VHJ1ZSkKICAgICAgICAgICAgcmFpc2UgUnVudGltZUVycm9yKAogICAgICAgICAgICAgICAgZiJkb3dubG9hZGVkIHtsYWJlbH0gdG9vIHNtYWxsICh7c2l6ZX0gYnl0ZXMpIC0tICIKICAgICAgICAgICAgICAgICJ0aGUgVVJMIG1heSBoYXZlIGZhaWxlZDsgcmVmdXNpbmcgdG8gaW5zdGFsbCBpdCIKICAgICAgICAgICAgKQogICAgICAgIHRtcF9kZXN0LnJlcGxhY2UoZGVzdCkKICAgICAgICBwcmludChmImlkZW50aWZpZXI6IHtsYWJlbH0gZG93bmxvYWRlZCAoe3NpemUgLyAxZTY6LjFmfSBNQikiKQogICAgICAgIHJldHVybiBzaXplCiAgICByYWlzZSBSdW50aW1lRXJyb3IoZiJyYW5nZSByZXF1ZXN0cyByZWZ1c2VkIHR3aWNlIGZvciB7bGFiZWx9IikKCgpkZWYgX2Rvd25sb2FkX21vZGVsKCk6CiAgICAiIiJCYWNrZ3JvdW5kIHRocmVhZDogZmV0Y2ggbW9kZWwgZmlsZXMsIHJlc3VtaW5nIHBhcnRpYWwgZmlsZXMuCgogICAgRG93bmxvYWRzIG1vZGVsLm9ubnggKGdyYXBoKSB0aGVuIG1vZGVsLm9ubnguZGF0YSAod2VpZ2h0cykuCiAgICBOZXZlciByYWlzZXM6IGZhaWx1cmVzIGFyZSByZWNvcmRlZCBpbiBfZG93bmxvYWRfc3RhdGUgc28gdGhlCiAgICBuZXh0IHJlcXVlc3QgY2FuIHJldHJ5IChhZnRlciBfUkVUUllfU0VDT05EUykuCiAgICAiIiIKICAgIHRyeToKICAgICAgICBNT0RFTF9ESVIubWtkaXIocGFyZW50cz1UcnVlLCBleGlzdF9vaz1UcnVlKQogICAgICAgIF9mZXRjaF9maWxlKE1PREVMX1VSTCwgTU9ERUxfUEFUSCwgTU9ERUxfVE1QX1BBVEgsCiAgICAgICAgICAgICAgICAgICAgMTAwXzAwMCwgIm1vZGVsLm9ubngiKQogICAgICAgIF9mZXRjaF9maWxlKE1PREVMX0RBVEFfVVJMLCBNT0RFTF9EQVRBX1BBVEgsIE1PREVMX0RBVEFfVE1QX1BBVEgsCiAgICAgICAgICAgICAgICAgICAgX01JTl9EQVRBX0JZVEVTLCAibW9kZWwub25ueC5kYXRhIikKICAgICAgICB3aXRoIF9sb2NrOgogICAgICAgICAgICBfZG93bmxvYWRfc3RhdGUudXBkYXRlKAogICAgICAgICAgICAgICAgc3RhdHVzPSJkb25lIiwgZXJyb3I9Tm9uZSwgZmluaXNoZWRfYXQ9dGltZS50aW1lKCksCiAgICAgICAgICAgICkKICAgIGV4Y2VwdCBFeGNlcHRpb24gYXMgZXhjOiAgIyBub3FhOiBCTEUwMDEgLSBzdGF5IGF2YWlsYWJsZQogICAgICAgIHdpdGggX2xvY2s6CiAgICAgICAgICAgIF9kb3dubG9hZF9zdGF0ZS51cGRhdGUoCiAgICAgICAgICAgICAgICBzdGF0dXM9ImZhaWxlZCIsIGVycm9yPXN0cihleGMpLCBmaW5pc2hlZF9hdD10aW1lLnRpbWUoKQogICAgICAgICAgICApCiAgICAgICAgcHJpbnQoZiJpZGVudGlmaWVyOiBtb2RlbCBkb3dubG9hZCBmYWlsZWQ6IHtleGMhcn0iKQoKCmRlZiBfZW5zdXJlX21vZGVsKCk6CiAgICAiIiJTdGFydCB0aGUgYmFja2dyb3VuZCBkb3dubG9hZCBpZiB0aGUgd2VpZ2h0cyBmaWxlIGlzIG1pc3NpbmcuCgogICAgUmV0dXJucyBUcnVlIG9ubHkgd2hlbiBhIHVzYWJsZSBtb2RlbCBpcyBhbHJlYWR5IHByZXNlbnQuCiAgICBXaGVuIGl0IGlzIG1pc3NpbmcgdGhpcyBzdGFydHMgKG9yIGtlZXBzKSB0aGUgZG93bmxvYWQgdGhyZWFkIGFuZAogICAgcmV0dXJucyBGYWxzZSBpbW1lZGlhdGVseSAtLSB0aGUgY2FsbGVyIHNob3dzIHRoZSBkb3dubG9hZCBzdGF0ZQogICAgaW5zdGVhZCBvZiBoYW5naW5nLiBDb25jdXJyZW50IHJlcXVlc3RzIG5ldmVyIHN0YXJ0IGEgc2Vjb25kCiAgICBkb3dubG9hZDsgYSBmYWlsZWQgZG93bmxvYWQgaXMgcmV0cmllZCBhdCBtb3N0IG9uY2UgYSBtaW51dGUuCiAgICAiIiIKICAgIGdsb2JhbCBfZG93bmxvYWRfdGhyZWFkCiAgICBpZiBfbW9kZWxfZmlsZV9vaygpOgogICAgICAgIHdpdGggX2xvY2s6CiAgICAgICAgICAgIF9kb3dubG9hZF9zdGF0ZVsic3RhdHVzIl0gPSAiZG9uZSIKICAgICAgICByZXR1cm4gVHJ1ZQogICAgd2l0aCBfbG9jazoKICAgICAgICB0aHJlYWQgPSBfZG93bmxvYWRfdGhyZWFkCiAgICAgICAgaWYgdGhyZWFkIGlzIG5vdCBOb25lIGFuZCB0aHJlYWQuaXNfYWxpdmUoKToKICAgICAgICAgICAgcmV0dXJuIEZhbHNlCiAgICAgICAgc3RhdGUgPSBfZG93bmxvYWRfc3RhdGVbInN0YXR1cyJdCiAgICAgICAgZmluaXNoZWRfYXQgPSBfZG93bmxvYWRfc3RhdGVbImZpbmlzaGVkX2F0Il0KICAgICAgICBpZiBzdGF0ZSA9PSAiZmFpbGVkIiBhbmQgdGltZS50aW1lKCkgLSBmaW5pc2hlZF9hdCA8IF9SRVRSWV9TRUNPTkRTOgogICAgICAgICAgICByZXR1cm4gRmFsc2UKICAgICAgICBwYXJ0aWFsID0gKAogICAgICAgICAgICBNT0RFTF9EQVRBX1RNUF9QQVRILnN0YXQoKS5zdF9zaXplCiAgICAgICAgICAgIGlmIE1PREVMX0RBVEFfVE1QX1BBVEguZXhpc3RzKCkKICAgICAgICAgICAgZWxzZSAwCiAgICAgICAgKQogICAgICAgIF9kb3dubG9hZF9zdGF0ZS51cGRhdGUoCiAgICAgICAgICAgIHN0YXR1cz0iZG93bmxvYWRpbmciLCBlcnJvcj1Ob25lLCBkb3dubG9hZGVkPXBhcnRpYWwKICAgICAgICApCiAgICAgICAgdGhyZWFkID0gdGhyZWFkaW5nLlRocmVhZCgKICAgICAgICAgICAgdGFyZ2V0PV9kb3dubG9hZF9tb2RlbCwgbmFtZT0ibW9kZWwtZG93bmxvYWQiLCBkYWVtb249VHJ1ZQogICAgICAgICkKICAgICAgICAjIFN0YXJ0IHdoaWxlIHN0aWxsIGhvbGRpbmcgdGhlIGxvY2s6IG90aGVyd2lzZSBhIGNvbmN1cnJlbnQKICAgICAgICAjIHJlcXVlc3QgY291bGQgc2VlIHRoZSB0aHJlYWQgYXNzaWduZWQgYnV0IG5vdCB5ZXQgYWxpdmUgYW5kCiAgICAgICAgIyBzdGFydCBhIHNlY29uZCBkb3dubG9hZC4KICAgICAgICB0aHJlYWQuc3RhcnQoKQogICAgICAgIF9kb3dubG9hZF90aHJlYWQgPSB0aHJlYWQKICAgIHJldHVybiBGYWxzZQoKCmRlZiBtb2RlbF9hdmFpbGFibGUoKToKICAgICIiIlRydWUgd2hlbiB0aGUgbW9kZWwgZ3JhcGgsIHdlaWdodHMsIGFuZCBjbGFzcyBsaXN0IGFyZSBwcmVzZW50LiIiIgogICAgaWYgX21vZGVsX2ZpbGVfb2soKSBhbmQgQ0xBU1NFU19QQVRILmV4aXN0cygpOgogICAgICAgIHJldHVybiBUcnVlCiAgICBpZiBub3QgQ0xBU1NFU19QQVRILmV4aXN0cygpOgogICAgICAgIHJldHVybiBGYWxzZQogICAgcmV0dXJuIF9lbnN1cmVfbW9kZWwoKQoKCmRlZiBkb3dubG9hZF9zdGF0dXMoKToKICAgICIiIlNuYXBzaG90IG9mIHRoZSBiYWNrZ3JvdW5kIGRvd25sb2FkLCBmb3IgdGhlIHRlbXBsYXRlLgoKICAgIEtleXM6IHN0YXR1cyAoaWRsZS9kb3dubG9hZGluZy9kb25lL2ZhaWxlZCksIGRvd25sb2FkZWQgKGJ5dGVzKSwKICAgIHRvdGFsIChieXRlcyBvciBOb25lKSwgZXJyb3IsIGRvd25sb2FkZWRfbWIgLyB0b3RhbF9tYiAocm91bmRlZCwKICAgIGZvciBkaXNwbGF5KSwgbW9kZWxfYXZhaWxhYmxlLgogICAgIiIiCiAgICB3aXRoIF9sb2NrOgogICAgICAgIHN0YXRlID0gZGljdChfZG93bmxvYWRfc3RhdGUpCiAgICBzdGF0ZVsibW9kZWxfYXZhaWxhYmxlIl0gPSBfbW9kZWxfZmlsZV9vaygpCiAgICBzdGF0ZVsiZG93bmxvYWRlZF9tYiJdID0gcm91bmQoc3RhdGVbImRvd25sb2FkZWQiXSAvIDFlNiwgMSkKICAgIHN0YXRlWyJ0b3RhbF9tYiJdID0gKAogICAgICAgIHJvdW5kKHN0YXRlWyJ0b3RhbCJdIC8gMWU2LCAxKSBpZiBzdGF0ZVsidG90YWwiXSBlbHNlIE5vbmUKICAgICkKICAgIHJldHVybiBzdGF0ZQoKCmRlZiBfbG9hZCgpOgogICAgZ2xvYmFsIF9zZXNzaW9uLCBfY2xhc3NlcwogICAgaWYgX3Nlc3Npb24gaXMgTm9uZToKICAgICAgICBpbXBvcnQgb25ueHJ1bnRpbWUgYXMgb3J0CgogICAgICAgIF9jbGFzc2VzID0ganNvbi5sb2FkcyhDTEFTU0VTX1BBVEgucmVhZF90ZXh0KCkpCiAgICAgICAgX3Nlc3Npb24gPSBvcnQuSW5mZXJlbmNlU2Vzc2lvbigKICAgICAgICAgICAgc3RyKE1PREVMX1BBVEgpLCBwcm92aWRlcnM9WyJDUFVFeGVjdXRpb25Qcm92aWRlciJdCiAgICAgICAgKQogICAgcmV0dXJuIF9zZXNzaW9uLCBfY2xhc3NlcwoKCmRlZiBfcHJlcHJvY2VzcyhpbWFnZSk6CiAgICAiIiJSZXNpemUgc2hvcnRlc3Qgc2lkZSB0byAyNTYsIGNlbnRyZS1jcm9wIDIyNCwgbm9ybWFsaXNlLgoKICAgIGBpbWFnZWAgaXMgYSBQSUwgaW1hZ2UgKGFscmVhZHkgUkdCKS4gUmV0dXJucyBhIGZsb2F0MzIgYXJyYXkgb2YKICAgIHNoYXBlICgxLCAzLCAyMjQsIDIyNCkgLS0gdGhlIGZwMzIgdjIgbW9kZWwgZXhwZWN0cyBmbG9hdDMyIGlucHV0LgogICAgIiIiCiAgICB3LCBoID0gaW1hZ2Uuc2l6ZQogICAgc2NhbGUgPSAyNTYgLyBtaW4odywgaCkKICAgIGltYWdlID0gaW1hZ2UucmVzaXplKAogICAgICAgIChyb3VuZCh3ICogc2NhbGUpLCByb3VuZChoICogc2NhbGUpKSwgSW1hZ2UuQklMSU5FQVIKICAgICkKICAgIHcsIGggPSBpbWFnZS5zaXplCiAgICBsZWZ0LCB0b3AgPSAodyAtIElNR19TSVpFKSAvLyAyLCAoaCAtIElNR19TSVpFKSAvLyAyCiAgICBpbWFnZSA9IGltYWdlLmNyb3AoKGxlZnQsIHRvcCwgbGVmdCArIElNR19TSVpFLCB0b3AgKyBJTUdfU0laRSkpCiAgICBhcnIgPSBucC5hc2FycmF5KGltYWdlLCBkdHlwZT1ucC5mbG9hdDMyKSAvIDI1NS4wCiAgICBhcnIgPSAoYXJyIC0gX01FQU4pIC8gX1NURAogICAgcmV0dXJuIGFyci50cmFuc3Bvc2UoMiwgMCwgMSlbTm9uZSwgOiwgOiwgOl0uYXN0eXBlKG5wLmZsb2F0MzIpCgoKZGVmIHByZWRpY3QoaW1hZ2UsIHRvcF9rPTUpOgogICAgIiIiVG9wLWsgcHJlZGljdGVkIHNwZWNpZXMgZm9yIGEgUElMIGltYWdlLgoKICAgIFJldHVybnMgYSBsaXN0IG9mIChzY2llbnRpZmljX25hbWUsIGNvbmZpZGVuY2UpIHdpdGggY29uZmlkZW5jZQogICAgaW4gWzAsIDFdLCBiZXN0IGZpcnN0LiBTY2llbnRpZmljIG5hbWVzIHVzZSB1bmRlcnNjb3JlcywgZXhhY3RseQogICAgYXMgaW4gY2xhc3Nlcy5qc29uIChlLmcuICJQYXNzZXJfZG9tZXN0aWN1cyIpLgogICAgIiIiCiAgICBzZXNzaW9uLCBjbGFzc2VzID0gX2xvYWQoKQogICAgeCA9IF9wcmVwcm9jZXNzKGltYWdlLmNvbnZlcnQoIlJHQiIpKQogICAgbG9naXRzID0gc2Vzc2lvbi5ydW4oTm9uZSwgeyJpbWFnZSI6IHh9KVswXVswXS5hc3R5cGUobnAuZmxvYXQ2NCkKICAgIHByb2JzID0gbnAuZXhwKGxvZ2l0cyAtIGxvZ2l0cy5tYXgoKSkKICAgIHByb2JzIC89IHByb2JzLnN1bSgpCiAgICBpZHggPSBwcm9icy5hcmdzb3J0KClbOjotMV1bOnRvcF9rXQogICAgcmV0dXJuIFsoY2xhc3Nlc1tpXSwgZmxvYXQocHJvYnNbaV0pKSBmb3IgaSBpbiBpZHhdCg==
+"""Bird identification with the trained ConvNeXt-Small model (ONNX).
+
+Model: single flat 707-way classifier, trained on Kaggle (v2 run,
+test top-1 66.38% / top-5 84.57% with test-time augmentation).
+Exported to ONNX (fp32, external-data format) and verified against
+the PyTorch checkpoint with onnxruntime.
+
+The model is TWO files, both downloaded (not committed -- GitHub
+blocks files over 100 MB and the API tooling caps arg size):
+- model.onnx (1.2 MB graph)
+- model.onnx.data (200 MB weights)
+Both are fetched at Render build time by the `download_model`
+management command (see render.yaml) from the public Kaggle dataset
+yawarnazir/kashmir-birds-model-v2-onnx, into this same directory.
+ONNX Runtime loads model.onnx and automatically picks up
+model.onnx.data from the same folder.
+`classes.json` (the 707 species, in model output order) IS committed.
+
+Inference is lazy: the ONNX session is created on the first photo,
+not at import time, so the landing page and gallery stay fast and a
+missing weights file never breaks the rest of the site.
+
+How the weights get onto the server: the build-time download is
+best-effort -- if it fails, the deploy still goes ahead and the
+weights are fetched at runtime instead. The runtime download runs
+in a BACKGROUND thread with resume: the request returns immediately
+(the page says the model is downloading), the thread keeps
+downloading, a partial file survives worker restarts, and the next
+attempt resumes from where it stopped via HTTP Range.
+"""
+
+import json
+import os
+import threading
+import time
+import urllib.request
+from pathlib import Path
+
+import numpy as np
+from PIL import Image
+
+MODEL_DIR = Path(__file__).resolve().parent / "model"
+MODEL_PATH = MODEL_DIR / "model.onnx"  # 1.2 MB graph, downloaded
+MODEL_TMP_PATH = MODEL_DIR / "model.onnx.download"
+MODEL_DATA_PATH = MODEL_DIR / "model.onnx.data"  # 200 MB, downloaded
+MODEL_DATA_TMP_PATH = MODEL_DIR / "model.onnx.data.download"
+CLASSES_PATH = MODEL_DIR / "classes.json"
+
+# Public model files the build-time download_model command uses.
+_KAGGLE_DS = "yawarnazir/kashmir-birds-model-v2-onnx"
+MODEL_URL = os.environ.get(
+    "MODEL_DOWNLOAD_URL",
+    f"https://www.kaggle.com/api/v1/datasets/download/{_KAGGLE_DS}/model.onnx",
+)
+MODEL_DATA_URL = os.environ.get(
+    "MODEL_DATA_DOWNLOAD_URL",
+    f"https://www.kaggle.com/api/v1/datasets/download/{_KAGGLE_DS}/model.onnx.data",
+)
+_MIN_DATA_BYTES = 100_000_000  # weights file is ~200 MB
+# Wait this long after a failed download before starting a new attempt.
+_RETRY_SECONDS = 60
+
+# Must match the eval transform used in training (train_v2.py).
+IMG_SIZE = 224
+_MEAN = np.array([0.485, 0.456, 0.406], dtype=np.float32)
+_STD = np.array([0.229, 0.224, 0.225], dtype=np.float32)
+
+_session = None
+_classes = None
+
+# One lock guards the download thread handle and the status dict.
+_lock = threading.Lock()
+_download_thread = None
+_download_state = {
+    "status": "idle",  # idle | downloading | done | failed
+    "downloaded": 0,  # bytes in the partial file
+    "total": None,  # total bytes, once known
+    "error": None,  # last error message
+    "finished_at": 0.0,  # time the last attempt ended
+}
+
+
+def _model_file_ok():
+    return (
+        MODEL_PATH.exists()
+        and MODEL_PATH.stat().st_size > 100_000  # 1.2 MB graph
+        and MODEL_DATA_PATH.exists()
+        and MODEL_DATA_PATH.stat().st_size > _MIN_DATA_BYTES
+    )
+
+
+def _fetch_file(url, dest, tmp_dest, min_bytes, label):
+    """Download one file with resume. Returns bytes downloaded."""
+    for attempt in range(2):
+        existing = tmp_dest.stat().st_size if tmp_dest.exists() else 0
+        headers = {"User-Agent": "Mozilla/5.0"}
+        if existing > 0:
+            headers["Range"] = f"bytes={existing}-"
+        req = urllib.request.Request(url, headers=headers)
+        try:
+            resp = urllib.request.urlopen(req, timeout=300)
+        except Exception as exc:
+            raise RuntimeError(f"could not reach {label} URL: {exc}") from exc
+        with resp:
+            status = resp.status
+            if status == 416:
+                tmp_dest.unlink(missing_ok=True)
+                continue
+            if status == 206:
+                mode, downloaded = "ab", existing
+            elif status == 200:
+                mode, downloaded = "wb", 0
+            else:
+                raise RuntimeError(f"unexpected HTTP status {status}")
+            content_len = resp.headers.get("Content-Length")
+            total = (downloaded + int(content_len)) if content_len else None
+            with _lock:
+                _download_state["total"] = total
+                _download_state["downloaded"] = downloaded
+            with open(tmp_dest, mode) as f:
+                while True:
+                    chunk = resp.read(1024 * 1024)
+                    if not chunk:
+                        break
+                    f.write(chunk)
+                    downloaded += len(chunk)
+                    with _lock:
+                        _download_state["downloaded"] = downloaded
+        size = tmp_dest.stat().st_size
+        if size < min_bytes:
+            tmp_dest.unlink(missing_ok=True)
+            raise RuntimeError(
+                f"downloaded {label} too small ({size} bytes) -- "
+                "the URL may have failed; refusing to install it"
+            )
+        tmp_dest.replace(dest)
+        print(f"identifier: {label} downloaded ({size / 1e6:.1f} MB)")
+        return size
+    raise RuntimeError(f"range requests refused twice for {label}")
+
+
+def _download_model():
+    """Background thread: fetch model files, resuming partial files.
+
+    Downloads model.onnx (graph) then model.onnx.data (weights).
+    Never raises: failures are recorded in _download_state so the
+    next request can retry (after _RETRY_SECONDS).
+    """
+    try:
+        MODEL_DIR.mkdir(parents=True, exist_ok=True)
+        _fetch_file(MODEL_URL, MODEL_PATH, MODEL_TMP_PATH,
+                    100_000, "model.onnx")
+        _fetch_file(MODEL_DATA_URL, MODEL_DATA_PATH, MODEL_DATA_TMP_PATH,
+                    _MIN_DATA_BYTES, "model.onnx.data")
+        with _lock:
+            _download_state.update(
+                status="done", error=None, finished_at=time.time(),
+            )
+    except Exception as exc:  # noqa: BLE001 - stay available
+        with _lock:
+            _download_state.update(
+                status="failed", error=str(exc), finished_at=time.time()
+            )
+        print(f"identifier: model download failed: {exc!r}")
+
+
+def _ensure_model():
+    """Start the background download if the weights file is missing.
+
+    Returns True only when a usable model is already present.
+    When it is missing this starts (or keeps) the download thread and
+    returns False immediately -- the caller shows the download state
+    instead of hanging. Concurrent requests never start a second
+    download; a failed download is retried at most once a minute.
+    """
+    global _download_thread
+    if _model_file_ok():
+        with _lock:
+            _download_state["status"] = "done"
+        return True
+    with _lock:
+        thread = _download_thread
+        if thread is not None and thread.is_alive():
+            return False
+        state = _download_state["status"]
+        finished_at = _download_state["finished_at"]
+        if state == "failed" and time.time() - finished_at < _RETRY_SECONDS:
+            return False
+        partial = (
+            MODEL_DATA_TMP_PATH.stat().st_size
+            if MODEL_DATA_TMP_PATH.exists()
+            else 0
+        )
+        _download_state.update(
+            status="downloading", error=None, downloaded=partial
+        )
+        thread = threading.Thread(
+            target=_download_model, name="model-download", daemon=True
+        )
+        # Start while still holding the lock: otherwise a concurrent
+        # request could see the thread assigned but not yet alive and
+        # start a second download.
+        thread.start()
+        _download_thread = thread
+    return False
+
+
+def model_available():
+    """True when the model graph, weights, and class list are present."""
+    if _model_file_ok() and CLASSES_PATH.exists():
+        return True
+    if not CLASSES_PATH.exists():
+        return False
+    return _ensure_model()
+
+
+def download_status():
+    """Snapshot of the background download, for the template.
+
+    Keys: status (idle/downloading/done/failed), downloaded (bytes),
+    total (bytes or None), error, downloaded_mb / total_mb (rounded,
+    for display), model_available.
+    """
+    with _lock:
+        state = dict(_download_state)
+    state["model_available"] = _model_file_ok()
+    state["downloaded_mb"] = round(state["downloaded"] / 1e6, 1)
+    state["total_mb"] = (
+        round(state["total"] / 1e6, 1) if state["total"] else None
+    )
+    return state
+
+
+def _load():
+    global _session, _classes
+    if _session is None:
+        import onnxruntime as ort
+
+        _classes = json.loads(CLASSES_PATH.read_text())
+        _session = ort.InferenceSession(
+            str(MODEL_PATH), providers=["CPUExecutionProvider"]
+        )
+    return _session, _classes
+
+
+def _preprocess(image):
+    """Resize shortest side to 256, centre-crop 224, normalise.
+
+    `image` is a PIL image (already RGB). Returns a float32 array of
+    shape (1, 3, 224, 224) -- the fp32 v2 model expects float32 input.
+    """
+    w, h = image.size
+    scale = 256 / min(w, h)
+    image = image.resize(
+        (round(w * scale), round(h * scale)), Image.BILINEAR
+    )
+    w, h = image.size
+    left, top = (w - IMG_SIZE) // 2, (h - IMG_SIZE) // 2
+    image = image.crop((left, top, left + IMG_SIZE, top + IMG_SIZE))
+    arr = np.asarray(image, dtype=np.float32) / 255.0
+    arr = (arr - _MEAN) / _STD
+    return arr.transpose(2, 0, 1)[None, :, :, :].astype(np.float32)
+
+
+def predict(image, top_k=5):
+    """Top-k predicted species for a PIL image.
+
+    Returns a list of (scientific_name, confidence) with confidence
+    in [0, 1], best first. Scientific names use underscores, exactly
+    as in classes.json (e.g. "Passer_domesticus").
+    """
+    session, classes = _load()
+    x = _preprocess(image.convert("RGB"))
+    logits = session.run(None, {"image": x})[0][0].astype(np.float64)
+    probs = np.exp(logits - logits.max())
+    probs /= probs.sum()
+    idx = probs.argsort()[::-1][:top_k]
+    return [(classes[i], float(probs[i])) for i in idx]
