@@ -140,7 +140,7 @@
 
     <div class="identify-results">
         {% for result in results %}
-        <article class="result-card{% if forloop.first %} result-top{% endif %}" style="--conf: {{ result.confidence_pct }}%; --delay: {{ forloop.counter0 }}00ms;">
+        <article class="result-card{% if forloop.first %} result-top{% endif %}" style="--delay: {{ forloop.counter0 }}00ms;">
             <span class="result-rank" aria-label="Rank {{ forloop.counter }}">#{{ forloop.counter }}</span>
             <div class="result-body">
                 <div class="result-head">
@@ -170,12 +170,6 @@
                 {% if not result.bird %}
                 <p class="result-note">(Not in the field guide yet.)</p>
                 {% endif %}
-                <div class="result-confidence">
-                    <div class="conf-bar" role="img" aria-label="{{ result.confidence_pct }}% sure">
-                        <span class="conf-fill"></span>
-                    </div>
-                    <span class="conf-pct">{{ result.confidence_pct }}% sure</span>
-                </div>
             </div>
         </article>
         {% endfor %}
@@ -184,8 +178,8 @@
     {% if low_confidence %}
     <p class="identify-low-confidence">
         <strong>Low confidence:</strong> the model is not sure about
-        this one — its top guess is under 30%. Please compare the
-        photo with the birds below before deciding.
+        this one — please compare the photo with the birds below
+        before deciding.
     </p>
     {% endif %}
 
@@ -237,9 +231,7 @@
         <h3>{{ top_result.scientific_name }}</h3>
         <p>
             This species is not in our database yet — it may be a
-            new visitor to Kashmir. The model is
-            {{ top_result.confidence_pct }}% sure of this
-            identification.
+            new visitor to Kashmir.
         </p>
         <p>
             No field-guide details are shown for it, because we
@@ -252,9 +244,8 @@
     {% endif %}
 
     <p class="identify-footnote">
-        The percentages are the model's confidence. If the top match
-        looks wrong, check the other guesses, and compare with the
-        photos on the bird's page before deciding.
+        If the top match looks wrong, check the other guesses, and
+        compare with the photos on the bird's page before deciding.
     </p>
 
     {% endif %}
