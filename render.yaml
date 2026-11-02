@@ -11,8 +11,8 @@ services:
     # worker loads Django plus the 200 MB ONNX model in ONNX Runtime.
     # Two workers risked running out of memory. The model weights file
     # (model.onnx.data, 200 MB) is downloaded by `download_model` in
-    # the build above, from the public Kaggle dataset
-    # yawarnazir/kashmir-birds-model-v2-onnx -- it is not committed
+    # the build above, from the public Hugging Face model repo
+    # yawarnazir/kashmir-birds-v2-onnx -- it is not committed
     # to the repo (see birds/identifier.py). The 1.2 MB model graph
     # (model.onnx) IS committed. That
     # build-time download is best-effort and never fails the build:
