@@ -4,12 +4,12 @@ The v2 model is two files, neither committed (GitHub blocks files
 over 100 MB and the API tooling caps arg size):
 - model.onnx (1.2 MB graph)
 - model.onnx.data (200 MB weights, external-data format)
-This command fetches both from the public Kaggle dataset
-yawarnazir/kashmir-birds-model-v2-onnx into website/birds/model/.
+This command fetches both from the public Hugging Face model repo
+yawarnazir/kashmir-birds-v2-onnx into website/birds/model/.
 Run by render.yaml on every deploy, skipped when files exist.
 
-The Kaggle single-file download endpoint works without authentication
-for a public dataset (verified 2026-11-01).
+The Hugging Face resolve URLs work without authentication
+for a public repo (verified 2026-11-02).
 
 Best-effort on purpose: this command NEVER fails the build. If the
 download fails here, the command warns and exits 0, the deploy goes
@@ -25,7 +25,7 @@ from pathlib import Path
 
 from django.core.management.base import BaseCommand
 
-_KAGGLE_DS = "yawarnazir/kashmir-birds-model-v2-onnx"
+_HF_REPO = "yawarnazir/kashmir-birds-v2-onnx"
 FILES = [
     # (filename, min_bytes, env_var)
     ("model.onnx", 100_000, "MODEL_DOWNLOAD_URL"),
@@ -60,8 +60,7 @@ class Command(BaseCommand):
                 continue
             url = os.environ.get(
                 env_var,
-                f"https://www.kaggle.com/api/v1/datasets/download/"
-                f"{_KAGGLE_DS}/{filename}",
+                f"https://huggingface.co/{_HF_REPO}/resolve/main/{filename}",
             )
             self.stdout.write(f"downloading {filename} from {url}")
             with tempfile.TemporaryDirectory(dir=MODEL_DIR) as tmp:
