@@ -10,8 +10,8 @@ blocks files over 100 MB and the API tooling caps arg size):
 - model.onnx (1.2 MB graph)
 - model.onnx.data (200 MB weights)
 Both are fetched at Render build time by the `download_model`
-management command (see render.yaml) from the public Kaggle dataset
-yawarnazir/kashmir-birds-model-v2-onnx, into this same directory.
+management command (see render.yaml) from the public Hugging Face
+model repo yawarnazir/kashmir-birds-v2-onnx, into this same directory.
 ONNX Runtime loads model.onnx and automatically picks up
 model.onnx.data from the same folder.
 `classes.json` (the 707 species, in model output order) IS committed.
@@ -47,14 +47,14 @@ MODEL_DATA_TMP_PATH = MODEL_DIR / "model.onnx.data.download"
 CLASSES_PATH = MODEL_DIR / "classes.json"
 
 # Public model files the build-time download_model command uses.
-_KAGGLE_DS = "yawarnazir/kashmir-birds-model-v2-onnx"
+_HF_REPO = "yawarnazir/kashmir-birds-v2-onnx"
 MODEL_URL = os.environ.get(
     "MODEL_DOWNLOAD_URL",
-    f"https://www.kaggle.com/api/v1/datasets/download/{_KAGGLE_DS}/model.onnx",
+    f"https://huggingface.co/{_HF_REPO}/resolve/main/model.onnx",
 )
 MODEL_DATA_URL = os.environ.get(
     "MODEL_DATA_DOWNLOAD_URL",
-    f"https://www.kaggle.com/api/v1/datasets/download/{_KAGGLE_DS}/model.onnx.data",
+    f"https://huggingface.co/{_HF_REPO}/resolve/main/model.onnx.data",
 )
 _MIN_DATA_BYTES = 100_000_000  # weights file is ~200 MB
 # Wait this long after a failed download before starting a new attempt.
