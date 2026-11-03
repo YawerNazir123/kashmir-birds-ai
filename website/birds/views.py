@@ -553,7 +553,7 @@ def identify_bird(request):
         if status['status'] == 'downloading':
             context['error'] = (
                 'The identification model is still downloading to the '
-                'server (first time only, 57 MB). Please try again in '
+                'server (first time only, 200 MB). Please try again in '
                 'a minute.'
             )
         else:
