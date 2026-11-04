@@ -189,7 +189,7 @@
         <p class="identify-detail-eyebrow">In the field guide, #{{ forloop.counter }}</p>
         <div class="identify-detail-top">
             {% if result.bird.image %}
-            <img src="{{ result.bird.image.url }}" alt="{{ result.bird.common_name }}" class="identify-detail-photo">
+            <img src="{{ result.bird.photo_url }}" alt="{{ result.bird.common_name }}" class="identify-detail-photo">
             {% endif %}
             <div class="identify-detail-info">
                 <h3>
