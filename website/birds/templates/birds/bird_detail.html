@@ -30,7 +30,7 @@
             {% if bird.image %}
 
                 <img
-                    src="{{ bird.image.url }}"
+                    src="{{ bird.photo_url }}"
                     class="bird-detail-image"
                 >
 
@@ -248,12 +248,12 @@
 
     <div class="bird-gallery-grid">
 
-        {% for img in bird.extra_images %}
+        {% for img_url in bird.gallery_urls %}
 
             <div class="gallery-image-card">
 
                 <img
-                     src="/media/{{ img }}"
+                     src="{{ img_url }}"
                     >
 
             </div>
