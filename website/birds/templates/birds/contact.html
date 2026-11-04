@@ -95,26 +95,56 @@
 
     <div class="contact-form-box">
 
-        <form class="contact-form">
+        {% if success %}
+
+        <div class="contact-message contact-message-success">
+
+            Thanks. Your message has been received.
+            I'll get back to you soon.
+
+        </div>
+
+        {% endif %}
+
+        {% if error %}
+
+        <div class="contact-message contact-message-error">
+
+            {{ error }}
+
+        </div>
+
+        {% endif %}
+
+        <form class="contact-form" method="post">
+
+            {% csrf_token %}
 
             <input
                 type="text"
+                name="name"
+                value="{{ name }}"
                 placeholder="Your Name"
             >
 
             <input
                 type="email"
+                name="email"
+                value="{{ email }}"
                 placeholder="Your Email"
             >
 
             <input
                 type="text"
+                name="subject"
+                value="{{ subject }}"
                 placeholder="Subject"
             >
 
             <textarea
+                name="message"
                 placeholder="Your Message"
-            ></textarea>
+            >{{ message }}</textarea>
 
             <button type="submit">
 
