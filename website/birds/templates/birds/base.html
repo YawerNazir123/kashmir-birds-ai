@@ -118,6 +118,34 @@
 
                 </a>
 
+                {% if user.is_authenticated %}
+
+                <span class="nav-greeting">
+
+                    Hi, {{ user.first_name|default:user.username }}
+
+                </span>
+
+                <a href="{% url 'logout' %}">
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    Log out
+
+                </a>
+
+                {% else %}
+
+                <a href="{% url 'login' %}">
+
+                    <i class="fa-solid fa-user"></i>
+
+                    Sign in / Sign up
+
+                </a>
+
+                {% endif %}
+
             </div>
 
         </div>
@@ -148,10 +176,10 @@
 
             <p>
 
-                An AI-powered biodiversity platform documenting the
-                birds of Jammu, Kashmir and Ladakh — a searchable
-                field guide, migration records and an AI system
-                that identifies birds from a photo.
+                Birds of Paradise is a home for the birds of
+                Jammu, Kashmir and Ladakh. Browse a searchable
+                field guide, follow migration records, or upload
+                a photo and let the AI tell you which bird it is.
 
             </p>
 
@@ -165,8 +193,8 @@
 
             <p class="footer-credit">
 
-                Kashmiri local names sourced from “Birds of Jammu
-                and Kashmir” by Parvaiz Yousuf.
+                Kashmiri local names sourced from <a href="https://www.researchgate.net/profile/Parvaiz-Yousuf" target="_blank" rel="noopener">“Birds of Jammu
+                and Kashmir”</a> by Parvaiz Yousuf.
 
             </p>
 
