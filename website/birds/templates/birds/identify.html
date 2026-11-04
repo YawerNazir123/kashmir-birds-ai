@@ -14,10 +14,10 @@
             707 species of Jammu, Kashmir and Ladakh it is most likely to be.
         </p>
         <p class="identify-note">
-            The model was trained on photos of birds from this region. Its top
-            guess is right about two-thirds of the time, and the right bird is in its
-            top 5 guesses more than four times out of five &mdash; so treat the
-            list as strong suggestions, not a certain answer.
+            Identification is powered by a fine-tuned ConvNeXt-Small neural
+            network trained on 211,495 photographs covering 707 bird species of
+            Jammu, Kashmir and Ladakh. Upload a photo and it returns its five
+            closest matches from the field guide.
         </p>
     </div>
 
@@ -57,7 +57,7 @@
         <label for="identify-photo" class="identify-dropzone" id="identify-dropzone">
             <span class="identify-dropzone-icon">&#128247;</span>
             <span class="identify-dropzone-title">Choose a bird photo</span>
-            <span class="identify-dropzone-hint">Tap to browse, or drag &amp; drop a photo here &mdash; JPG or PNG, up to 10 MB</span>
+            <span class="identify-dropzone-hint">Tap to browse, or drag &amp; drop a photo here. JPG or PNG, up to 10 MB</span>
             <span class="identify-file-name" id="identify-file-name">No file chosen yet</span>
         </label>
         <input type="file" id="identify-photo" name="photo" accept="image/*" required>
@@ -178,7 +178,7 @@
     {% if low_confidence %}
     <p class="identify-low-confidence">
         <strong>Low confidence:</strong> the model is not sure about
-        this one — please compare the photo with the birds below
+        this one, so please compare the photo with the birds below
         before deciding.
     </p>
     {% endif %}
@@ -186,7 +186,7 @@
     {% for result in results %}
     {% if result.bird %}
     <section class="identify-detail-card">
-        <p class="identify-detail-eyebrow">In the field guide &mdash; #{{ forloop.counter }}</p>
+        <p class="identify-detail-eyebrow">In the field guide, #{{ forloop.counter }}</p>
         <div class="identify-detail-top">
             {% if result.bird.image %}
             <img src="{{ result.bird.image.url }}" alt="{{ result.bird.common_name }}" class="identify-detail-photo">
@@ -232,7 +232,7 @@
         <p class="new-bird-badge">New Migratory Bird</p>
         <h3>{{ top_result.scientific_name }}</h3>
         <p>
-            This species is not in our database yet — it may be a
+            This species is not in our database yet. It may be a
             new visitor to Kashmir.
         </p>
         <p>
@@ -240,7 +240,7 @@
             do not have verified information on this bird yet.
             If you photographed it in Jammu, Kashmir or Ladakh,
             please <a href="/contact/">report the sighting</a>
-            — it could be a first record for the region.
+            This could be a first record for the region.
         </p>
     </section>
     {% endif %}
