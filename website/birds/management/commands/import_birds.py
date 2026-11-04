@@ -205,6 +205,12 @@ class Command(BaseCommand):
             # ==================================
             # IMPORT IMAGES
             # ==================================
+            # Photos are served directly from the repo's bird_database/ via the
+            # /bird-images/ URL route. Store the repo-relative path (e.g.
+            # "ashy_drongo/1.jpg") in the image field WITHOUT copying any file:
+            # assigning a plain string to the ImageField stores it verbatim, no
+            # storage write, no random suffix. Deterministic and idempotent:
+            # every deploy stores the exact same paths.
 
             images = data.get(
                 "images",
@@ -224,41 +230,15 @@ class Command(BaseCommand):
 
                     if os.path.exists(image_path):
 
-                        with open(
-                            image_path,
-                            "rb"
-                        ) as img_file:
+                        rel_path = f"{folder}/{img}"
 
-                            image_name = (
-                                f"{folder}_{img}"
-                            )
+                        # MAIN IMAGE
 
-                            # MAIN IMAGE
+                        if index == 0:
 
-                            if index == 0:
+                            bird.image = rel_path
 
-                                bird.image.save(
-                                    image_name,
-                                    File(img_file),
-                                    save=True
-                                )
-
-                                gallery_paths.append(
-                                    bird.image.name
-                                )
-
-                            # EXTRA IMAGES
-
-                            else:
-
-                                extra_path = default_storage.save(
-                                    f"birds/gallery/{image_name}",
-                                    File(img_file)
-                                )
-
-                                gallery_paths.append(
-                                    extra_path
-                                )
+                        gallery_paths.append(rel_path)
 
             # SAVE GALLERY
 
