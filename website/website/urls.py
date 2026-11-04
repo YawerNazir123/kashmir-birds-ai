@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include, re_path
 
+from pathlib import Path
+
 from django.conf import settings
 from django.views.static import serve
 
@@ -33,5 +35,18 @@ urlpatterns += [
         r'^media/(?P<path>.*)$',
         serve,
         {'document_root': settings.MEDIA_ROOT},
+    ),
+]
+
+# Bird photos are committed to the repo under bird_database/<folder>/<n>.jpg.
+# Serve them directly from the checkout so redeploys can never wipe them.
+# (The old /media/ bird-photo pipeline copied files to an ephemeral disk
+# and generated random-suffixed names; it is retired.)
+BIRD_DATABASE_ROOT = Path(__file__).resolve().parent.parent.parent / "bird_database"
+urlpatterns += [
+    re_path(
+        r'^bird-images/(?P<path>.*)$',
+        serve,
+        {'document_root': BIRD_DATABASE_ROOT},
     ),
 ]
