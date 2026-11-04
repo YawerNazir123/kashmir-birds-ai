@@ -128,6 +128,35 @@ class Bird(models.Model):
 
     null=True
 )
+
+    @property
+    def photo_url(self):
+        """Public URL for the main bird photo.
+
+        New format (stored by import_birds): repo-relative path like
+        "ashy_drongo/1.jpg", served from bird_database/ via /bird-images/.
+        Legacy format ("birds/<name>[_<suffix>].jpg", the old media pipeline):
+        falls back to the old /media/ URL so nothing renders worse than today.
+        """
+        name = str(self.image) if self.image else ""
+        if not name:
+            return ""
+        if name.startswith("birds/"):
+            return f"/media/{name}"
+        return f"/bird-images/{name}"
+
+    @property
+    def gallery_urls(self):
+        """Public URLs for extra_images, same scheme as photo_url."""
+        urls = []
+        for p in (self.extra_images or []):
+            p = str(p)
+            if p.startswith("birds/"):
+                urls.append(f"/media/{p}")
+            else:
+                urls.append(f"/bird-images/{p}")
+        return urls
+
     local_name_kashmiri = models.CharField(max_length=200, blank=True, default="")
     local_name_dogri = models.CharField(max_length=200, blank=True, default="")
     local_name_ladakhi = models.CharField(max_length=200, blank=True, default="")
