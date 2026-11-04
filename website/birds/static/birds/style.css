@@ -388,6 +388,18 @@ body {
 
     color: #9fe3c2;
 }
+
+/* Greeting shown in the nav for signed-in users (see base.html). */
+
+.nav-greeting {
+
+    color: #9fe3c2;
+
+    font-size: 18px;
+
+    white-space: nowrap;
+
+}
 /* =========================
    HERO STATS
 ========================= */
