@@ -389,15 +389,35 @@ body {
     color: #9fe3c2;
 }
 
-/* Greeting shown in the nav for signed-in users (see base.html). */
+/* Avatar badge shown in the nav for signed-in users (see base.html). */
 
-.nav-greeting {
+.nav-avatar {
 
-    color: #9fe3c2;
+    display: inline-flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    width: 36px;
+
+    height: 36px;
+
+    border-radius: 50%;
+
+    background: #1f7a5c;
+
+    color: #ffffff;
 
     font-size: 18px;
 
-    white-space: nowrap;
+    font-weight: 700;
+
+    line-height: 1;
+
+    flex-shrink: 0;
+
+    cursor: default;
 
 }
 /* =========================
