@@ -16,7 +16,7 @@ from pathlib import Path
 from PIL import Image
 
 from . import identifier
-from .models import Bird
+from .models import Bird, ContactMessage
 
 # Model class -> IOC common name, from the cleaned 707-species
 # list. The v2 model predicts 707 species. The model predicts
@@ -140,13 +140,13 @@ def landing_page(request):
     ]
     featured_blurbs = {
         'Black-necked Crane':
-            'A rare high-altitude crane — only a handful reach '
+            'A rare high-altitude crane, only a handful reach '
             'the wetlands of Ladakh each year.',
         'Relict Gull':
             'A very rare visitor to the wetlands of the Kashmir '
             'Valley, recorded only a few times.',
         'Amur Falcon':
-            'A small falcon on a long migration — a rare passage '
+            'A small falcon on a long migration, a rare passage '
             'visitor through Kashmir.',
         'Saker Falcon':
             'A powerful falcon of open country, a rare winter '
@@ -324,11 +324,77 @@ def about(request):
     )
 def contact(request):
 
+    context = {
+        'success': False,
+        'error': None,
+        'name': '',
+        'email': '',
+        'subject': '',
+        'message': '',
+    }
+
+    if request.method == 'POST':
+
+        name = request.POST.get('name', '').strip()
+
+        email = request.POST.get('email', '').strip()
+
+        subject = request.POST.get('subject', '').strip()
+
+        message = request.POST.get('message', '').strip()
+
+        context['name'] = name
+
+        context['email'] = email
+
+        context['subject'] = subject
+
+        context['message'] = message
+
+        if not name or not email or not message:
+
+            context['error'] = (
+                'Please fill in your name, email and message '
+                'before sending.'
+            )
+
+        elif '@' not in email:
+
+            context['error'] = (
+                'That email address does not look valid. '
+                'Please check it and try again.'
+            )
+
+        else:
+
+            ContactMessage.objects.create(
+
+                name=name,
+
+                email=email,
+
+                subject=subject,
+
+                message=message,
+            )
+
+            context['success'] = True
+
+            context['name'] = ''
+
+            context['email'] = ''
+
+            context['subject'] = ''
+
+            context['message'] = ''
+
     return render(
 
         request,
 
-        'birds/contact.html'
+        'birds/contact.html',
+
+        context
     )
 # ==========================================
 # HOME PAGE
