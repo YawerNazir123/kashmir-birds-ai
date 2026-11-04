@@ -1,0 +1,445 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign in | Birds of Paradise</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    {% if firebase_configured %}
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-auth-compat.js"></script>
+    {% endif %}
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html, body { height: 100%; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            color: #1f2d22;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .login-bg {
+            position: fixed;
+            inset: 0;
+            background:
+                linear-gradient(160deg, rgba(18, 46, 30, 0.55), rgba(10, 28, 20, 0.75)),
+                url("{% static 'birds/images/hero.jpg' %}") center / cover no-repeat,
+                #0e2a1c;
+            filter: blur(8px) brightness(0.7);
+            transform: scale(1.05);
+            z-index: -1;
+        }
+        .login-card {
+            background: #ffffff;
+            width: 100%;
+            max-width: 440px;
+            border-radius: 18px;
+            padding: 32px 30px;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35);
+        }
+        .login-brand {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .login-brand h1 {
+            font-size: 1.45rem;
+            color: #14532d;
+            letter-spacing: 0.2px;
+        }
+        .login-brand p {
+            font-size: 0.88rem;
+            color: #6b7c70;
+            margin-top: 6px;
+        }
+        .login-errors {
+            background: #fef2f2;
+            border: 1px solid #fca5a5;
+            color: #991b1b;
+            border-radius: 10px;
+            padding: 12px 14px;
+            font-size: 0.9rem;
+            margin-bottom: 16px;
+        }
+        .login-errors p { margin: 4px 0; }
+        .login-tabs {
+            display: flex;
+            background: #eef3ee;
+            border-radius: 12px;
+            padding: 4px;
+            margin-bottom: 20px;
+        }
+        .login-tabs button {
+            flex: 1;
+            border: none;
+            background: transparent;
+            padding: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: #55705c;
+            border-radius: 9px;
+            cursor: pointer;
+        }
+        .login-tabs button.active {
+            background: #ffffff;
+            color: #14532d;
+            box-shadow: 0 1px 4px rgba(0, 0, 0, 0.12);
+        }
+        .btn-social {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            width: 100%;
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            margin-bottom: 10px;
+        }
+        .btn-google {
+            background: #ffffff;
+            color: #3c4043;
+            border: 1px solid #dadce0;
+        }
+        .btn-google:hover { background: #f7f8f8; }
+        .btn-google.disabled {
+            opacity: 0.55;
+            cursor: not-allowed;
+        }
+        .btn-phone {
+            background: #14532d;
+            color: #ffffff;
+            border: 1px solid #14532d;
+        }
+        .btn-phone:hover { background: #0e4023; }
+        .config-note {
+            font-size: 0.82rem;
+            color: #8a8f8c;
+            text-align: center;
+            margin: -4px 0 12px;
+        }
+        .divider {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: #9aa5a0;
+            font-size: 0.85rem;
+            margin: 18px 0;
+        }
+        .divider::before, .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: #e2e8e2;
+        }
+        .field { margin-bottom: 14px; }
+        .field label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #41544a;
+            margin-bottom: 6px;
+        }
+        .field input {
+            width: 100%;
+            padding: 11px 12px;
+            border: 1px solid #cfd8d2;
+            border-radius: 10px;
+            font-size: 0.95rem;
+        }
+        .field input:focus {
+            outline: none;
+            border-color: #14532d;
+            box-shadow: 0 0 0 3px rgba(20, 83, 45, 0.12);
+        }
+        .remember-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.88rem;
+            color: #41544a;
+            margin: 4px 0 16px;
+        }
+        .remember-row input { width: 16px; height: 16px; accent-color: #14532d; }
+        .btn-primary {
+            width: 100%;
+            padding: 13px;
+            background: #16a34a;
+            color: #ffffff;
+            border: none;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+        }
+        .btn-primary:hover { background: #15803d; }
+        .phone-panel {
+            display: none;
+            border: 1px solid #e2e8e2;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: #f7faf7;
+        }
+        .phone-panel.open { display: block; }
+        .phone-panel .hint {
+            font-size: 0.83rem;
+            color: #6b7c70;
+            margin-bottom: 10px;
+        }
+        .btn-small {
+            padding: 10px 12px;
+            background: #14532d;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .btn-small:hover { background: #0e4023; }
+        .phone-status {
+            font-size: 0.85rem;
+            color: #41544a;
+            margin-top: 10px;
+            min-height: 1.2em;
+        }
+        .phone-status.error { color: #991b1b; }
+        .login-footer {
+            text-align: center;
+            font-size: 0.83rem;
+            color: #8a8f8c;
+            margin-top: 18px;
+        }
+        .login-footer a { color: #14532d; text-decoration: none; }
+        .login-footer a:hover { text-decoration: underline; }
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <div class="login-bg"></div>
+
+    <main class="login-card">
+        <div class="login-brand">
+            <h1>Birds of Paradise</h1>
+            <p>Sign in to explore the field guide, the AI identification tool and the gallery.</p>
+        </div>
+
+        {% if errors %}
+        <div class="login-errors">
+            {% for error in errors %}
+            <p>{{ error }}</p>
+            {% endfor %}
+        </div>
+        {% endif %}
+
+        <div class="login-tabs">
+            <button type="button" id="tab-signin" class="{% if tab != 'signup' %}active{% endif %}">Sign in</button>
+            <button type="button" id="tab-signup" class="{% if tab == 'signup' %}active{% endif %}">Create account</button>
+        </div>
+
+        {% if google_available %}
+        <a class="btn-social btn-google" href="{% url 'google_login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">
+            <i class="fa-brands fa-google"></i> Continue with Google
+        </a>
+        {% else %}
+        <span class="btn-social btn-google disabled" aria-disabled="true">
+            <i class="fa-brands fa-google"></i> Continue with Google
+        </span>
+        <p class="config-note">Google sign-in is not configured yet. Email sign-in works fine.</p>
+        {% endif %}
+
+        {% if firebase_configured %}
+        <button type="button" class="btn-social btn-phone" id="phone-toggle">
+            <i class="fa-solid fa-mobile-screen"></i> Continue with Phone number
+        </button>
+        <div class="phone-panel" id="phone-panel">
+            <p class="hint">Enter your phone number with the country code, for example +91 98765 43210. We will send you a one-time code by SMS.</p>
+            <div class="field">
+                <label for="phone-number">Phone number</label>
+                <input type="tel" id="phone-number" placeholder="+91 98765 43210" autocomplete="tel">
+            </div>
+            <div class="field hidden" id="code-field">
+                <label for="phone-code">One-time code</label>
+                <input type="text" id="phone-code" inputmode="numeric" placeholder="6-digit code" autocomplete="one-time-code">
+            </div>
+            <button type="button" class="btn-small" id="send-otp">Send code</button>
+            <button type="button" class="btn-small hidden" id="verify-otp">Verify and sign in</button>
+            <p class="phone-status" id="phone-status"></p>
+            <div id="recaptcha-container"></div>
+        </div>
+        {{ firebase_config|json_script:"firebase-config" }}
+        {% else %}
+        <button type="button" class="btn-social btn-phone" disabled style="opacity: 0.55; cursor: not-allowed;">
+            <i class="fa-solid fa-mobile-screen"></i> Continue with Phone number
+        </button>
+        <p class="config-note">Phone sign-in is not configured yet. Email sign-in works fine.</p>
+        {% endif %}
+
+        <div class="divider">or</div>
+
+        <form method="post" action="{% url 'login' %}" id="form-signin" class="{% if tab == 'signup' %}hidden{% endif %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="signin">
+            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+            <div class="field">
+                <label for="signin-email">Email</label>
+                <input type="email" id="signin-email" name="email" required autocomplete="email" placeholder="you@example.com">
+            </div>
+            <div class="field">
+                <label for="signin-password">Password</label>
+                <input type="password" id="signin-password" name="password" required autocomplete="current-password" placeholder="Your password">
+            </div>
+            <label class="remember-row">
+                <input type="checkbox" name="remember_me" checked> Remember me on this device
+            </label>
+            <button type="submit" class="btn-primary">Sign in</button>
+        </form>
+
+        <form method="post" action="{% url 'login' %}" id="form-signup" class="{% if tab != 'signup' %}hidden{% endif %}">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="signup">
+            {% if next %}<input type="hidden" name="next" value="{{ next }}">{% endif %}
+            <div class="field">
+                <label for="signup-email">Email</label>
+                <input type="email" id="signup-email" name="email" required autocomplete="email" placeholder="you@example.com">
+            </div>
+            <div class="field">
+                <label for="signup-password">Password</label>
+                <input type="password" id="signup-password" name="password" required autocomplete="new-password" placeholder="At least 8 characters">
+            </div>
+            <div class="field">
+                <label for="signup-password2">Confirm password</label>
+                <input type="password" id="signup-password2" name="password2" required autocomplete="new-password" placeholder="Repeat your password">
+            </div>
+            <label class="remember-row">
+                <input type="checkbox" name="remember_me" checked> Remember me on this device
+            </label>
+            <button type="submit" class="btn-primary">Create account</button>
+        </form>
+
+        <p class="login-footer">
+            <a href="/">&larr; Back to the home page</a>
+        </p>
+    </main>
+
+    <script>
+        const NEXT_URL = "{{ next|escapejs }}";
+
+        // Sign in / Create account tabs.
+        const tabSignin = document.getElementById('tab-signin');
+        const tabSignup = document.getElementById('tab-signup');
+        const formSignin = document.getElementById('form-signin');
+        const formSignup = document.getElementById('form-signup');
+        function showTab(which) {
+            const isSignup = which === 'signup';
+            tabSignin.classList.toggle('active', !isSignup);
+            tabSignup.classList.toggle('active', isSignup);
+            formSignin.classList.toggle('hidden', isSignup);
+            formSignup.classList.toggle('hidden', !isSignup);
+        }
+        tabSignin.addEventListener('click', () => showTab('signin'));
+        tabSignup.addEventListener('click', () => showTab('signup'));
+    </script>
+
+    {% if firebase_configured %}
+    <script>
+        (function () {
+            const configEl = document.getElementById('firebase-config');
+            if (!configEl || !window.firebase) { return; }
+            firebase.initializeApp(JSON.parse(configEl.textContent));
+            firebase.auth().useDeviceLanguage();
+
+            const phoneToggle = document.getElementById('phone-toggle');
+            const phonePanel = document.getElementById('phone-panel');
+            const phoneInput = document.getElementById('phone-number');
+            const codeField = document.getElementById('code-field');
+            const codeInput = document.getElementById('phone-code');
+            const sendBtn = document.getElementById('send-otp');
+            const verifyBtn = document.getElementById('verify-otp');
+            const statusEl = document.getElementById('phone-status');
+            let confirmationResult = null;
+
+            const recaptchaVerifier = new firebase.auth.RecaptchaVerifier(
+                'recaptcha-container', { size: 'invisible' }
+            );
+
+            function setStatus(message, isError) {
+                statusEl.textContent = message;
+                statusEl.classList.toggle('error', !!isError);
+            }
+
+            phoneToggle.addEventListener('click', () => {
+                phonePanel.classList.toggle('open');
+            });
+
+            sendBtn.addEventListener('click', () => {
+                const phone = phoneInput.value.trim();
+                if (!phone) {
+                    setStatus('Please enter your phone number first.', true);
+                    return;
+                }
+                setStatus('Sending the code…');
+                firebase.auth().signInWithPhoneNumber(phone, recaptchaVerifier)
+                    .then((result) => {
+                        confirmationResult = result;
+                        codeField.classList.remove('hidden');
+                        sendBtn.classList.add('hidden');
+                        verifyBtn.classList.remove('hidden');
+                        setStatus('Code sent. Enter it below to sign in.');
+                    })
+                    .catch((error) => {
+                        setStatus('Could not send the code. Please check the number and try again.', true);
+                        try { recaptchaVerifier.clear(); } catch (e) {}
+                    });
+            });
+
+            function getCsrfToken() {
+                const match = document.cookie.match(/(^|;\s*)csrftoken=([^;]*)/);
+                return match ? decodeURIComponent(match[2]) : '';
+            }
+
+            verifyBtn.addEventListener('click', () => {
+                const code = codeInput.value.trim();
+                if (!code || !confirmationResult) {
+                    setStatus('Please enter the code we sent you.', true);
+                    return;
+                }
+                setStatus('Checking the code…');
+                confirmationResult.confirm(code)
+                    .then((result) => result.user.getIdToken())
+                    .then((idToken) => fetch("{% url 'phone_verify' %}", {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCsrfToken()
+                        },
+                        body: JSON.stringify({ id_token: idToken })
+                    }))
+                    .then((response) => response.json())
+                    .then((data) => {
+                        if (data.ok) {
+                            window.location.href = NEXT_URL || '/birds/';
+                        } else {
+                            setStatus(data.error || 'Phone sign-in did not work. Please try email sign-in.', true);
+                        }
+                    })
+                    .catch(() => {
+                        setStatus('Something went wrong. Please try again, or use email sign-in.', true);
+                    });
+            });
+        })();
+    </script>
+    {% endif %}
+</body>
+</html>
