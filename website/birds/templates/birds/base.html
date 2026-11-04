@@ -120,9 +120,9 @@
 
                 {% if user.is_authenticated %}
 
-                <span class="nav-greeting">
+                <span class="nav-avatar" title="{{ user.email|default:user.username }}">
 
-                    Hi, {{ user.first_name|default:user.username }}
+                    {{ user.email|default:user.username|first|upper }}
 
                 </span>
 
@@ -193,8 +193,8 @@
 
             <p class="footer-credit">
 
-                Kashmiri local names sourced from <a href="https://www.researchgate.net/profile/Parvaiz-Yousuf" target="_blank" rel="noopener">“Birds of Jammu
-                and Kashmir”</a> by Parvaiz Yousuf.
+                Kashmiri local names sourced from <a href="https://www.researchgate.net/publication/390214933_A_complete_guide_to_Birds_of_Jammu_Kashmir_including_Ladakh" target="_blank" rel="noopener">“Birds of Jammu
+                and Kashmir”</a> by <a href="https://www.researchgate.net/profile/Parvaiz-Yousuf" target="_blank" rel="noopener">Parvaiz Yousuf</a>.
 
             </p>
 
