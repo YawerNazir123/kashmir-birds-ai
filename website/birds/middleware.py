@@ -22,6 +22,7 @@ EXEMPT_PREFIXES = (
     '/admin/',
     '/static/',
     '/media/',
+    '/bird-images/',
     '/favicon.ico',
 )
 
