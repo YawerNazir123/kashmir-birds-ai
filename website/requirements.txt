@@ -13,3 +13,7 @@ onnxruntime==1.22.1
 # Only used if DATABASE_URL is set (Postgres upgrade path, see DEPLOY.md).
 dj-database-url==2.2.0
 psycopg[binary]==3.2.1
+# Server-side verification of Firebase phone-auth ID tokens
+# (birds/auth_views.py). The browser side uses the Firebase JS SDK
+# from the gstatic CDN, so this package is only needed on the server.
+firebase-admin==6.6.0
