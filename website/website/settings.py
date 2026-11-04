@@ -85,6 +85,9 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # Login gate: the home page is public, every other page needs a
+    # signed-in user (birds/middleware.py).
+    'birds.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -181,3 +184,37 @@ STORAGES = {
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+
+# ---------------------------------------------------------------------------
+# Login settings
+# ---------------------------------------------------------------------------
+
+# Where the login-gate middleware sends visitors who are not signed in.
+LOGIN_URL = '/login/'
+# Where Django's built-in auth views send users after a successful login.
+LOGIN_REDIRECT_URL = '/birds/'
+# One year: "Remember me" keeps the user signed in on this device.
+SESSION_COOKIE_AGE = 31536000
+
+# Google sign-in (OAuth client created in Google Cloud Console).
+# Empty by default: the Google button shows "not configured yet" until
+# the site owner sets these env vars (see website/LOGIN_SETUP.md).
+GOOGLE_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH_CLIENT_ID', '')
+GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET', '')
+
+# Firebase web config, used by the phone-OTP sign-in on the login page.
+# Server-side verification also needs either the
+# FIREBASE_SERVICE_ACCOUNT_JSON env var or Application Default
+# credentials (see website/LOGIN_SETUP.md).
+FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
+FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')
+FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')
+FIREBASE_APP_ID = os.environ.get('FIREBASE_APP_ID', '')
+FIREBASE_WEB_CONFIG = {
+    'apiKey': FIREBASE_API_KEY,
+    'authDomain': FIREBASE_AUTH_DOMAIN,
+    'projectId': FIREBASE_PROJECT_ID,
+    'appId': FIREBASE_APP_ID,
+}
+FIREBASE_WEB_CONFIGURED = all(FIREBASE_WEB_CONFIG.values())
