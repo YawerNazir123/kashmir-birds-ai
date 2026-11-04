@@ -39,6 +39,8 @@ ALLOWED_HOSTS = [
     for host in os.environ.get('ALLOWED_HOSTS', '').split(',')
     if host.strip()
 ]
+# Custom domain for the bird site (registered at GoDaddy).
+CUSTOM_DOMAINS = ['www.birdsofparadise.in', 'birdsofparadise.in']
 # Render sets RENDER_EXTERNAL_HOSTNAME to the service's public host.
 _render_host = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 if _render_host and _render_host not in ALLOWED_HOSTS:
@@ -46,10 +48,18 @@ if _render_host and _render_host not in ALLOWED_HOSTS:
 if not ALLOWED_HOSTS:
     # Local development only.
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
+# Always allow the custom domain, wherever the code runs.
+for _domain in CUSTOM_DOMAINS:
+    if _domain not in ALLOWED_HOSTS:
+        ALLOWED_HOSTS.append(_domain)
 
 CSRF_TRUSTED_ORIGINS = []
 if _render_host:
     CSRF_TRUSTED_ORIGINS.append(f'https://{_render_host}')
+for _domain in CUSTOM_DOMAINS:
+    _origin = f'https://{_domain}'
+    if _origin not in CSRF_TRUSTED_ORIGINS:
+        CSRF_TRUSTED_ORIGINS.append(_origin)
 
 # Render terminates TLS at its proxy; tell Django the request was HTTPS.
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
