@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import (
     render,
     get_object_or_404
@@ -555,6 +556,24 @@ def bird_detail(request, id):
             'bird': bird
         }
     )
+
+
+# ==========================================
+# ROBOTS.TXT (public, for search engines)
+# ==========================================
+def robots_txt(request):
+    """Permissive robots.txt: allow all crawlers, point at the sitemap.
+
+    This is a plain view (not a static file) so it is served by
+    Django and, like /sitemap.xml, is exempt from the login gate.
+    """
+    content = (
+        'User-agent: *\n'
+        'Allow: /\n'
+        '\n'
+        'Sitemap: https://www.birdsofparadise.in/sitemap.xml\n'
+    )
+    return HttpResponse(content, content_type='text/plain')
 
 
 # ==========================================
