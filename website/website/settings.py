@@ -86,8 +86,10 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    # Login gate: the home page is public, every other page needs a
-    # signed-in user (birds/middleware.py).
+    # Login gate: the home page, the bird field guide (birds database,
+    # gallery, bird detail pages) and the crawler files are public;
+    # the AI Identify tool and account pages need a signed-in user
+    # (birds/middleware.py).
     'birds.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
