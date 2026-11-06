@@ -51,30 +51,30 @@ urlpatterns = [
         name='bird_detail'
     ),
     path(
-    'gallery/',
-    views.gallery,
-    name='gallery'
-),
-path(
-    'about/',
-    views.about,
-    name='about'
-),
-path(
-    'contact/',
-    views.contact,
-    name='contact'
-),
+        'gallery/',
+        views.gallery,
+        name='gallery'
+    ),
+    path(
+        'about/',
+        views.about,
+        name='about'
+    ),
+    path(
+        'contact/',
+        views.contact,
+        name='contact'
+    ),
 
-# SIGN-IN
-path(
-    'login/',
-    auth_views.login_page,
-    name='login'
-),
-path(
-    'logout/',
-    auth_views.logout_view,
-    name='logout'
-),
+    # SIGN-IN
+    path(
+        'login/',
+        auth_views.login_page,
+        name='login'
+    ),
+    path(
+        'logout/',
+        auth_views.logout_view,
+        name='logout'
+    ),
 ]
