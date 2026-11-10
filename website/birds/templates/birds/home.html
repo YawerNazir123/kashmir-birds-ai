@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block title %}Birds Database | Birds of Paradise{% endblock %}
+
+{% block meta_description %}Searchable field guide to the birds of Jammu, Kashmir and Ladakh, 745 species with photos, local names and migration records.{% endblock %}
+
 {% block content %}
 
 <!-- HERO HEADER -->
@@ -118,6 +122,12 @@
 
             </option>
 
+            <option value="Passage Migrant">
+
+                Passage Migrant
+
+            </option>
+
             <option value="Rare Visitor">
 
                 Rare Visitor
@@ -161,6 +171,8 @@
 
                     <img
                         src="{{ bird.photo_url }}"
+                        alt="{{ bird.common_name }} — {{ bird.scientific_name }}"
+                        loading="lazy"
                     >
 
                 {% endif %}
