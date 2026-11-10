@@ -12,6 +12,9 @@ blocks files over 100 MB and the API tooling caps arg size):
 Both are fetched at Render build time by the `download_model`
 management command (see render.yaml) from the public Hugging Face
 model repo yawarnazir/kashmir-birds-v2-onnx, into this same directory.
+The download URLs pin a specific Hugging Face revision and every
+downloaded file is checked against its SHA-256 hash before it is
+installed, so a changed or corrupted file can never be loaded.
 ONNX Runtime loads model.onnx and automatically picks up
 model.onnx.data from the same folder.
 `classes.json` (the 707 species, in model output order) IS committed.
@@ -29,6 +32,7 @@ downloading, a partial file survives worker restarts, and the next
 attempt resumes from where it stopped via HTTP Range.
 """
 
+import hashlib
 import json
 import os
 import threading
@@ -48,13 +52,26 @@ CLASSES_PATH = MODEL_DIR / "classes.json"
 
 # Public model files the build-time download_model command uses.
 _HF_REPO = "yawarnazir/kashmir-birds-v2-onnx"
+# Pinned Hugging Face revision (the main-branch commit of 2026-11-02)
+# and the SHA-256 hashes of the two model files at that revision.
+# The hashes were verified by downloading both files and hashing them
+# (2026-11-10). Pinning stops the site silently loading different
+# weights if the "main" branch of the model repo ever changes, and
+# the hash check stops a corrupted download from being installed.
+_HF_REVISION = "aee59c1b33d9f1b9d5c0cf0134d38f33863048c7"
+MODEL_SHA256 = (
+    "962ee8c244df88b6b402de8c47100bb458adaf05e89ab9876d6283e419c6b663"
+)
+MODEL_DATA_SHA256 = (
+    "d3555db212cbb8c68efeb1132167c3ed7f45d61edd3841eb08daaaf325edc9a8"
+)
 MODEL_URL = os.environ.get(
     "MODEL_DOWNLOAD_URL",
-    f"https://huggingface.co/{_HF_REPO}/resolve/main/model.onnx",
+    f"https://huggingface.co/{_HF_REPO}/resolve/{_HF_REVISION}/model.onnx",
 )
 MODEL_DATA_URL = os.environ.get(
     "MODEL_DATA_DOWNLOAD_URL",
-    f"https://huggingface.co/{_HF_REPO}/resolve/main/model.onnx.data",
+    f"https://huggingface.co/{_HF_REPO}/resolve/{_HF_REVISION}/model.onnx.data",
 )
 _MIN_DATA_BYTES = 100_000_000  # weights file is ~200 MB
 # Wait this long after a failed download before starting a new attempt.
@@ -89,7 +106,19 @@ def _model_file_ok():
     )
 
 
-def _fetch_file(url, dest, tmp_dest, min_bytes, label):
+def _sha256(path):
+    """SHA-256 of a file, streamed so the 200 MB weights file is safe."""
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        while True:
+            chunk = handle.read(1024 * 1024)
+            if not chunk:
+                break
+            digest.update(chunk)
+    return digest.hexdigest()
+
+
+def _fetch_file(url, dest, tmp_dest, min_bytes, label, expected_sha256=None):
     """Download one file with resume. Returns bytes downloaded."""
     for attempt in range(2):
         existing = tmp_dest.stat().st_size if tmp_dest.exists() else 0
@@ -133,6 +162,14 @@ def _fetch_file(url, dest, tmp_dest, min_bytes, label):
                 f"downloaded {label} too small ({size} bytes) -- "
                 "the URL may have failed; refusing to install it"
             )
+        if expected_sha256 is not None:
+            digest = _sha256(tmp_dest)
+            if digest != expected_sha256:
+                tmp_dest.unlink(missing_ok=True)
+                raise RuntimeError(
+                    f"downloaded {label} failed its SHA-256 check "
+                    f"(got {digest}) -- refusing to install it"
+                )
         tmp_dest.replace(dest)
         print(f"identifier: {label} downloaded ({size / 1e6:.1f} MB)")
         return size
@@ -149,9 +186,9 @@ def _download_model():
     try:
         MODEL_DIR.mkdir(parents=True, exist_ok=True)
         _fetch_file(MODEL_URL, MODEL_PATH, MODEL_TMP_PATH,
-                    100_000, "model.onnx")
+                    100_000, "model.onnx", MODEL_SHA256)
         _fetch_file(MODEL_DATA_URL, MODEL_DATA_PATH, MODEL_DATA_TMP_PATH,
-                    _MIN_DATA_BYTES, "model.onnx.data")
+                    _MIN_DATA_BYTES, "model.onnx.data", MODEL_DATA_SHA256)
         with _lock:
             _download_state.update(
                 status="done", error=None, finished_at=time.time(),
