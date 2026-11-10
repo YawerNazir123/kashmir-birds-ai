@@ -9,12 +9,13 @@ services:
     startCommand: "gunicorn website.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 300"
     # One worker, not two: the free tier has 512 MB RAM, and each
     # worker loads Django plus the 200 MB ONNX model in ONNX Runtime.
-    # Two workers risked running out of memory. The model weights file
-    # (model.onnx.data, 200 MB) is downloaded by `download_model` in
-    # the build above, from the public Hugging Face model repo
-    # yawarnazir/kashmir-birds-v2-onnx -- it is not committed
-    # to the repo (see birds/identifier.py). The 1.2 MB model graph
-    # (model.onnx) IS committed. That
+    # Two workers risked running out of memory. Both model files
+    # (model.onnx, 1.2 MB, and model.onnx.data, 200 MB) are
+    # downloaded by `download_model` in the build above, from the
+    # public Hugging Face model repo yawarnazir/kashmir-birds-v2-onnx
+    # -- neither is committed to the repo (see birds/identifier.py).
+    # The download pins a specific Hugging Face revision and checks
+    # each file against its SHA-256 hash before installing it. That
     # build-time download is best-effort and never fails the build:
     # if it cannot fetch the model, the deploy still goes ahead and
     # the site downloads it at runtime in a background thread with
@@ -30,17 +31,14 @@ services:
       # matches the PYTHON_VERSION=3.12.0 already set in the dashboard.
       - key: PYTHON_VERSION
         value: "3.12.0"
-      # No DATABASE_URL: the site uses SQLite. The committed
-      # db.sqlite3 is only a starting snapshot -- it predates the
-      # metadata fixes, so the build runs `import_birds` to refresh
-      # every record in place from the corrected info.json files
-      # (698 updated, 46 created, 26 stale rows pruned in the
-      # 2026-10-25 dry run), then `sync_local_names` as a safety
-      # net for the local names. This runs on every deploy because
-      # Render's filesystem is ephemeral: the refreshed database
-      # only exists on the deployed instance, and the next deploy
-      # starts again from the committed snapshot. The import
-      # re-copies ~3,448 images into media/ each build, so builds
-      # take several minutes longer.
-      # To switch to Postgres later, add a Render Postgres database and
-      # set DATABASE_URL to it -- settings.py picks it up automatically.
+      # DATABASE_URL is set in the Render dashboard (Neon Postgres
+      # project "birds-of-paradise") -- it is NOT declared here.
+      # Do NOT add a database to this blueprint: that would point
+      # the live site at a fresh empty database and lose all user
+      # accounts and contact messages. If the service is ever
+      # recreated, re-attach the same DATABASE_URL in the dashboard.
+      # The build runs `import_birds` to refresh every record in
+      # place from the corrected info.json files, then
+      # `sync_local_names` as a safety net for the local names.
+      # Bird photos are served from bird_database/ via /bird-images/;
+      # nothing is copied into media/ at build time.
