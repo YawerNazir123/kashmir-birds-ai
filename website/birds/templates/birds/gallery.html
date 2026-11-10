@@ -2,6 +2,10 @@
 
 {% load static %}
 
+{% block title %}Bird Gallery | Birds of Paradise{% endblock %}
+
+{% block meta_description %}Browse photos of the birds of Jammu, Kashmir and Ladakh, search by species, region, category or migratory status.{% endblock %}
+
 {% block content %}
 
 <!-- GALLERY HERO -->
@@ -141,6 +145,12 @@
 
             </option>
 
+            <option value="Passage Migrant" {% if migratory_status == "Passage Migrant" %}selected{% endif %}>
+
+                Passage Migrant
+
+            </option>
+
             <option value="Rare Visitor" {% if migratory_status == "Rare Visitor" %}selected{% endif %}>
 
                 Rare Visitor
@@ -186,7 +196,8 @@
 
                         <img
                             src="{{ bird.photo_url }}"
-                            alt="{{ bird.common_name }}"
+                            alt="{{ bird.common_name }} — {{ bird.scientific_name }}"
+                            loading="lazy"
                         >
 
                     {% endif %}
