@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
 import os
+from datetime import timedelta
 from pathlib import Path
 
 import dj_database_url
@@ -63,6 +64,17 @@ for _domain in CUSTOM_DOMAINS:
 
 # Render terminates TLS at its proxy; tell Django the request was HTTPS.
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+# The live site is HTTPS-only (Render + the birdsofparadise.in domain),
+# so enforce HTTPS and secure cookies. SECURE_SSL_REDIRECT is safe
+# here because SECURE_PROXY_SSL_HEADER above tells Django the request
+# was already HTTPS at the proxy; without it this would redirect-loop.
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000  # one year
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 
 
 # Application definition
@@ -75,21 +87,28 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sitemaps',
+    # Brute-force protection for /login/ and /admin/ (django-axes).
+    'axes',
     'birds',
 ]
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    # Extra security headers (Permissions-Policy, CSP Report-Only).
+    'birds.middleware.SecurityHeadersMiddleware',
     # WhiteNoise serves collected static files in production.
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    # django-axes: records login attempts and locks out brute force.
+    # Must come after AuthenticationMiddleware.
+    'axes.middleware.AxesMiddleware',
     # Login gate: the home page, the bird field guide (birds database,
-    # gallery, bird detail pages) and the crawler files are public;
-    # the AI Identify tool and account pages need a signed-in user
-    # (birds/middleware.py).
+    # gallery, bird detail pages), the About and Contact pages and the
+    # crawler files are public; the AI Identify tool and account pages
+    # need a signed-in user (birds/middleware.py).
     'birds.middleware.LoginRequiredMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -118,12 +137,13 @@ WSGI_APPLICATION = 'website.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 #
-# Default is the committed SQLite snapshot (website/db.sqlite3).
-# Render's filesystem is ephemeral, so anything written to this DB at
-# runtime is lost on restart/redeploy and the committed snapshot is
-# restored. That makes the live site effectively read-only, which is
-# fine for this field guide. If DATABASE_URL is set (e.g. a Render
-# Postgres database), it takes over instead -- see DEPLOY.md.
+# Live: Neon Postgres ("birds-of-paradise" project) via DATABASE_URL,
+# set in the Render dashboard -- see DEPLOY.md. Do NOT declare a
+# database in render.yaml: that would point the live site at a fresh
+# empty database and lose all user accounts and contact messages.
+# SQLite below is only the local-development fallback; nothing
+# written to it on Render would survive a restart (the filesystem
+# is ephemeral), so the live site must always have DATABASE_URL set.
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -197,27 +217,34 @@ MEDIA_ROOT = BASE_DIR / 'media'
 LOGIN_URL = '/login/'
 # Where Django's built-in auth views send users after a successful login.
 LOGIN_REDIRECT_URL = '/birds/'
-# One year: "Remember me" keeps the user signed in on this device.
-SESSION_COOKIE_AGE = 31536000
+# 30 days: "Remember me" keeps the user signed in on this device.
+# (Was one year; shortened so a stolen session cookie does not stay
+# valid for a year. See also REMEMBER_ME_AGE in birds/auth_views.py.)
+SESSION_COOKIE_AGE = 2592000
 
-# Google sign-in (OAuth client created in Google Cloud Console).
-# Empty by default: the Google button shows "not configured yet" until
-# the site owner sets these env vars (see website/LOGIN_SETUP.md).
-GOOGLE_OAUTH_CLIENT_ID = os.environ.get('GOOGLE_OAUTH_CLIENT_ID', '')
-GOOGLE_OAUTH_CLIENT_SECRET = os.environ.get('GOOGLE_OAUTH_CLIENT_SECRET', '')
+# ---------------------------------------------------------------------------
+# Brute-force protection (django-axes)
+# ---------------------------------------------------------------------------
+# Both /login/ (birds/auth_views.py) and /admin/ go through Django's
+# authenticate(), which runs these backends in order.
+# AxesStandaloneBackend only watches and locks out; ModelBackend does
+# the actual sign-in.
+AUTHENTICATION_BACKENDS = [
+    'axes.backends.AxesStandaloneBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+# Lock out an IP after 5 failed attempts, for 1 hour.
+AXES_FAILURE_LIMIT = 5
+AXES_COOLOFF_TIME = timedelta(hours=1)
+# Render sits in front of Django as a single proxy and sets
+# X-Forwarded-For to the client IP. Axes defaults to REMOTE_ADDR only,
+# which behind Render is the proxy's own IP -- every visitor would
+# share one lockout bucket. Read X-Forwarded-For first instead.
+# AXES_IPWARE_PROXY_COUNT is deliberately left unset: Render sets a
+# single-value X-Forwarded-For, and a count of 1 would make ipware
+# reject that header and fall back to the proxy IP.
+AXES_IPWARE_META_PRECEDENCE_ORDER = ('HTTP_X_FORWARDED_FOR', 'REMOTE_ADDR')
 
-# Firebase web config, used by the phone-OTP sign-in on the login page.
-# Server-side verification also needs either the
-# FIREBASE_SERVICE_ACCOUNT_JSON env var or Application Default
-# credentials (see website/LOGIN_SETUP.md).
-FIREBASE_API_KEY = os.environ.get('FIREBASE_API_KEY', '')
-FIREBASE_AUTH_DOMAIN = os.environ.get('FIREBASE_AUTH_DOMAIN', '')
-FIREBASE_PROJECT_ID = os.environ.get('FIREBASE_PROJECT_ID', '')
-FIREBASE_APP_ID = os.environ.get('FIREBASE_APP_ID', '')
-FIREBASE_WEB_CONFIG = {
-    'apiKey': FIREBASE_API_KEY,
-    'authDomain': FIREBASE_AUTH_DOMAIN,
-    'projectId': FIREBASE_PROJECT_ID,
-    'appId': FIREBASE_APP_ID,
-}
-FIREBASE_WEB_CONFIGURED = all(FIREBASE_WEB_CONFIG.values())
+# Note: Google OAuth and Firebase phone-OTP sign-in were removed
+# (2026-11-04); the site is email + password only (birds/auth_views.py).
+# website/LOGIN_SETUP.md still describes the old setup and is stale.
