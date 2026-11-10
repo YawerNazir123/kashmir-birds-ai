@@ -10,10 +10,12 @@ Pillow==10.4.0
 # server). numpy comes in as an onnxruntime dependency and is used
 # by birds/identifier.py for image preprocessing.
 onnxruntime==1.22.1
-# Only used if DATABASE_URL is set (Postgres upgrade path, see DEPLOY.md).
+# DATABASE_URL is set in the Render dashboard (Neon Postgres);
+# dj-database-url parses it (see website/website/settings.py).
 dj-database-url==2.2.0
 psycopg[binary]==3.2.1
-# Server-side verification of Firebase phone-auth ID tokens
-# (birds/auth_views.py). The browser side uses the Firebase JS SDK
-# from the gstatic CDN, so this package is only needed on the server.
-firebase-admin==6.6.0
+# Brute-force protection for /login/ and /admin/ (django-axes).
+# django-ipware is required: axes uses it to read the real client IP
+# from X-Forwarded-For behind Render's proxy (see settings.py).
+django-axes==9.0.0
+django-ipware==8.0.0
