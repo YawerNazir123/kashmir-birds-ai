@@ -262,11 +262,10 @@ class Command(BaseCommand):
         # ==================================
         # PRUNE STALE RECORDS
         # ==================================
-        # The committed db.sqlite3 predates the metadata
-        # fixes, so it still holds birds that were deleted
-        # from bird_database/ (non-occurrences in J&K,
-        # duplicate merges) and rows under old names of
-        # birds that were renamed in info.json. import
+        # The database (Neon Postgres on the live site) can hold
+        # birds that were deleted from bird_database/
+        # (non-occurrences in J&K, duplicate merges) and rows under
+        # old names of birds that were renamed in info.json. import
         # alone would leave those stale rows in the
         # gallery alongside the corrected ones, so remove
         # every DB record whose common_name has no
