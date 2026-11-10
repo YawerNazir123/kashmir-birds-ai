@@ -18,6 +18,7 @@ birds/identifier.py -- background download thread with resume).
 Missing model files must never block a deploy.
 """
 
+import hashlib
 import os
 import tempfile
 import urllib.request
@@ -26,12 +27,41 @@ from pathlib import Path
 from django.core.management.base import BaseCommand
 
 _HF_REPO = "yawarnazir/kashmir-birds-v2-onnx"
+# Pinned Hugging Face revision (the main-branch commit of 2026-11-02)
+# and the SHA-256 hashes of the two model files at that revision.
+# The hashes were verified by downloading both files and hashing them
+# (2026-11-10). Pinning stops the build silently fetching different
+# weights if the "main" branch of the model repo ever changes, and
+# the hash check stops a corrupted download from being installed.
+_HF_REVISION = "aee59c1b33d9f1b9d5c0cf0134d38f33863048c7"
 FILES = [
-    # (filename, min_bytes, env_var)
-    ("model.onnx", 100_000, "MODEL_DOWNLOAD_URL"),
-    ("model.onnx.data", 100_000_000, "MODEL_DATA_DOWNLOAD_URL"),
+    # (filename, min_bytes, env_var, sha256)
+    (
+        "model.onnx",
+        100_000,
+        "MODEL_DOWNLOAD_URL",
+        "962ee8c244df88b6b402de8c47100bb458adaf05e89ab9876d6283e419c6b663",
+    ),
+    (
+        "model.onnx.data",
+        100_000_000,
+        "MODEL_DATA_DOWNLOAD_URL",
+        "d3555db212cbb8c68efeb1132167c3ed7f45d61edd3841eb08daaaf325edc9a8",
+    ),
 ]
 MODEL_DIR = Path(__file__).resolve().parent.parent.parent / "model"
+
+
+def _sha256(path):
+    """SHA-256 of a file, streamed so the 200 MB weights file is safe."""
+    digest = hashlib.sha256()
+    with open(path, "rb") as handle:
+        while True:
+            chunk = handle.read(1024 * 1024)
+            if not chunk:
+                break
+            digest.update(chunk)
+    return digest.hexdigest()
 
 
 class Command(BaseCommand):
@@ -50,7 +80,7 @@ class Command(BaseCommand):
 
     def _download(self):
         MODEL_DIR.mkdir(parents=True, exist_ok=True)
-        for filename, min_bytes, env_var in FILES:
+        for filename, min_bytes, env_var, expected_sha256 in FILES:
             dest = MODEL_DIR / filename
             if dest.exists() and dest.stat().st_size > min_bytes:
                 self.stdout.write(
@@ -60,7 +90,7 @@ class Command(BaseCommand):
                 continue
             url = os.environ.get(
                 env_var,
-                f"https://huggingface.co/{_HF_REPO}/resolve/main/{filename}",
+                f"https://huggingface.co/{_HF_REPO}/resolve/{_HF_REVISION}/{filename}",
             )
             self.stdout.write(f"downloading {filename} from {url}")
             with tempfile.TemporaryDirectory(dir=MODEL_DIR) as tmp:
@@ -80,6 +110,12 @@ class Command(BaseCommand):
                     raise RuntimeError(
                         f"{filename} download too small "
                         f"({tmp_path.stat().st_size} bytes)"
+                    )
+                digest = _sha256(tmp_path)
+                if digest != expected_sha256:
+                    raise RuntimeError(
+                        f"{filename} download failed its SHA-256 check "
+                        f"(got {digest})"
                     )
                 tmp_path.replace(dest)
             self.stdout.write(
