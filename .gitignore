@@ -8,12 +8,12 @@ data/
 .env
 staticfiles/
 *.log
-# NOTE: db.sqlite3 and website/media/ are intentionally NOT ignored.
-# The Render deploy serves the committed DB snapshot
-# (website/db.sqlite3) and the committed bird photos
-# (website/media/birds/). Do not ignore them until the site moves to
-# Postgres + object storage for media -- ignoring them now would
-# deploy an empty site.
+# Local SQLite dev database and legacy media uploads. Neither is
+# committed (the live site runs on Neon Postgres via DATABASE_URL,
+# and bird photos live in bird_database/ and are served via
+# /bird-images/), so ignoring them cannot deploy an empty site.
+db.sqlite3
+website/media/
 
 # Bird ID model: downloaded at build time by download_model;
-# never commit the 57 MB binary (see birds/identifier.py).
+# never commit the model files (see birds/identifier.py).
