@@ -7,9 +7,11 @@ on the login page and sign in immediately.
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.contrib.auth.password_validation import validate_password
+from django.core.exceptions import ValidationError
 from django.shortcuts import redirect, render
 
-REMEMBER_ME_AGE = 31536000  # one year, in seconds
+REMEMBER_ME_AGE = 2592000  # 30 days, in seconds (was one year)
 
 
 # ---------------------------------------------------------------------------
@@ -81,10 +83,23 @@ def login_page(request):
                 'Try signing in instead.'
             )
         else:
-            user = User.objects.create_user(
-                username=email, email=email, password=password
-            )
-            return _finish_login(request, user, context['next'])
+            # Enforce Django's password validators (common-password,
+            # numeric, similarity). The 8+ check above runs first;
+            # validate_password adds the rest. A transient unsaved
+            # User lets the similarity validator compare the
+            # password against the email/username.
+            try:
+                validate_password(
+                    password,
+                    user=User(username=email, email=email),
+                )
+            except ValidationError as exc:
+                context['errors'].extend(exc.messages)
+            else:
+                user = User.objects.create_user(
+                    username=email, email=email, password=password
+                )
+                return _finish_login(request, user, context['next'])
         return render(request, 'birds/login.html', context)
 
     # Sign in.
