@@ -15,14 +15,14 @@
 
     <meta
         name="description"
-        content="745 birds of Jammu, Kashmir and Ladakh with photos, Kashmiri, Dogri and Ladakhi names, migration records and AI identification."
+        content="{% block meta_description %}745 birds of Jammu, Kashmir and Ladakh with photos, Kashmiri, Dogri and Ladakhi names, migration records and AI identification.{% endblock %}"
     >
 
-    <title>
+    <title>{% block title %}Birds of Paradise | Birds of Kashmir, Jammu and Ladakh{% endblock %}</title>
 
-        Birds of Paradise | Birds of Kashmir, Jammu and Ladakh
+    {% block canonical %}{% endblock %}
 
-    </title>
+    {% block og_tags %}{% endblock %}
 
     <link
         rel="stylesheet"
@@ -50,6 +50,7 @@
 
         <img
             src="{% static 'birds/images/hero.jpg' %}"
+            alt="Birds of Paradise"
             class="logo-img"
         >
 
