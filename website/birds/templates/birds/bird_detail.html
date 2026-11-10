@@ -2,6 +2,20 @@
 
 {% load static %}
 
+{% block title %}{{ bird.common_name }}{% if bird.scientific_name %} ({{ bird.scientific_name }}){% endif %} | Birds of Paradise{% endblock %}
+
+{% block meta_description %}{% if bird.description %}{{ bird.description|truncatewords:30 }}{% else %}{{ bird.common_name }}{% if bird.scientific_name %} ({{ bird.scientific_name }}){% endif %}, a bird of Jammu, Kashmir and Ladakh, with photos, local names and migration records on Birds of Paradise.{% endif %}{% endblock %}
+
+{% block canonical %}<link rel="canonical" href="https://www.birdsofparadise.in/bird/{{ bird.id }}/">{% endblock %}
+
+{% block og_tags %}
+<meta property="og:title" content="{{ bird.common_name }}{% if bird.scientific_name %} ({{ bird.scientific_name }}){% endif %} | Birds of Paradise">
+<meta property="og:description" content="{% if bird.description %}{{ bird.description|truncatewords:30 }}{% else %}{{ bird.common_name }}{% if bird.scientific_name %} ({{ bird.scientific_name }}){% endif %}, a bird of Jammu, Kashmir and Ladakh, with photos, local names and migration records on Birds of Paradise.{% endif %}">
+<meta property="og:type" content="article">
+{% if bird.photo_url %}<meta property="og:image" content="https://www.birdsofparadise.in{{ bird.photo_url }}">{% endif %}
+<meta name="twitter:card" content="summary_large_image">
+{% endblock %}
+
 {% block content %}
 
 <!-- DETAIL CONTAINER -->
@@ -31,6 +45,7 @@
 
                 <img
                     src="{{ bird.photo_url }}"
+                    alt="{{ bird.common_name }} — {{ bird.scientific_name }}"
                     class="bird-detail-image"
                 >
 
@@ -203,13 +218,13 @@
                     {{ bird.wingspan }}
                 </p>
             </div>
-            {% if bird.conservation_status or bird.iucn_status %}
+            {% if bird.conservation_status %}
             <div class="metadata-card">
                 <h3>
                     IUCN Status
                 </h3>
                 <p>
-                    {% if bird.conservation_status %}{{ bird.conservation_status }}{% else %}{{ bird.iucn_status }}{% endif %}
+                    {{ bird.conservation_status }}
                 </p>
             </div>
             {% endif %}
@@ -254,6 +269,8 @@
 
                 <img
                      src="{{ img_url }}"
+                     alt="{{ bird.common_name }} — {{ bird.scientific_name }}"
+                     loading="lazy"
                     >
 
             </div>
