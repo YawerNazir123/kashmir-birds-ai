@@ -40,7 +40,7 @@ def _finish_login(request, user, next_url):
     """Apply remember-me, log the user in, and redirect onward."""
     remember = request.POST.get('remember_me') == 'on'
     request.session.set_expiry(REMEMBER_ME_AGE if remember else 0)
-    login(request, user)
+    login(request, user, backend='django.contrib.auth.backends.ModelBackend')
     return redirect(_safe_next(next_url) or '/birds/')
 
 
